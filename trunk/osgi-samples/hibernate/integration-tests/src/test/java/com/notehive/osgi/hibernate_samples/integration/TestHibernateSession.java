@@ -1,4 +1,4 @@
-package com.notehive.osgi.hibernate_sampels.integration;
+package com.notehive.osgi.hibernate_samples.integration;
 
 import javax.annotation.Resource;
 
