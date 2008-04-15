@@ -1,15 +1,15 @@
 
-Import-Package: org.apache.commons.logging*, \
+Import-Package: \
 	javax.sql*, \
-	javax.transaction.*;version="1.0.1B", \
 	!*
 
-Export-Package: org.apache.commons.dbcp*;-split-package:=merge-last, \
-	javax.persistence.*;version="1.1.0";-split-package:=merge-last;provider=tvworks, \
+Export-Package: \
+	org.apache.commons.dbcp*;version="1.2.2", \
+	javax.persistence.*;version="1.1.0", \
 	org.hibernate*;version=${project.version};-split-package:=merge-last, \
-	oracle*;-split-package:=merge-last, \
-	net.sf.cglib*;version=${project.version};-split-package:=merge-last
-
+	net.sf.cglib*;version="2.1_3", \
+	javax.annotation*;version="1.0.0"
+	
 Embed-Dependency: !javax.sql*, \
 	*
 
