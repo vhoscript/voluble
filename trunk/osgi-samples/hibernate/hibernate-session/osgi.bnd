@@ -1,52 +1,17 @@
 
-Import-Package: oracle.core.lmx, \
-	oracle.core.lvf, \
-	oracle.jdbc, \
-	oracle.jdbc.connector, \
-	oracle.jdbc.driver, \
-	oracle.jdbc.internal, \
-	oracle.jdbc.oci, \
- 	oracle.jdbc.oracore, \
- 	oracle.jdbc.pool, \
- 	oracle.jdbc.rowset, \
- 	oracle.jdbc.util, \
- 	oracle.jdbc.xa, \
- 	oracle.jdbc.xa.client, \
- 	oracle.jpub.runtime, \
- 	oracle.net.TNSAddress, \
- 	oracle.net.ano, \
- 	oracle.net.aso, \
- 	oracle.net.jndi, \
- 	oracle.net.mesg, \
- 	oracle.net.nl, \
- 	oracle.net.nl.mesg, \
- 	oracle.net.ns, \
- 	oracle.net.nt, \
- 	oracle.net.resolver, \
- 	oracle.security.o3logon, \
- 	oracle.sql, \
- 	oracle.sql.converter, \
- 	oracle.sql.converter_xcharset, \
-	!oracle.security*, \
-	!oracle.ons*, \
-	!oracle.i18n*, \
-	!javax.resource*, \
+Import-Package: !javax.resource*, \
 	org.hibernate.proxy, \
 	org.hibernate.exception, \
 	org.hibernate, \
 	javax.transaction.*;version="1.0.1B", \
-	javax.persistence;provider=tvworks;version="1.1.0", \
 	javax.naming, \
 	javax.naming.spi, \
 	javax.sql, \
 	org.xml.sax, \
 	javax.naming.event, \
 	org.apache.commons.dbcp, \
-	com.tvworks.apps.osgi.model*;version="[1.0.0, \2.0.0)", \
-	com.tvworks.apps.osgi.dao*;version="[1.0.0, \2.0.0)", \
 	*
 
-Export-Package: com.tvworks.apps.osgi.model*;version=${project.version}, \
-	com.tvworks.apps.osgi.dao*;version=${project.version}
+Export-Package:  com.notehive.osgi.hibernate_samples.dao.z.*;version=${project.version}
 	
-Eclipse-RegisterBuddy: com.tvworks.osgi.3rdparty.repackaged-hibernate
+Eclipse-RegisterBuddy: 

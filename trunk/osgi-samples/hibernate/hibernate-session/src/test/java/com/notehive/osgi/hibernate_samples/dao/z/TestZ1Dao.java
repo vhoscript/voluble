@@ -18,8 +18,6 @@ import junit.framework.TestCase;
 @Transactional
 public class TestZ1Dao extends AbstractTransactionalDataSourceSpringContextTests {
 	
-	private ApplicationContext context;
-	
 	@Resource
 	private Z1Dao z1Dao;
 
@@ -32,7 +30,6 @@ public class TestZ1Dao extends AbstractTransactionalDataSourceSpringContextTests
 	 * Test Create, read, update and delete.
 	 * @throws SystemException 
 	 */
-	@Transactional
 	public void testCrud() throws SystemException {
 		
 		Z1 saved = new Z1();
