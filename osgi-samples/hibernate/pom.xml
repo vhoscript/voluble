@@ -11,8 +11,62 @@
 
 	<modules>
 		<module>jta</module>
-		<module>hibernate</module>
+		<module>hibernate-classes</module>
+		<module>hsqldb</module>
+		<module>hibernate-session</module>
+		<module>integration-tests</module>
 	</modules>
+
+	<properties>
+		<spring.maven.artifact.version>
+			2.5.3
+		</spring.maven.artifact.version>
+	</properties>
+	
+    <dependencyManagement>	
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-test</artifactId>
+				<version>${spring.maven.artifact.version}</version>
+			</dependency>
+			<dependency>
+			    <groupId>org.springframework</groupId>
+			    <artifactId>spring-aop</artifactId>
+				<version>${spring.maven.artifact.version}</version>
+			</dependency>		
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-core</artifactId>
+				<version>${spring.maven.artifact.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context</artifactId>
+				<version>${spring.maven.artifact.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-beans</artifactId>
+				<version>${spring.maven.artifact.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-orm</artifactId>
+				<version>${spring.maven.artifact.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-jdbc</artifactId>
+				<version>${spring.maven.artifact.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-tx</artifactId>
+				<version>${spring.maven.artifact.version}</version>
+			</dependency>
+		</dependencies>
+    </dependencyManagement>	
 
 	<build>
 		<plugins>
