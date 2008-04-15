@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 
 import com.notehive.osgi.hibernate_samples.model.z.Z1;
 
-@Repository("z1Dao")
 public class Z1Dao extends HibernateDaoSupport {
 
 	// TODO: Don't like this method, but will Spring automatically 

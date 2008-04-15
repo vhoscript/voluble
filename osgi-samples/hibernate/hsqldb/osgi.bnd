@@ -1,17 +1,9 @@
 
-Import-Package: org.apache.commons.logging*, \
-	javax.sql*, \
-	javax.transaction.*;version="1.0.1B", \
-	!*
+Import-Package: !*
 
-Export-Package: org.apache.commons.dbcp*;-split-package:=merge-last, \
-	javax.persistence.*;version="1.1.0";-split-package:=merge-last;provider=tvworks, \
-	org.hibernate*;version=${project.version};-split-package:=merge-last, \
-	oracle*;-split-package:=merge-last, \
-	net.sf.cglib*;version=${project.version};-split-package:=merge-last
+Export-Package: org.hsqldb*;version=${project.version};-split-package:=merge-last
 
-Embed-Dependency: !javax.sql*, \
-	*
+Embed-Dependency: *
 
 Embed-Transitive: true
 

@@ -9,7 +9,7 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.notehive.osgi.hibernate-samples</groupId>
-	<artifactId>hsql</artifactId>
+	<artifactId>hsqldb</artifactId>
 	<packaging>bundle</packaging>
 	<name>HSQLDB</name>
 	<version>1.8.0.7</version>

@@ -15,9 +15,13 @@ public class TestHibernateSession extends
 
 	protected String[] getTestBundlesNames() {
 		return new String[] {
-				"com.notehive.osgi.hibernate-samples hibernate-classes 1.0.0.SNAPSHOT",
-				"com.notehive.osgi.hibernate-samples hsqldb 1.0.0.SNAPSHOT",
-				"com.notehive.osgi.hibernate-samples hibernate-classes 1.0.0.SNAPSHOT" };
+                "org.springframework, spring-tx, 2.5.1",
+                "org.springframework, spring-jdbc, 2.5.1",
+                "org.springframework, spring-orm, 2.5.1",
+				"com.notehive.osgi.hibernate-samples, jta, 1.0.1B",
+				"com.notehive.osgi.hibernate-samples, hsqldb, 1.8.0.7",
+				"com.notehive.osgi.hibernate-samples, hibernate-classes, 3.2.6.ga",
+				"com.notehive.osgi.hibernate-samples, hibernate-session, 1.0.0.SNAPSHOT" };
 	}
 	
 	public void testZ1DaoCrud() {

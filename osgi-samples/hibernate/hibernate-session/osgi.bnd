@@ -1,5 +1,6 @@
 
-Import-Package: !javax.resource*, \
+Import-Package: \
+	!javax.resource*, \
 	org.hibernate.proxy, \
 	org.hibernate.exception, \
 	org.hibernate, \
@@ -10,10 +11,13 @@ Import-Package: !javax.resource*, \
 	org.xml.sax, \
 	javax.naming.event, \
 	org.apache.commons.dbcp, \
+	org.hsqldb, \
 	*
 
-Export-Package: com.notehive.osgi.hibernate_samples.dao.z.*;version=${project.version}
+Export-Package: \
+	com.notehive.osgi.hibernate_samples.dao.z.*;version=${project.version}, \
+	com.notehive.osgi.hibernate_samples.model.z.*;version=${project.version}
 
-Private-Package: com.notehive.osgi.hibernate_samples.model.z.*
+Private-Package: !*
 	
 Eclipse-RegisterBuddy: 
