@@ -15,11 +15,12 @@
 
 	<context:annotation-config/>
 
-	<!-- context:component-scan
-		base-package="com.notehive.osgi.hibernate_samples.dao.z" /-->
-		
 	<bean id="z1Dao" class="com.notehive.osgi.hibernate_samples.dao.z.Z1Dao">
-		<property name="sessionFactory" ref="sessionFactory"/>
+		<property name="sessionFactory" ref="dynamicSessionFactory"/>
+	</bean>
+
+	<bean id="z2Dao" class="com.notehive.osgi.hibernate_samples.dao.z.Z2Dao">
+		<property name="sessionFactory" ref="dynamicSessionFactory"/>
 	</bean>
 
 	<bean
@@ -29,8 +30,8 @@
 		</property>
 	</bean>
 
-	<bean id="sessionFactory"
-		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+	<bean id="dynamicSessionFactory" 
+		class="com.notehive.osgi.hibernate_samples.session.DynamicSessionFactory">
 		<property name="dataSource" ref="dataSource" />
 		<property name="annotatedClasses">
 			<list>
@@ -41,6 +42,19 @@
 		</property>
 		<property name="hibernateProperties" ref="hibernateProperties" />
 	</bean>
+
+	<!-- bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="annotatedClasses">
+			<list>
+				<value>
+					com.notehive.osgi.hibernate_samples.model.z.Z1
+				</value>
+			</list>
+		</property>
+		<property name="hibernateProperties" ref="hibernateProperties" />
+	</bean -->
 
 	<!-- Database Properties -->
 	<bean id="hibernateProperties"
@@ -82,7 +96,7 @@
 	<bean id="transactionManager"
 		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
 		<property name="sessionFactory">
-			<ref local="sessionFactory" />
+			<ref local="dynamicSessionFactory" />
 		</property>
 	</bean>
 

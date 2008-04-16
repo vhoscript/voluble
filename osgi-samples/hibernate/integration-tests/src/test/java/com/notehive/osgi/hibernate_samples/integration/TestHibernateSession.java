@@ -1,9 +1,6 @@
 package com.notehive.osgi.hibernate_samples.integration;
 
-import javax.annotation.Resource;
-
 import org.osgi.framework.Constants;
-import org.springframework.osgi.test.AbstractConfigurableBundleCreatorTests;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.notehive.osgi.hibernate_samples.dao.z.Z1Dao;
