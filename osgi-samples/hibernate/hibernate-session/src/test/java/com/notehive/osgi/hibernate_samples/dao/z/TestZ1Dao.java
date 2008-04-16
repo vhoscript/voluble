@@ -39,7 +39,7 @@ public class TestZ1Dao extends AbstractTransactionalDataSourceSpringContextTests
 		z1Dao.save(saved);
 		
 		// load and test
-		Z1 loaded = z1Dao.load(saved.getId());
+		Z1 loaded = z1Dao.get(saved.getId());
 
 		assertEquals(saved.getId(), loaded.getId());
 		assertEquals(saved.getString1(), loaded.getString1());
@@ -52,7 +52,7 @@ public class TestZ1Dao extends AbstractTransactionalDataSourceSpringContextTests
 		z1Dao.save(saved);
 		
 		// load and test
-		loaded = z1Dao.load(saved.getId());
+		loaded = z1Dao.get(saved.getId());
 
 		assertEquals(saved.getId(), loaded.getId());
 		assertEquals(saved.getString1(), loaded.getString1());

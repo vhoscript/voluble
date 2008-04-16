@@ -4,6 +4,7 @@ import javax.annotation.Resource;
 
 import org.osgi.framework.Constants;
 import org.springframework.osgi.test.AbstractConfigurableBundleCreatorTests;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.notehive.osgi.hibernate_samples.dao.z.Z1Dao;
 import com.notehive.osgi.hibernate_samples.model.z.Z1;
@@ -17,11 +18,10 @@ public class TestHibernateSession extends BundleCreatorTest {
 				.getProperty(Constants.FRAMEWORK_VERSION));
 		System.out.println(bundleContext
 				.getProperty(Constants.FRAMEWORK_EXECUTIONENVIRONMENT));
-		System.out.println(applicationContext.getBean("x"));
 	}
 
+	@Transactional
 	public void testZ1DaoCrud() {
-
 		Z1Dao z1Dao = (Z1Dao) applicationContext.getBean("z1Dao");
 
 		Z1 saved = new Z1();
@@ -31,7 +31,7 @@ public class TestHibernateSession extends BundleCreatorTest {
 		z1Dao.save(saved);
 
 		// load and test
-		Z1 loaded = z1Dao.load(saved.getId());
+		Z1 loaded = z1Dao.get(saved.getId());
 
 		assertEquals(saved.getId(), loaded.getId());
 		assertEquals(saved.getString1(), loaded.getString1());
@@ -44,7 +44,7 @@ public class TestHibernateSession extends BundleCreatorTest {
 		z1Dao.save(saved);
 
 		// load and test
-		loaded = z1Dao.load(saved.getId());
+		loaded = z1Dao.get(saved.getId());
 
 		assertEquals(saved.getId(), loaded.getId());
 		assertEquals(saved.getString1(), loaded.getString1());

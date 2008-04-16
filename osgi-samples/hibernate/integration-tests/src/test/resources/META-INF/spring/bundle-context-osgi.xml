@@ -9,10 +9,4 @@
 		interface="com.notehive.osgi.hibernate_samples.dao.z.Z1Dao">
 	</osgi:reference>
 	
-	
-	<bean id="x"
-		class="java.lang.Object">
-	</bean>
-	
-
 </beans>
