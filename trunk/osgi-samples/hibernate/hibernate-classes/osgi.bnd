@@ -1,20 +1,27 @@
 
 Import-Package: \
+	org.apache.commons.logging*, \
+	org.hsqldb, \
 	javax.sql*, \
+	javax.naming*, \
+	org.xml.sax*, \
 	!*
 
 Export-Package: \
 	org.apache.commons.dbcp*;version="1.2.2", \
 	javax.persistence.*;version="1.1.0", \
 	org.hibernate*;version=${project.version};-split-package:=merge-last, \
-	net.sf.cglib*;version="2.1_3", \
+	net.sf.cglib*;version="2.1.3", \
 	javax.annotation*;version="1.0.0"
 	
 Embed-Dependency: !javax.sql*, \
+	!org.apache.commons.logging*, \
 	*
 
 Embed-Transitive: true
 
-Private-Package: *;-split-package:=merge-last
+#Private-Package: \
+#	!org.apache.commons.logging, \
+#	*;-split-package:=merge-last
 
 Eclipse-BuddyPolicy: registered

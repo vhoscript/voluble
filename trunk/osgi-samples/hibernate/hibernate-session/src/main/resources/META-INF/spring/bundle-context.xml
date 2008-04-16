@@ -18,7 +18,9 @@
 	<!-- context:component-scan
 		base-package="com.notehive.osgi.hibernate_samples.dao.z" /-->
 		
-	<bean id="z1Dao" class="com.notehive.osgi.hibernate_samples.dao.z.Z1Dao"/>
+	<bean id="z1Dao" class="com.notehive.osgi.hibernate_samples.dao.z.Z1Dao">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
 
 	<bean
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">

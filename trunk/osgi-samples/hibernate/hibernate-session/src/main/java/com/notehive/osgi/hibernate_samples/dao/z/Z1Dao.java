@@ -10,13 +10,6 @@ import com.notehive.osgi.hibernate_samples.model.z.Z1;
 
 public class Z1Dao extends HibernateDaoSupport {
 
-	// TODO: Don't like this method, but will Spring automatically 
-	// inject a resource into parent's "setSessionFactory"??
-	@Resource(name="sessionFactory")
-	public void setSF(SessionFactory sessionFactory) {
-		super.setSessionFactory(sessionFactory);
-	}
-
 	public void save(Z1 z1) {
 		getHibernateTemplate().save(z1);
 	}
