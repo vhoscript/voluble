@@ -3,6 +3,9 @@ package com.notehive.osgi.hibernate_samples.integration;
 import org.springframework.osgi.test.AbstractConfigurableBundleCreatorTests;
 
 import org.springframework.osgi.test.platform.Platforms;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
@@ -12,7 +15,7 @@ public class BundleCreatorTest extends AbstractConfigurableBundleCreatorTests {
 	protected String[] getConfigLocations() {
 		return new String[] { "META-INF/spring/bundle-context-osgi.xml" };
 	}
-
+	
 	protected String[] getTestBundlesNames() {
 		return new String[] {
 				"org.springframework, spring-tx, 2.5.1",
@@ -46,7 +49,13 @@ public class BundleCreatorTest extends AbstractConfigurableBundleCreatorTests {
 		String importedPackages = (String) attributes
 				.get(importPackageAttributeName);
 
-		String[] requiredPackages = new String[] { "net.sf.cglib.proxy;version=\"2.1.3\"" };
+		String[] requiredPackages = new String[] { 
+				// sometimes an exception is accompanied with "class not found"
+				// (I think) because the exception class is not imported by this
+				// bundle.  Adding the package that exception belongs to here 
+				// allows this bundle to see what the exception is.
+//				"net.sf.cglib.proxy;version=\"2.1.3\"" 
+				};
 
 		for (String requiredPackage : requiredPackages) {
 			if (!importedPackages.contains(requiredPackage)) {
@@ -55,7 +64,7 @@ public class BundleCreatorTest extends AbstractConfigurableBundleCreatorTests {
 		}
 
 		attributes.put(importPackageAttributeName, importedPackages);
-
+		
 		printManifestContents(attributes);
 
 		return manifest;
@@ -84,4 +93,5 @@ public class BundleCreatorTest extends AbstractConfigurableBundleCreatorTests {
 	 */
 	public void testNothing() {
 	}
+
 }

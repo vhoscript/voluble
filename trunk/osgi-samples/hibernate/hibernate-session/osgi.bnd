@@ -21,4 +21,4 @@ Export-Package: \
 
 Private-Package: !*
 	
-Eclipse-RegisterBuddy: 
+Eclipse-BuddyPolicy: registered 
