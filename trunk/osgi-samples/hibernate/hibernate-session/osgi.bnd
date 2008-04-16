@@ -5,7 +5,7 @@ Import-Package: \
 	org.hibernate.exception, \
 	org.hibernate, \
 	javax.transaction.*;version="1.0.1B", \
-	javax.naming, \
+	javax.naming;version="1.2.1", \
 	javax.naming.spi, \
 	javax.sql, \
 	org.xml.sax, \
