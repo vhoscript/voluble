@@ -1,0 +1,7 @@
+
+Test on a clean machine (with a clean maven repository...)
+
+
+Try making the driver a buddy of the hibernate-classes,
+then it might not be necessary for hibernate-classes to import
+the driver type???
