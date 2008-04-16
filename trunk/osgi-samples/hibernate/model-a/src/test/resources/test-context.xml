@@ -13,16 +13,6 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
 
-	<context:annotation-config/>
-
-	<bean id="z1Dao" class="com.notehive.osgi.hibernate_samples.dao.z.Z1Dao">
-		<property name="sessionFactory" ref="dynamicSessionFactory"/>
-	</bean>
-
-	<bean id="z2Dao" class="com.notehive.osgi.hibernate_samples.dao.z.Z2Dao">
-		<property name="sessionFactory" ref="dynamicSessionFactory"/>
-	</bean>
-
 	<bean
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
@@ -36,7 +26,7 @@
 		<property name="annotatedClasses">
 			<list>
 				<value>
-					com.notehive.osgi.hibernate_samples.model.z.Z1
+					com.notehive.osgi.hibernate_samples.model.a.A1
 				</value>
 			</list>
 		</property>
@@ -86,8 +76,5 @@
 			<ref local="dynamicSessionFactory" />
 		</property>
 	</bean>
-
-	<tx:annotation-driven transaction-manager="transactionManager"
-		proxy-target-class="true" />
 
 </beans>
