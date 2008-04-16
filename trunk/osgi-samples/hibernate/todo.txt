@@ -1,7 +1,9 @@
 
-Test on a clean machine (with a clean maven repository...)
-
+Get integration-tests "mvn install" to work ("mvn test" works)
 
 Try making the driver a buddy of the hibernate-classes,
 then it might not be necessary for hibernate-classes to import
 the driver type???
+
+Try switching back to embedded hsql db?
+
