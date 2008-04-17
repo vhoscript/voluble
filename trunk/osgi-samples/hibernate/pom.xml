@@ -16,6 +16,7 @@
 		<module>hibernate-session</module>
 		<module>model-a</module>
 		<module>integration-tests</module>
+		<module>deployment</module>
 	</modules>
 
 	<properties>

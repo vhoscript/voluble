@@ -77,7 +77,7 @@
 		class="com.notehive.osgi.hibernate_samples.session.DynamicConfiguration">
 		<!-- 
 			Need to create a proxy because of, I guess, some mysterious circular
-			dependancy which requires this mbean to exist before it can be initialized. 
+			dependency which requires this bean to exist before it can be initialized. 
 		-->
 		<aop:scoped-proxy/>
 		<property name="dataSource" ref="dataSource" />
