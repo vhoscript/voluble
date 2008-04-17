@@ -1,0 +1,5 @@
+
+Export-Package: \
+	com.notehive.osgi.hibernate_samples.integration*;version=${project.version}
+
+Import-Package: *
