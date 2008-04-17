@@ -24,7 +24,9 @@ public class BundleCreatorTest extends AbstractConfigurableBundleCreatorTests {
 				"com.notehive.osgi.hibernate-samples, jta, 1.0.1B",
 				"com.notehive.osgi.hibernate-samples, hsqldb, 1.8.0.7",
 				"com.notehive.osgi.hibernate-samples, hibernate-classes, 3.2.6.ga",
-				"com.notehive.osgi.hibernate-samples, hibernate-session, 1.0.0.SNAPSHOT" };
+				"com.notehive.osgi.hibernate-samples, hibernate-session, 1.0.0.SNAPSHOT",
+				"com.notehive.osgi.hibernate-samples, model-a, 1.0.0.SNAPSHOT" 
+				};
 	}
 
 	/**
@@ -54,7 +56,8 @@ public class BundleCreatorTest extends AbstractConfigurableBundleCreatorTests {
 				// (I think) because the exception class is not imported by this
 				// bundle.  Adding the package that exception belongs to here 
 				// allows this bundle to see what the exception is.
-//				"net.sf.cglib.proxy;version=\"2.1.3\"" 
+//				"net.sf.cglib.proxy;version=\"2.1.3\""
+				"org.apache.log4j.spi"
 				};
 
 		for (String requiredPackage : requiredPackages) {

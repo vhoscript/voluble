@@ -5,8 +5,17 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
                       http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd">
 
-	<osgi:service ref="z1Dao"
-		interface="com.notehive.osgi.hibernate_samples.dao.z.Z1Dao">
+	<osgi:reference id="dynamicConfiguration"
+		interface="com.notehive.osgi.hibernate_samples.session.DynamicConfiguration">
+		<osgi:listener ref="dynamicConfigurationListener" bind-method="onBind" unbind-method="onUnbind"></osgi:listener>
+	</osgi:reference>
+
+	<osgi:service ref="a1Dao"
+		interface="com.notehive.osgi.hibernate_samples.dao.a.A1Dao">
 	</osgi:service>
+	
+	<!-- osgi:reference id="transactionManager"
+		interface="org.springframework.orm.hibernate3.HibernateTransactionManager">
+	</osgi:reference -->
 
 </beans>

@@ -9,4 +9,12 @@
 		interface="com.notehive.osgi.hibernate_samples.dao.z.Z1Dao">
 	</osgi:service>
 
+	<osgi:service ref="dynamicConfiguration"
+		interface="com.notehive.osgi.hibernate_samples.session.DynamicConfiguration">
+	</osgi:service>
+	
+	<!-- osgi:service ref="transactionManager"
+		interface="org.springframework.orm.hibernate3.HibernateTransactionManager">
+	</osgi:service -->
+	
 </beans>
