@@ -17,7 +17,6 @@ public class TestHibernateSession extends BundleCreatorTest {
 				.getProperty(Constants.FRAMEWORK_EXECUTIONENVIRONMENT));
 	}
 
-	@Transactional
 	public void testZ1DaoCrud() {
 		Z1Dao z1Dao = (Z1Dao) applicationContext.getBean("z1Dao");
 

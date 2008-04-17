@@ -13,14 +13,10 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
 
-	<context:annotation-config/>
 
-	<bean id="z1Dao" class="com.notehive.osgi.hibernate_samples.dao.z.Z1Dao">
-		<property name="sessionFactory" ref="dynamicSessionFactory"/>
-	</bean>
-
-	<bean id="z2Dao" class="com.notehive.osgi.hibernate_samples.dao.z.Z2Dao">
-		<property name="sessionFactory" ref="dynamicSessionFactory"/>
+	<bean id="z2Dao"
+		class="com.notehive.osgi.hibernate_samples.dao.z.Z2Dao">
+		<property name="sessionFactory" ref="dynamicSessionFactory" />
 	</bean>
 
 	<bean
@@ -28,19 +24,6 @@
 		<property name="locations">
 			<value>classpath:META-INF/spring/database.properties</value>
 		</property>
-	</bean>
-
-	<bean id="dynamicSessionFactory" 
-		class="com.notehive.osgi.hibernate_samples.session.DynamicSessionFactory">
-		<property name="dataSource" ref="dataSource" />
-		<property name="annotatedClasses">
-			<list>
-				<value>
-					com.notehive.osgi.hibernate_samples.model.z.Z1
-				</value>
-			</list>
-		</property>
-		<property name="hibernateProperties" ref="hibernateProperties" />
 	</bean>
 
 	<!-- Database Properties -->
@@ -73,6 +56,16 @@
 		</property>
 	</bean>
 
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="dynamicSessionFactory" />
+	</bean>
+
+	<bean id="z1Dao"
+		class="com.notehive.osgi.hibernate_samples.dao.z.Z1Dao">
+		<property name="sessionFactory" ref="dynamicSessionFactory" />
+	</bean>
+
 	<bean id="dataSource"
 		class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
@@ -80,13 +73,30 @@
 		<property name="url" value="${database.url}" />
 	</bean>
 
-	<bean id="transactionManager"
-		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
-		<property name="sessionFactory">
-			<ref local="dynamicSessionFactory" />
+	<bean id="dynamicConfiguration"
+		class="com.notehive.osgi.hibernate_samples.session.DynamicConfiguration">
+		<!-- 
+			Need to create a proxy because of, I guess, some mysterious circular
+			dependancy which requires this mbean to exist before it can be initialized. 
+		-->
+		<aop:scoped-proxy/>
+		<property name="dataSource" ref="dataSource" />
+		<property name="annotatedClasses">
+			<list>
+				<value>
+					com.notehive.osgi.hibernate_samples.model.z.Z1
+				</value>
+			</list>
 		</property>
+		<property name="hibernateProperties" ref="hibernateProperties" />
 	</bean>
-
+	
+	<bean id="dynamicSessionFactory"
+		class="com.notehive.osgi.hibernate_samples.session.DynamicSessionFactory"
+		depends-on="dynamicConfiguration">
+		<property name="configuration" ref="dynamicConfiguration"/>
+	</bean>
+	
 	<tx:annotation-driven transaction-manager="transactionManager"
 		proxy-target-class="true" />
 

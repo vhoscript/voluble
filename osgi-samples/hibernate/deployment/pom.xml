@@ -178,6 +178,11 @@
 					<artifactId>hibernate-session</artifactId>
 					<version>1.0.0.SNAPSHOT</version>
                 </artifactItem>
+				<artifactItem>
+					<groupId>com.notehive.osgi.hibernate-samples</groupId>
+					<artifactId>model-a</artifactId>
+					<version>1.0.0.SNAPSHOT</version>
+                </artifactItem>
 				<!--  END: Our source code bundles -->
               </artifactItems>
 			  <outputDirectory>target/classes</outputDirectory>

@@ -13,20 +13,6 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
 
-	<bean id="dynamicSessionFactory"
-		class="com.notehive.osgi.hibernate_samples.session.DynamicSessionFactory"
-		depends-on="dynamicConfiguration">
-		<property name="configuration" ref="dynamicConfiguration"/>
-	</bean>
-	
-	<bean id="a1Dao" class="com.notehive.osgi.hibernate_samples.dao.a.A1Dao">
-		<property name="sessionFactory" ref="dynamicSessionFactory"/>
-	</bean>
-	
-	<bean id="dynamicConfigurationListener" class="com.notehive.osgi.hibernate_samples.config.DynamicConfigurationListener">
-	</bean>
-
-	<!-- tx:annotation-driven transaction-manager="transactionManager"
-		proxy-target-class="true" /-->
+	<context:annotation-config/>
 
 </beans>

@@ -13,13 +13,14 @@ Import-Package: \
 	javax.naming.event, \
 	org.apache.commons.dbcp, \
 	org.hsqldb, \
-	com.notehive.osgi.hibernate_samples.session.*, \
+	com.notehive.osgi.hibernate_samples.session, \
 	*
 
 Export-Package: \
 	com.notehive.osgi.hibernate_samples.dao.a.*;version=${project.version}, \
 	com.notehive.osgi.hibernate_samples.model.a.*;version=${project.version}
 
-Private-Package: !*
+Private-Package: com.notehive.osgi.hibernate_samples.config, \ 
+	!*
 	
 Eclipse-BuddyPolicy: registered 
