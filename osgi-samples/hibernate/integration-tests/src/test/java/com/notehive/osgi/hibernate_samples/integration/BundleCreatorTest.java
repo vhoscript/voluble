@@ -1,5 +1,6 @@
 package com.notehive.osgi.hibernate_samples.integration;
 
+import org.osgi.framework.Constants;
 import org.springframework.osgi.test.AbstractConfigurableBundleCreatorTests;
 
 import org.springframework.osgi.test.platform.Platforms;
@@ -89,12 +90,13 @@ public class BundleCreatorTest extends AbstractConfigurableBundleCreatorTests {
 		return Platforms.EQUINOX;
 	}
 
-	/**
-	 * A test method to keep surefire happy - without this method I get an
-	 * error: "junit.framework.AssertionFailedError: No tests found in
-	 * BundleCreatorTest"
-	 */
-	public void testNothing() {
+	public void testOsgiPlatformStarts() throws Exception {
+		System.out.println(bundleContext
+				.getProperty(Constants.FRAMEWORK_VENDOR));
+		System.out.println(bundleContext
+				.getProperty(Constants.FRAMEWORK_VERSION));
+		System.out.println(bundleContext
+				.getProperty(Constants.FRAMEWORK_EXECUTIONENVIRONMENT));
 	}
 
 }

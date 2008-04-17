@@ -3,48 +3,70 @@ package com.notehive.osgi.hibernate_samples.integration;
 import org.osgi.framework.Constants;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.notehive.osgi.hibernate_samples.dao.a.A1Dao;
 import com.notehive.osgi.hibernate_samples.dao.z.Z1Dao;
+import com.notehive.osgi.hibernate_samples.model.a.A1;
 import com.notehive.osgi.hibernate_samples.model.z.Z1;
 
 public class TestHibernateSession extends BundleCreatorTest {
 
-	public void testOsgiPlatformStarts() throws Exception {
-		System.out.println(bundleContext
-				.getProperty(Constants.FRAMEWORK_VENDOR));
-		System.out.println(bundleContext
-				.getProperty(Constants.FRAMEWORK_VERSION));
-		System.out.println(bundleContext
-				.getProperty(Constants.FRAMEWORK_EXECUTIONENVIRONMENT));
-	}
-
 	public void testZ1DaoCrud() {
+		
+		A1Dao a1Dao = (A1Dao) applicationContext.getBean("a1Dao");
 		Z1Dao z1Dao = (Z1Dao) applicationContext.getBean("z1Dao");
 
-		Z1 saved = new Z1();
-		saved.setString1("String 1, value 1");
-		saved.setString2("String 2, value 1");
+		Z1 z1Saved = new Z1();
+		z1Saved.setString1("String 1, value 1");
+		z1Saved.setString2("String 2, value 1");
+		
+		A1 a1Saved = new A1();
+		a1Saved.setString1("String 1, value 1");
+		a1Saved.setString2("String 2, value 1");
 
-		z1Dao.save(saved);
+		z1Dao.save(z1Saved);
+		a1Dao.save(a1Saved);
 
 		// load and test
-		Z1 loaded = z1Dao.get(saved.getId());
+		Z1 z1Loaded = z1Dao.get(z1Saved.getId());
+		A1 a1Loaded = a1Dao.get(a1Saved.getId());
 
-		assertEquals(saved.getId(), loaded.getId());
-		assertEquals(saved.getString1(), loaded.getString1());
-		assertEquals(saved.getString2(), loaded.getString2());
+		assertEquals(z1Saved.getId(), z1Loaded.getId());
+		assertEquals(z1Saved.getString1(), z1Loaded.getString1());
+		assertEquals(z1Saved.getString2(), z1Loaded.getString2());
 
+		assertEquals(a1Saved.getId(), a1Loaded.getId());
+		assertEquals(a1Saved.getString1(), a1Loaded.getString1());
+		assertEquals(a1Saved.getString2(), a1Loaded.getString2());
+		
 		// update
-		saved.setString1("String 1, value 2");
-		saved.setString2("String 2, value 2");
+		z1Saved.setString1("String 1, value 2");
+		z1Saved.setString2("String 2, value 2");
+		z1Dao.save(z1Saved);
 
-		z1Dao.save(saved);
+		a1Saved.setString1("String 1, value 2");
+		a1Saved.setString2("String 2, value 2");
+		a1Dao.save(a1Saved);
 
 		// load and test
-		loaded = z1Dao.get(saved.getId());
+		z1Loaded = z1Dao.get(z1Saved.getId());
+		a1Loaded = a1Dao.get(a1Saved.getId());
 
-		assertEquals(saved.getId(), loaded.getId());
-		assertEquals(saved.getString1(), loaded.getString1());
-		assertEquals(saved.getString2(), loaded.getString2());
+		assertEquals(z1Saved.getId(), z1Loaded.getId());
+		assertEquals(z1Saved.getString1(), z1Loaded.getString1());
+		assertEquals(z1Saved.getString2(), z1Loaded.getString2());
+
+		assertEquals(a1Saved.getId(), a1Loaded.getId());
+		assertEquals(a1Saved.getString1(), a1Loaded.getString1());
+		assertEquals(a1Saved.getString2(), a1Loaded.getString2());
+
+		// delete
+		z1Dao.delete(z1Saved);
+		a1Dao.delete(a1Saved);
+		
+		// check that it's been deleted
+		z1Loaded = z1Dao.get(z1Saved.getId());
+		a1Loaded = a1Dao.get(a1Saved.getId());
+		
 	}
 
 }
