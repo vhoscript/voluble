@@ -1,5 +1,8 @@
 package com.notehive.osgi.hibernate_samples.session;
 
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -8,11 +11,18 @@ import java.util.Properties;
 
 import javax.sql.DataSource;
 
+import org.aopalliance.aop.Advice;
+import org.aopalliance.intercept.MethodInterceptor;
+import org.aopalliance.intercept.MethodInvocation;
 import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.Environment;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.aop.framework.ProxyFactory;
+import org.springframework.aop.target.SingletonTargetSource;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.orm.hibernate3.TransactionAwareDataSourceConnectionProvider;
@@ -23,14 +33,18 @@ import org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBea
  * application.
  */
 public class DynamicConfiguration  implements InitializingBean {
+	
+	private Logger logger = LoggerFactory.getLogger(DynamicConfiguration.class);
 
 	private List<Class> annotatedClasses = new ArrayList<Class>();
 	
 	private Properties hibernateProperties;
 
-	private SessionFactory sessionFactory;
+	private SessionFactory proxiedSessionFactory;
 	
 	private DataSource dataSource;
+
+	private int myhashCode;
 
 	public void setHibernateProperties(Properties hibernateProperties) {
 		this.hibernateProperties = hibernateProperties;
@@ -50,12 +64,9 @@ public class DynamicConfiguration  implements InitializingBean {
 	}
 
 	public SessionFactory getSessionFactory() {
-		return sessionFactory;
+		return proxiedSessionFactory;
 	}
 	
-	public void init() {
-		createNewSessionFactory();
-	}
 
 	private void createNewSessionFactory() {
 		if (hibernateProperties == null) {
@@ -70,7 +81,15 @@ public class DynamicConfiguration  implements InitializingBean {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
-		sessionFactory = (SessionFactory) asfb.getObject();
+		final SessionFactory sessionFactory = (SessionFactory) asfb.getObject();
+		proxiedSessionFactory = (SessionFactory) Proxy.newProxyInstance(
+			    SessionFactory.class.getClassLoader(),
+			    new Class[] {SessionFactory.class},
+			    new InvocationHandler() {
+					public Object invoke(Object proxy, Method method,
+							Object[] args) throws Throwable {
+						return method.invoke(sessionFactory, args);
+					}});
 	}
 
 	public void afterPropertiesSet() throws Exception {

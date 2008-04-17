@@ -23,3 +23,6 @@ Export-Package: \
 Private-Package: !*
 	
 Eclipse-BuddyPolicy: registered 
+
+Bundle-Activator: com.notehive.osgi.hibernate_samples.session.BundleTracker
+
