@@ -1,5 +1,6 @@
 
-Get integration-tests "mvn install" to work ("mvn test" works)
+Match bundles in deployment's config.ini up with the bundles used in
+the spring intergation test.. (?)
 
 Try making the driver a buddy of the hibernate-classes,
 then it might not be necessary for hibernate-classes to import

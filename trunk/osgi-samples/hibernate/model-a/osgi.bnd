@@ -24,3 +24,6 @@ Private-Package: com.notehive.osgi.hibernate_samples.config, \
 	!*
 	
 Eclipse-BuddyPolicy: registered 
+
+Hibernate-Contribution: default; \
+	classes="com.notehive.osgi.hibernate_samples.model.A1"
