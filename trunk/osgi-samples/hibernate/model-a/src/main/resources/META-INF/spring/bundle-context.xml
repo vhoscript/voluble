@@ -25,8 +25,16 @@
 	
 	<bean id="dynamicConfigurationListener" class="com.notehive.osgi.hibernate_samples.config.DynamicConfigurationListener">
 	</bean>
+	
+	<!-- Things fall apart when I add a transaction manager into the mix... 
+		The transaction manager seems to keep holding on to it's old session factory 
+		and never learn about the new A1 class added to the repository -->
+	<!--bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="dynamicSessionFactory" />
+	</bean>
 
-	<!-- tx:annotation-driven transaction-manager="transactionManager"
+	<tx:annotation-driven transaction-manager="transactionManager"
 		proxy-target-class="true" /-->
 
 </beans>
