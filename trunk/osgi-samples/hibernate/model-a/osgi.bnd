@@ -25,5 +25,8 @@ Private-Package: com.notehive.osgi.hibernate_samples.config, \
 	
 Eclipse-BuddyPolicy: registered 
 
-Hibernate-Contribution: default; \
-	classes="com.notehive.osgi.hibernate_samples.model.A1"
+# Not sure when to get a new session factory when using this scheme.
+# Sticking to more manual approach for now.
+
+# Hibernate-Contribution: default; \
+#	classes="com.notehive.osgi.hibernate_samples.model.A1"
