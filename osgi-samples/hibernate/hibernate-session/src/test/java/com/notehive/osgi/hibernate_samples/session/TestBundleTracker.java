@@ -58,7 +58,7 @@ public class TestBundleTracker extends TestCase {
 		BundleTracker.setDynamicConfiguration(dynamicConfiguration);
 		MockBundle bundle = new MockBundle();
 		bundle.getHeaders().put(
-				"Hibernate-Contribution", "db-connection; class=\"com.notehive.osgi.hibernate_samples.model.z.Z2\"");
+				"Hibernate-Contribution", "db-connection; classes=\"com.notehive.osgi.hibernate_samples.model.z.Z2\"");
 		BundleEvent bundleEvent = new BundleEvent(BundleEvent.STARTED, bundle);
 		bundleTracker.bundleChanged(bundleEvent);
 		

@@ -4,12 +4,14 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
 import javax.sql.DataSource;
 
 import org.hibernate.SessionFactory;
+import org.osgi.framework.Bundle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -43,6 +45,11 @@ public class DynamicConfiguration implements InitializingBean {
 
 	public void addAnnotatedClass(Class anotadedClass) {
 		annotatedClasses.add(anotadedClass);
+		createNewSessionFactory();
+	}
+	
+	public void removeAnnotatedClass(Class anotadedClass) {
+		annotatedClasses.remove(anotadedClass);
 		createNewSessionFactory();
 	}
 
@@ -83,6 +90,42 @@ public class DynamicConfiguration implements InitializingBean {
 	public void afterPropertiesSet() throws Exception {
 		createNewSessionFactory();
 		BundleTracker.setDynamicConfiguration(this);
+	}
+
+	public void addAnnotatedClasses(Bundle sourceBundle, String[] classes) {
+		for(String s : classes) {
+			try {
+				annotatedClasses.add(
+						sourceBundle.loadClass(s));
+			} catch (ClassNotFoundException e) {
+				logger.error("Could not load annotaded class: " + s, e);
+				throw new RuntimeException(e);
+			}
+		}
+		createNewSessionFactory();
+	}
+	
+	public void removeAnnotatedClasses(Bundle sourceBundle, String[] classes) {
+		for(String s : classes) {
+			try {
+				annotatedClasses.remove(
+						sourceBundle.loadClass(s));
+			} catch (ClassNotFoundException e) {
+				logger.error("Could not load annotaded class: " + s, e);
+				throw new RuntimeException(e);
+			}
+		}
+		createNewSessionFactory();
+	}
+	
+	public void addAnnotatedClasses(Class[] classes) {
+		annotatedClasses.addAll(Arrays.asList(classes));
+		createNewSessionFactory();
+	}
+	
+	public void removeAnnotatedClasses(Class[] classes) {
+		annotatedClasses.removeAll(Arrays.asList(classes));
+		createNewSessionFactory();
 	}
 
 }

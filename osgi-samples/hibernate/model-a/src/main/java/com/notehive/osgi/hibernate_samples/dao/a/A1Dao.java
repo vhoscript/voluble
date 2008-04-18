@@ -1,10 +1,6 @@
 package com.notehive.osgi.hibernate_samples.dao.a;
 
-import javax.annotation.Resource;
-
-import org.hibernate.SessionFactory;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
-import org.springframework.stereotype.Repository;
 
 import com.notehive.osgi.hibernate_samples.model.a.A1;
 

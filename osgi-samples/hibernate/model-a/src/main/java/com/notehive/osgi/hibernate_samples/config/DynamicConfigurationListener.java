@@ -12,8 +12,7 @@ public class DynamicConfigurationListener {
     }
 
     public void onUnbind(DynamicConfiguration dynamicConfiguration, Map properties) {
-    	// TODO: Remove class from dynamic configuration
+    	dynamicConfiguration.removeAnnotatedClass(A1.class);
     }
-
 
 }
