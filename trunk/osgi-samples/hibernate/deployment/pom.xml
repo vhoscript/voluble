@@ -40,42 +40,34 @@
                 <artifactItem>
                   <groupId>org.springframework</groupId>
                   <artifactId>spring-context-support</artifactId>
-				  <version>2.5.1</version>
                 </artifactItem>
                 <artifactItem>
                   <groupId>org.springframework</groupId>
                   <artifactId>spring-tx</artifactId>
-				  <version>2.5.1</version>
                 </artifactItem>
                 <artifactItem>
                   <groupId>org.springframework</groupId>
                   <artifactId>spring-context</artifactId>
-				  <version>2.5.1</version>
                 </artifactItem>
                 <artifactItem>
                   <groupId>org.springframework</groupId>
                   <artifactId>spring-orm</artifactId>
-				  <version>2.5.1</version>
                 </artifactItem>
                 <artifactItem>
                   <groupId>org.springframework</groupId>
                   <artifactId>spring-jdbc</artifactId>
-				  <version>2.5.1</version>
                 </artifactItem>
                 <artifactItem>
                   <groupId>org.springframework</groupId>
                   <artifactId>spring-core</artifactId>
-				  <version>2.5.1</version>
                 </artifactItem>
                 <artifactItem>
                   <groupId>org.springframework</groupId>
                   <artifactId>spring-beans</artifactId>
-				  <version>2.5.1</version>
                 </artifactItem>
                 <artifactItem>
                   <groupId>org.springframework</groupId>
                   <artifactId>spring-aop</artifactId>
-				  <version>2.5.1</version>
                 </artifactItem>
 				<!-- END  Springframework -->
  				<!-- BEGING  Spring OSGI -->
