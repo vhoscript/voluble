@@ -100,11 +100,6 @@
 
 	<repositories>
 		<repository>
-			<id>tva.proxy</id>
-			<name>TVA Proxy Repository</name>
-			<url>http://maven.tva.tvworks.com/maven2/</url>
-		</repository>				
-		<repository>
 			<id>apache.m2.incubator</id>
 			<name>Apache M2 Incubator Repository</name>
 			<url>

@@ -4,8 +4,8 @@
 
 	<parent>
 		<relativePath>..</relativePath>
-		<groupId>com.tvworks.tva.osgi</groupId>
-		<artifactId>parent</artifactId>
+		<groupId>com.notehive.osgi</groupId>
+		<artifactId>hibernate-samples</artifactId>
 		<version>1.0.0.SNAPSHOT</version>
 	</parent>
 
