@@ -45,9 +45,20 @@ The following modules are placeholders and are either not implemented, or not us
 
 || *application-a* || Plan to make an tiny sample application that uses the DAO from model-a ||
 || *application-b* || Plan to make an tiny sample application that uses the DAO from model-b ||
-|| *hsqldb* || Downloads and assembles HSQLDB into an OSGi bundle.  The bundle is not used yet, though you could use it to run HSQLDB from the command line ||
-|| *model-b* ||
+|| *hsqldb* || Downloads and assembles HSQLDB into an OSGi bundle.  The bundle is not used yet, though you could use the assembled artifact to run HSQLDB from the command line ||
+|| *model-b* || Plan to add another model class and dao to the sample ||
 
 Not there yet:
 
 || *application-ab* || Plan to make an tiny sample application that uses the DAO from model-a and model-b ||
+
+= Todo =
+
+* Use HSQLDB automatically (so user does not have to manually start it)
+* Write docs for the "More..." links above
+* Make model-b
+* Make application-a
+* Make application-b
+* Make application-ab
+* Switch to extender model instead of manual activator model
+* Write docs explaining in more detail what model-a does at startup and shutdown, and also show explicitly what it's Spring configuration is all about.
