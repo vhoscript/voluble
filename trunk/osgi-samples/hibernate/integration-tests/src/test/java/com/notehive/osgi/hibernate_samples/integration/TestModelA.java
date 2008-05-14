@@ -9,7 +9,6 @@ import org.hibernate.SessionFactory;
 
 public class TestModelA extends BundleCreatorTest {
 
-	@Transactional
 	public void testA1DaoCrud() {
 		A1Dao a1Dao = (A1Dao) applicationContext.getBean("a1Dao");
 		
