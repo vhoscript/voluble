@@ -10,6 +10,7 @@
 	<name>osgi 3rdparty</name>
 
 	<modules>
+		<module>provision</module>
 		<module>jta</module>
 		<module>hibernate-classes</module>
 		<module>hsqldb</module>
