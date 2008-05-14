@@ -3,19 +3,17 @@ package com.notehive.osgi.hibernate_samples.session;
 import javax.annotation.Resource;
 import javax.transaction.SystemException;
 
+import org.hibernate.MappingException;
 import org.springframework.orm.hibernate3.HibernateSystemException;
-import org.springframework.test.AbstractTransactionalDataSourceSpringContextTests;
+import org.springframework.test.AbstractDependencyInjectionSpringContextTests;
 
 import com.notehive.osgi.hibernate_samples.dao.z.Z1Dao;
 import com.notehive.osgi.hibernate_samples.dao.z.Z2Dao;
 import com.notehive.osgi.hibernate_samples.model.z.Z1;
 import com.notehive.osgi.hibernate_samples.model.z.Z2;
 
-import org.hibernate.MappingException;
-import org.hibernate.SessionFactory;
-
 public class TestDynamicSessionFactory extends
-		AbstractTransactionalDataSourceSpringContextTests {
+		AbstractDependencyInjectionSpringContextTests {
 
 	@Resource
 	private Z1Dao z1Dao;
@@ -45,12 +43,32 @@ public class TestDynamicSessionFactory extends
 			// Z2 should not be in the configuration
 			assertEquals(MappingException.class, hse.getCause().getClass());
 		}
-		
+	
 		dynamicConfiguration.addAnnotatedClass(com.notehive.osgi.hibernate_samples.model.z.Z2.class);
-		z2Dao.setSessionFactory((SessionFactory) dynamicConfiguration.getSessionFactory());
 		
 		performZ1Operations();
 		performZ2Operations();
+
+		// remove Z1
+		dynamicConfiguration.removeAnnotatedClass(com.notehive.osgi.hibernate_samples.model.z.Z1.class);
+		
+		// now Z1 operations should fail, but Z2 should work
+		try {
+			performZ1Operations();
+			fail("Expected exception");
+		} catch (HibernateSystemException hse) {
+			// Z1 should not be in the configuration
+			assertEquals(MappingException.class, hse.getCause().getClass());
+		}
+		
+		performZ2Operations();
+
+		// finally, reset configuration back to how we started
+		dynamicConfiguration.addAnnotatedClass(com.notehive.osgi.hibernate_samples.model.z.Z1.class);
+		dynamicConfiguration.removeAnnotatedClass(com.notehive.osgi.hibernate_samples.model.z.Z2.class);
+
+		// and a **last** check
+		performZ1Operations();
 	}
 
 	private void performZ1Operations() throws SystemException {

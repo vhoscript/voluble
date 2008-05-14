@@ -164,7 +164,7 @@
 				<artifactItem>
 					<groupId>com.notehive.osgi.hibernate-samples</groupId>
 					<artifactId>jta</artifactId>
-					<version>1.0.1B</version>
+					<version>1.0.1</version>
                 </artifactItem>
 				<artifactItem>
 					<groupId>com.notehive.osgi.hibernate-samples</groupId>

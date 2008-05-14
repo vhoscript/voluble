@@ -4,7 +4,7 @@ Import-Package: \
 	org.hibernate.proxy, \
 	org.hibernate.exception, \
 	org.hibernate, \
-	javax.transaction.*;version="1.0.1B", \
+	javax.transaction.*;version="[1.0.1,1.0.1]", \
 	javax.naming, \
 	javax.naming.spi, \
 	net.sf.cglib.proxy;version="2.1.3", \
