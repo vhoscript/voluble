@@ -24,7 +24,6 @@
 	</bean>
 	
 	<bean id="dynamicConfigurationListener" class="com.notehive.osgi.hibernate_samples.config.DynamicConfigurationListener">
-		<property name="transactionManager" ref="transactionManager"/>
 	</bean>
 	
 	<!-- Things fall apart when I add a transaction manager into the mix... 
