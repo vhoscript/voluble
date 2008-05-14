@@ -2,12 +2,36 @@
 
 = Introduction =
 
+osgi-samples/hibernate demonstrates how to use Hibernate in OSGi.  
+
+The solution is roughly based on the article by [http://www.osgi.org/blog/labels/osgi%20hibernate%20felix%20equinox%20eclipse%20knopflerfish%20sql.html  Peter Kriens].
+Peter's design uses a declaration in the manifest file to declaratively add classes to the Hibernate session using an _extender model_.  In this implementation we currently do not use the extender model but instead explicitly add new classes to the Hibernate session through a bundle activator.
+
+To get the source code for the hibernate sample, use SVN:
+
+svn checkout http://voluble.googlecode.com/svn/trunk/osgi-samples/hibernate/ osgi-hibernate-sample
+
+You should then be able to run "mvn install" in the new osgi-hibernate-sample folder and see all projects build successfully.  
+
+  At the moment you need to first manually start a HSQLDB database before the tests will run.  After downloading a hsqldb.jar, you can start the database from the command line using:
+
+ java -cp hsqldb.jar org.hsqldb.Server -database.0 file:osgi-hibernate-sample.db -dbname.0 osgi-hibernate-sample
+
+  (Hopefully this is temporary and we'll soon change the code to start the database automatically).
 
 
 
-= Details =
-
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+# application-a/
+# application-b/
+# deployment/
+hibernate-classes/
+/
+# hsqldb/
+# integration-tests/
+# jta/
+# model-a/
+# model-b/
+# pom.xml
+# provision/
+# readme.txt
+# todo.txt
