@@ -54,11 +54,11 @@ Not there yet:
 
 = Todo =
 
-* Use HSQLDB automatically (so user does not have to manually start it)
-* Write docs for the "More..." links above
-* Make model-b
-* Make application-a
-* Make application-b
-* Make application-ab
-* Switch to extender model instead of manual activator model
-* Write docs explaining in more detail what model-a does at startup and shutdown, and also show explicitly what it's Spring configuration is all about.
+ * Use HSQLDB automatically (so user does not have to manually start it)
+ * Write docs for the "More..." links above
+ * Make model-b
+ * Make application-a
+ * Make application-b
+ * Make application-ab
+ * Switch to extender model instead of manual activator model
+ * Write docs explaining in more detail what model-a does at startup and shutdown, and also show explicitly what it's Spring configuration is all about.
