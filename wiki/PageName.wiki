@@ -7,31 +7,36 @@ osgi-samples/hibernate demonstrates how to use Hibernate in OSGi.
 The solution is roughly based on the article by [http://www.osgi.org/blog/labels/osgi%20hibernate%20felix%20equinox%20eclipse%20knopflerfish%20sql.html  Peter Kriens].
 Peter's design uses a declaration in the manifest file to declaratively add classes to the Hibernate session using an _extender model_.  In this implementation we currently do not use the extender model but instead explicitly add new classes to the Hibernate session through a bundle activator.
 
+== Get the code ==
+
 To get the source code for the hibernate sample, use SVN:
 
 svn checkout http://voluble.googlecode.com/svn/trunk/osgi-samples/hibernate/ osgi-hibernate-sample
 
+== Run the code ==
+
 You should then be able to run "mvn install" in the new osgi-hibernate-sample folder and see all projects build successfully.  
 
-  At the moment you need to first manually start a HSQLDB database before the tests will run.  After downloading a hsqldb.jar, you can start the database from the command line using:
+  _At the moment you need to first manually start a HSQLDB database before the tests will run.  After downloading a hsqldb.jar, you can start the database from the command line using:_
 
  java -cp hsqldb.jar org.hsqldb.Server -database.0 file:osgi-hibernate-sample.db -dbname.0 osgi-hibernate-sample
 
-  (Hopefully this is temporary and we'll soon change the code to start the database automatically).
+  (Hopefully this is temporary and we'll soon change the code to start the database automatically)
 
+== Understanding the code ==
+
+You'll see the sample consists of a list of modules.  They are described here:
+
+|| *provision* || Downloads resources to get them into the maven repository ||
+|| *hibernate-classes* || Downloads and assembles Hibernate classes into an OSGi bundle ||
+|| *hibernate-session* || Provides a Hibernate SessionFactory that can be dynamically reconfigured (by adding new classes to it or removing classes from it).  The bundle exports a service, DynamicConfiguration, which other bundles can use to register their contributions to the SessionFactory.   The DynamicConfiguration service also acts as a factory for SessionFactory. ||
 
 
 # application-a/
 # application-b/
 # deployment/
-hibernate-classes/
-/
 # hsqldb/
 # integration-tests/
 # jta/
 # model-a/
 # model-b/
-# pom.xml
-# provision/
-# readme.txt
-# todo.txt
