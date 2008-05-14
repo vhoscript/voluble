@@ -1,11 +1,7 @@
 package com.notehive.osgi.hibernate_samples.integration;
 
-import org.springframework.transaction.annotation.Transactional;
-
 import com.notehive.osgi.hibernate_samples.dao.a.A1Dao;
 import com.notehive.osgi.hibernate_samples.model.a.A1;
-import com.notehive.osgi.hibernate_samples.session.DynamicConfiguration;
-import org.hibernate.SessionFactory;
 
 public class TestModelA extends BundleCreatorTest {
 

@@ -1,11 +1,8 @@
 package com.notehive.osgi.hibernate_samples.session;
 
-import java.util.Dictionary;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.BundleEvent;
