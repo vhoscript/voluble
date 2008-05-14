@@ -1,9 +1,11 @@
 package com.notehive.osgi.hibernate_samples.dao.z;
 
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.notehive.osgi.hibernate_samples.model.z.Z2;
 
+@Transactional
 public class Z2Dao extends HibernateDaoSupport {
 
 	public void save(Z2 z2) {

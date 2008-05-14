@@ -1,13 +1,11 @@
 package com.notehive.osgi.hibernate_samples.dao.z;
 
-import javax.annotation.Resource;
-
-import org.hibernate.SessionFactory;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
-import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.notehive.osgi.hibernate_samples.model.z.Z1;
 
+@Transactional
 public class Z1Dao extends HibernateDaoSupport {
 
 	public void save(Z1 z1) {
