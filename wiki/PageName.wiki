@@ -25,6 +25,10 @@ You should then be able to run "mvn install" in the new osgi-hibernate-sample fo
 
 == Understanding the code ==
 
+The essence of the implementation is to demonstrate how OSGi bundles can dynamically add new classes to a Hibernate Session factory.  Within the OSGi container, a bundle provides a Hibernate session.  When new bundles start up they can grab and use the Hibernate session, however, if the new bundles define new entity classes that the Hibernate session was not aware of when it was created, then the Hibernate session must be updated (actually recreated) to make it aware of the new classes.
+
+
+
 You'll see the sample consists of a list of modules.  They are described here:
 
 || *provision* || Downloads resources to get them into the maven repository ||
