@@ -16,9 +16,6 @@
 
 	<properties>
 		<slf4j.version>1.4.3</slf4j.version>
-		<spring.maven.artifact.version>
-			2.5.1
-		</spring.maven.artifact.version>
 	</properties>
 
 	<dependencies>
@@ -77,7 +74,7 @@
 		<dependency>
 			<groupId>org.springframework.osgi</groupId>
 			<artifactId>spring-osgi-core</artifactId>
-			<version>1.0</version>
+			<version>${spring.dm.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.osgi</groupId>
@@ -88,7 +85,7 @@
 		<dependency>
 			<groupId>org.springframework.osgi</groupId>
 			<artifactId>spring-osgi-annotation</artifactId>
-			<version>1.0</version>
+			<version>${spring.dm.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.osgi</groupId>
@@ -105,28 +102,24 @@
 		<dependency>
 			<groupId>org.springframework.osgi</groupId>
 			<artifactId>spring-osgi-test</artifactId>
-			<version>1.0</version>
+			<version>${spring.dm.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
-			<version>${spring.maven.artifact.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
-			<version>${spring.maven.artifact.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
-			<version>${spring.maven.artifact.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-beans</artifactId>
-			<version>${spring.maven.artifact.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.osgi</groupId>
@@ -157,7 +150,7 @@
 		<dependency>
 			<groupId>com.notehive.osgi.hibernate-samples</groupId>
 			<artifactId>jta</artifactId>
-			<version>1.0.1B</version>
+			<version>1.0.1</version>
 		</dependency>
 		<!--  END: Repackaged 3rd party bundles -->
 		<!--  START: Our source code bundles -->

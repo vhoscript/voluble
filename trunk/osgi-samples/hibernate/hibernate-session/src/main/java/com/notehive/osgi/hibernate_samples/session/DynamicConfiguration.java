@@ -61,6 +61,9 @@ public class DynamicConfiguration implements InitializingBean {
 		return proxiedSessionFactory;
 	}
 
+
+	private SessionFactory sessionFactory;
+
 	private void createNewSessionFactory() {
 		if (hibernateProperties == null) {
 			throw new IllegalStateException(
@@ -76,15 +79,25 @@ public class DynamicConfiguration implements InitializingBean {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
-		final SessionFactory sessionFactory = (SessionFactory) asfb.getObject();
+		sessionFactory = (SessionFactory) asfb.getObject();
 		proxiedSessionFactory = (SessionFactory) Proxy.newProxyInstance(
 				SessionFactory.class.getClassLoader(),
 				new Class[] { SessionFactory.class }, new InvocationHandler() {
 					public Object invoke(Object proxy, Method method,
 							Object[] args) throws Throwable {
+						logger.info("Delegate factory invoked: " + sessionFactory + 
+								"" + method.getName());
 						return method.invoke(sessionFactory, args);
 					}
 				});
+		
+//		logger.info("Created new session factory: " + proxiedSessionFactory + " which will delegate to "
+//				+ sessionFactory);
+		logger.info("Created new session factory: " + sessionFactory);
+		logger.info("Known classes are");
+		for(Class c : annotatedClasses) {
+			logger.info(c.getName());
+		}
 	}
 
 	public void afterPropertiesSet() throws Exception {

@@ -12,5 +12,5 @@
 	<osgi:reference id="a1Dao"
 		interface="com.notehive.osgi.hibernate_samples.dao.a.A1Dao">
 	</osgi:reference>
-	
-</beans>
+
+	</beans>

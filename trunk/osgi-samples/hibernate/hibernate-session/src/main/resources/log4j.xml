@@ -11,8 +11,28 @@
 	<logger name="org">
 		<level value="error" />
 	</logger>
-	<root>
+	<logger name="org.springframework.orm">
+		<level value="debug" />
+		<appender-ref ref="console" />
+	</logger>
+	<logger name="org.springframework.transaction">
+		<level value="debug" />
+		<appender-ref ref="console" />
+	</logger>
+	<logger name="org.springframework.test">
+		<level value="error" />
+		<appender-ref ref="console" />
+	</logger>
+	<logger name="com.notehive.osgi.hibernate_samples.dao.z">
+		<level value="info" />
+		<appender-ref ref="console" />
+	</logger>
+	<logger name="com.notehive.osgi.hibernate_samples.session">
+		<level value="debug" />
+		<appender-ref ref="console" />
+	</logger>
+	<!-- root>
 		<priority value="info" />
 		<appender-ref ref="console" />
-	</root>
+	</root -->
 </log4j:configuration>
