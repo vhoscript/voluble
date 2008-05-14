@@ -1,8 +1,8 @@
-#summary One-sentence summary of this page.
+#summary osgi-samples/hibernate explained
 
 = Introduction =
 
-osgi-samples/hibernate demonstrates how to use Hibernate in OSGi.  
+osgi-samples/hibernate demonstrates how to use Hibernate in OSGi with Spring Framework and Spring-DM.
 
 The solution is roughly based on this [http://www.osgi.org/blog/labels/osgi%20hibernate%20felix%20equinox%20eclipse%20knopflerfish%20sql.html  OSGi and Hibernate blog entry] by Peter Kriens.
 Peter's design uses a declaration in the manifest file to declaratively add classes to the Hibernate session using an _extender model_.  In our implementation however, we currently do not use the extender model but instead explicitly add new classes to the Hibernate session through a bundle activator.
@@ -27,15 +27,15 @@ You should then be able to run "mvn install" in the new osgi-hibernate-sample fo
 
 == Understanding the code ==
 
-The implementation demonstrates how OSGi bundles can dynamically add new classes to a Hibernate configuration.  We start with a bundle that provides a Hibernate SessionFactory - other bundles can grab and use the SessionFactory to access the database.  However, if a new bundle is installed and it defines new entity classes that was not in the SessionFactory configuration when it was created, then the SessionFactory must be recreated to update the configuration with the new classes.
+The implementation demonstrates how OSGi bundles can dynamically add new classes to a Hibernate configuration.  We start with a bundle that provides a Hibernate SessionFactory - other bundles can grab and use the SessionFactory to access a database.  However, if a new bundle is installed and it defines new entity classes that was not in the SessionFactory configuration when it was created, then the SessionFactory must be recreated to update the configuration with the new classes.
 
+To make this pattern work, the Hibernate SessionFactory should not be accessed directly.  Instead, the it should be accessed via a proxy which ensures that a SessionFactory with the most up to date configuration is always used.  Using Spring Framework, this implies a simple configuration change to reference a _dynamic_ session factory, instead of the default Hibernate SessionFactory.
 
+Here is a list of maven projects and modules to implement the solution:
 
-You'll see the sample consists of a list of modules.  They are described here:
-
-|| *provision* || Downloads resources to get them into the maven repository ||
-|| *hibernate-classes* || Downloads and assembles Hibernate classes into an OSGi bundle ||
-|| *hibernate-session* || Provides a Hibernate SessionFactory that can be dynamically reconfigured (by adding new classes to it or removing classes from it).  The bundle exports a service, DynamicConfiguration, which other bundles can use to register their contributions to the SessionFactory.   The DynamicConfiguration service also acts as a factory for SessionFactory. ||
+|| *provision* || This project downloads resources into the maven repository.  The project does not generate any new artifact. ||
+|| *hibernate-classes* || Downloads and assembles Hibernate classes into a new OSGi bundle ||
+|| *hibernate-session* || Provides a Hibernate SessionFactory that can be dynamically reconfigured during runtime - classes be added to, or removed from the Hibernate configuration as bundles are started and stopped.  This bundle exports a service, DynamicConfiguration, which other bundles can use to register their contributions to the SessionFactory.   The bundle also exports a DynamicSessionFactory which should be used to create Hibernate sessions with the most up to date configuration ||
 
 
 # application-a/
