@@ -4,8 +4,8 @@
 
 osgi-samples/hibernate demonstrates how to use Hibernate in OSGi.  
 
-The solution is roughly based on the article by [http://www.osgi.org/blog/labels/osgi%20hibernate%20felix%20equinox%20eclipse%20knopflerfish%20sql.html  Peter Kriens].
-Peter's design uses a declaration in the manifest file to declaratively add classes to the Hibernate session using an _extender model_.  In this implementation we currently do not use the extender model but instead explicitly add new classes to the Hibernate session through a bundle activator.
+The solution is roughly based on this [http://www.osgi.org/blog/labels/osgi%20hibernate%20felix%20equinox%20eclipse%20knopflerfish%20sql.html  OSGi and Hibernate blog entry] by Peter Kriens.
+Peter's design uses a declaration in the manifest file to declaratively add classes to the Hibernate session using an _extender model_.  In our implementation however, we currently do not use the extender model but instead explicitly add new classes to the Hibernate session through a bundle activator.
 
 == Get the code ==
 
@@ -19,13 +19,15 @@ You should then be able to run "mvn install" in the new osgi-hibernate-sample fo
 
   _At the moment you need to first manually start a HSQLDB database before the tests will run.  After downloading a hsqldb.jar, you can start the database from the command line using:_
 
+{{{
  java -cp hsqldb.jar org.hsqldb.Server -database.0 file:osgi-hibernate-sample.db -dbname.0 osgi-hibernate-sample
+}}}
 
   (Hopefully this is temporary and we'll soon change the code to start the database automatically)
 
 == Understanding the code ==
 
-The essence of the implementation is to demonstrate how OSGi bundles can dynamically add new classes to a Hibernate Session factory.  Within the OSGi container, a bundle provides a Hibernate session.  When new bundles start up they can grab and use the Hibernate session, however, if the new bundles define new entity classes that the Hibernate session was not aware of when it was created, then the Hibernate session must be updated (actually recreated) to make it aware of the new classes.
+The implementation demonstrates how OSGi bundles can dynamically add new classes to a Hibernate configuration.  We start with a bundle that provides a Hibernate SessionFactory - other bundles can grab and use the SessionFactory to access the database.  However, if a new bundle is installed and it defines new entity classes that was not in the SessionFactory configuration when it was created, then the SessionFactory must be recreated to update the configuration with the new classes.
 
 
 
