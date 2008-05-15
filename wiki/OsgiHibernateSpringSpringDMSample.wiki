@@ -52,6 +52,7 @@ Not there yet:
 
 || *application-ab* || Plan to make an tiny sample application that uses the DAO from model-a and model-b ||
 
+
 = Todo =
 
  * Use HSQLDB automatically (so user does not have to manually start it)
