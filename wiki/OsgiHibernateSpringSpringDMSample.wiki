@@ -55,6 +55,7 @@ Not there yet:
 
 = Todo =
 
+ * Clean up bundle manifests. (After considerable trial and error to get things working, I've ended up with bundle manifest which are messier than they need to be)
  * Use HSQLDB automatically (so user does not have to manually start it)
  * Write docs for the "More..." links above
  * Make model-b
