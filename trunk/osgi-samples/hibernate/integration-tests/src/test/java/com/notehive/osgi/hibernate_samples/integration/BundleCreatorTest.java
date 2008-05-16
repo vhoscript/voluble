@@ -23,7 +23,8 @@ public class BundleCreatorTest extends AbstractConfigurableBundleCreatorTests {
 				"com.notehive.osgi.hibernate-samples, hsqldb, 1.8.0.7",
 				"com.notehive.osgi.hibernate-samples, hibernate-classes, 3.2.6.ga",
 				"com.notehive.osgi.hibernate-samples, hibernate-session, 1.0.0.SNAPSHOT",
-				"com.notehive.osgi.hibernate-samples, model-a, 1.0.0.SNAPSHOT" 
+				"com.notehive.osgi.hibernate-samples, model-a, 1.0.0.SNAPSHOT",
+				"com.notehive.osgi.hibernate-samples, model-b, 1.0.0.SNAPSHOT" 
 				};
 	}
 
