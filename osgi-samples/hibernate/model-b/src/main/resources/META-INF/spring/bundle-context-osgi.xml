@@ -11,8 +11,7 @@
 	</osgi:reference>
 
 	<osgi:service ref="b1Dao"
-		interface="com.notehive.osgi.hibernate_samples.dao.a.B1Dao">
+		interface="com.notehive.osgi.hibernate_samples.dao.b.B1Dao">
 	</osgi:service>
-	
 
 </beans>
