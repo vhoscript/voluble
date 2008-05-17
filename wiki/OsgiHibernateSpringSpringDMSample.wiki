@@ -15,7 +15,7 @@ svn checkout http://voluble.googlecode.com/svn/trunk/osgi-samples/hibernate/ osg
 
 == Run the code ==
 
-You should then be able to run "mvn install" in the new osgi-hibernate-sample folder and see all projects build successfully.  
+Run "mvn install" in the new osgi-hibernate-sample folder and see all projects build successfully.  
 
   _At the moment you need to first manually start a HSQLDB database before the tests will run.  After downloading a hsqldb.jar, you can start the database from the command line using:_
 
@@ -29,7 +29,7 @@ You should then be able to run "mvn install" in the new osgi-hibernate-sample fo
 
 The implementation demonstrates how OSGi bundles can dynamically add new classes to a Hibernate configuration.  We start with a bundle that provides a Hibernate SessionFactory - other bundles can grab and use the SessionFactory to access a database.  However, if a new bundle is installed and it defines new entity classes that was not in the SessionFactory configuration when it was created, then the SessionFactory must be recreated to update the configuration with the new classes.
 
-To make this pattern work, the Hibernate SessionFactory should not be accessed directly.  Instead, the it should be accessed via a proxy which ensures that a SessionFactory with the most up to date configuration is always used.  Using Spring Framework, this implies a simple configuration change to reference a _dynamic_ session factory, instead of the default Hibernate SessionFactory.
+To make this pattern work, the Hibernate SessionFactory should not be accessed directly.  Instead, it should be accessed via a proxy which ensures that a SessionFactory with the most up to date configuration is always used.  Using Spring Framework, this implies a simple configuration change to reference a _dynamic_ session factory, instead of the default Hibernate SessionFactory.
 
 Here is a list of maven projects and modules to implement the solution:
 
