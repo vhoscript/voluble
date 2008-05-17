@@ -37,7 +37,7 @@ Here is a list of maven projects and modules to implement the solution:
 || *hibernate-classes* || Assembles Hibernate classes into a new OSGi bundle ||
 || *jta* || Assembles javax.transaction into a now OSGi bundle ||
 || *hibernate-session* || Provides a Hibernate !SessionFactory that can be dynamically reconfigured during runtime - classes be added to, or removed from the Hibernate configuration as bundles are started and stopped.  This bundle exports a service, !DynamicConfiguration, which other bundles can use to register their contributions to the !SessionFactory.   The bundle also exports a !DynamicSessionFactory which should be used to create Hibernate sessions with the most up to date Hibernate configuration.  [More...] ||
-|| *model-a* || This bundle contributes an additional class (called "A1") to the Hibernate configuration.  It also provides a DAO service (called "A1Dao") for this class.  ||
+|| *model-a* || This bundle contributes an additional class (called "A1") to the Hibernate configuration.  It also provides a DAO service (called "!A1Dao") for this class.  ||
 || *integration-tests* || The only way that we currently know if anything is actually happening!  This bundle tests if a dynamically updated Hibernate Session can be used to create, read, update and delete objects of class A1 in the database.  ||
 || *deployment* || This project assembles all dependent bundles along with a (Windows) batch file (called equinox.cmd) and a config.ini file so you can very easily start all the bundles in Equinox. [More...] ||
 
