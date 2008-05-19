@@ -16,6 +16,7 @@
 		<module>hsqldb</module>
 		<module>hibernate-session</module>
 		<module>model-a</module>
+		<module>model-b</module>
 		<module>integration-tests</module>
 		<module>deployment</module>
 	</modules>

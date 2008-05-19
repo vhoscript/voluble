@@ -13,6 +13,9 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
 
+	<bean id="databaseLauncher"
+		class="com.notehive.osgi.hibernate_samples.db.DatabaseLauncher" 
+		init-method="startDatabase" />
 
 	<bean id="z2Dao"
 		class="com.notehive.osgi.hibernate_samples.dao.z.Z2Dao">
@@ -68,7 +71,7 @@
 
 	<bean id="dataSource"
 		class="org.apache.commons.dbcp.BasicDataSource"
-		destroy-method="close">
+		destroy-method="close" depends-on="databaseLauncher">
 		<property name="driverClassName" value="${driver.classname}" />
 		<property name="url" value="${database.url}" />
 	</bean>

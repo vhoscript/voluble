@@ -10,6 +10,8 @@ import org.osgi.framework.BundleListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.notehive.osgi.hibernate_samples.db.DatabaseLauncher;
+
 public class BundleTracker implements BundleListener, BundleActivator {
 	
 	private String HIBERNATE_CONTRIBUTION = "Hibernate-Contribution";
@@ -23,7 +25,7 @@ public class BundleTracker implements BundleListener, BundleActivator {
 	}
 	 
 	public void stop(BundleContext context) {
-		 
+		 DatabaseLauncher.stopDatabase();
 	}
 
 	public void bundleChanged(BundleEvent bundleEvent) {
