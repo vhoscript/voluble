@@ -11,6 +11,7 @@ import org.springframework.test.AbstractTransactionalDataSourceSpringContextTest
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
+import com.notehive.osgi.hibernate_samples.db.DatabaseLauncher;
 import com.notehive.osgi.hibernate_samples.model.z.Z1;
 
 import junit.framework.TestCase;
@@ -21,6 +22,9 @@ public class TestZ1Dao extends
 
 	@Resource
 	private Z1Dao z1Dao;
+	
+	@Resource
+	private DatabaseLauncher databaseLauncher;
 
 	@Override
 	protected String[] getConfigLocations() {
@@ -34,7 +38,7 @@ public class TestZ1Dao extends
 	 * @throws SystemException
 	 */
 	public void testCrud() throws SystemException {
-
+		
 		Z1 saved = new Z1();
 		saved.setString1("String 1, value 1");
 		saved.setString2("String 2, value 1");

@@ -20,8 +20,8 @@ Export-Package: \
 	com.notehive.osgi.hibernate_samples.model.z.*;version=${project.version}, \
 	com.notehive.osgi.hibernate_samples.session.*;version=${project.version}, \
 
-Private-Package: !*
-	
+Private-Package: com.notehive.osgi.hibernate_samples.db.*, !*
+
 Eclipse-BuddyPolicy: registered 
 
 Bundle-Activator: com.notehive.osgi.hibernate_samples.session.BundleTracker
