@@ -14,11 +14,6 @@ public class DatabaseLauncher {
 
 	public static void startDatabase() {
 		
-		logger.info("++++++++++++++++++++++++++++++++++++++++++++++++");
-		logger.info("++++++++++++++++++++++++++++++++++++++++++++++++");
-		logger.info("++++++++++++++++++++++++++++++++++++++++++++++++");
-		logger.info("++++++++++++++++++++++++++++++++++++++++++++++++");
-		
 		if (databaseServer != null && databaseServer.getState() == 1) {
 			// database is already running
 			// this could happen when spring context is initialized multiple
@@ -74,10 +69,12 @@ public class DatabaseLauncher {
 		// to start it
 		// is stopped
 		File dataDir = new File("data");
-		for(File file : dataDir.listFiles()) {
-			if (file.getName().equals("osgi-hibernate-sample.db.lck")) {
-				logger.info("Deleting file: " + file.getName());
-				file.delete();
+		if (dataDir != null && dataDir.exists()) {
+			for(File file : dataDir.listFiles()) {
+				if (file.getName().equals("osgi-hibernate-sample.db.lck")) {
+					logger.info("Deleting file: " + file.getName());
+					file.delete();
+				}
 			}
 		}
 	}
