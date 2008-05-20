@@ -31,7 +31,7 @@ This example demonstrates how OSGi bundles can dynamically add new classes to a 
 
 If you always use a [http://www.hibernate.org/hib_docs/v3/reference/en/html/tutorial.html#tutorial-firstapp-helpers HibernateUtil] helper class to get a fresh Hibernate !SessionFactory right before using it (i.e., if you never store a local copy of the !SessionFactory), then it's straight forward to ensure that you are always working with an up-to-date !SessionFactory.  However, if you use Spring Framework to wire up your dao's (data access objects) then it becomes more complicated to ensure that you get a reference to a most up-to-date !SessionFactory.
 
-In our sample, we access the !SessionFactory via a proxy (called !DynamicSessionFactory) which ensures that a !SessionFactory with the most up to date configuration is always used.  Using Spring Framework, this implies a simple configuration change to reference the  dynamic session factory, instead of the default Hibernate !SessionFactory.
+In our sample, we access the !SessionFactory via a proxy (called !DynamicSessionFactory) which ensures that a !SessionFactory with the most up-to-date configuration is always used.  Using Spring Framework, this implies a simple configuration change to reference the  dynamic session factory, instead of the default Hibernate !SessionFactory.
 
 Here is a list of maven projects and modules to implement the solution:
 
