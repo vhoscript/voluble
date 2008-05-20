@@ -25,7 +25,9 @@ The very last project that builds is "deployment".  This projects assembles all 
 
 This sample demonstrates how Hibernate can be used in OSGi.  Starting Hibernate in OSGi with the normal Hibernate !SessionFactory would allow you to use Hibernate in OSGi, but it does not address the dynamic behavior that an OSGi system is capable of.
 
-With an OSGi application you can dynamically add, start, stop and remove bundles from the system.  If these bundles contain entity classes which Hibernate should be able to persist, then the Hibernate !SessionFactory should updated dynamically as the classes are added to or removed from the system.
+With an OSGi application you can dynamically add, start, stop and remove bundles from the system.  If these bundles contain entity classes which Hibernate should be able to persist, then the Hibernate configuration should updated dynamically as the classes are added to or removed from the system.
+
+Hibernate itself does not allow classes to be added to or removed from a !SessionFactory instance (it needs to know about all entity classes when it is instantiated).  Consequently we need to create a new !SessionFactory whenever the list of entity classes changes in the Hibernate configuration.
 
 This example demonstrates how OSGi bundles can dynamically add new classes to a Hibernate configuration.  We start with a bundle that provides a Hibernate !SessionFactory - other bundles can grab and use the !SessionFactory to access a database.  However, if a new bundle is installed and it defines new entity classes that are not yet in the !SessionFactory configuration, then the !SessionFactory must be recreated to update the configuration with the new classes.
 
