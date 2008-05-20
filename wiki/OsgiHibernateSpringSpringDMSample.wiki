@@ -58,6 +58,7 @@ Not there yet:
 = Todo =
 
  * Clean up bundle manifests. (After considerable trial and error to get things working, I've ended up with bundle manifest which are messier than they need to be)
+ * Add bash command file to start Equinox.
  * Write docs for the "More..." links above
  * Make application-a
  * Make application-b
