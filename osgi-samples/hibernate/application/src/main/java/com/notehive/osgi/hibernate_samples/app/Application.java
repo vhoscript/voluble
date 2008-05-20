@@ -7,7 +7,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -19,13 +22,13 @@ import org.hibernate.Session;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 
-
 public class Application extends JFrame {
 	
 	private SessionFactory sessionFactory;
 	private JTextArea resultTextArea;
 	private JTextArea hqlTextArea;
 	private JButton executeQueryButton;
+	private JButton showHibernateConfigButton;
 	
 	// input box to type hslq
 	// output box to show results
@@ -62,8 +65,12 @@ public class Application extends JFrame {
 			}});
 		box.add(executeQueryButton);
 		box.add(Box.createHorizontalStrut(14));
-		JButton showHibernateConfigButton = new JButton("Show Hibernate Config");
+		showHibernateConfigButton = new JButton("Show Hibernate Config");
 		showHibernateConfigButton.setMnemonic(KeyEvent.VK_S);
+		showHibernateConfigButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				showHibernateConfig();
+			}});
 		box.add(showHibernateConfigButton);
 		this.getContentPane().add(box);
 		
@@ -80,6 +87,21 @@ public class Application extends JFrame {
 		this.setSize(500,400);
 	}
 	
+	protected void showHibernateConfig() {
+		try {
+			StringWriter sw = new StringWriter();
+			PrintWriter pw = new PrintWriter(sw);
+			Map map = sessionFactory.getAllClassMetadata();
+			for (Iterator i = map.entrySet().iterator(); i.hasNext(); ) {
+				Map.Entry entry = (Entry) i.next();
+				pw.println(entry.getKey() + " " + entry.getValue());
+			}
+			resultTextArea.setText(sw.getBuffer().toString());
+		} catch (Exception e) {
+			resultTextArea.setText(e.toString());
+		}
+	}
+
 	protected void executeQuery() {
 		String text = hqlTextArea.getText();
 		try {
@@ -106,10 +128,6 @@ public class Application extends JFrame {
 		}
 	}
 
-	public static void main(String[] args) {
-		new Application().run();
-	}
-	
 	public void run() {
 		this.setVisible(true);
 	}
@@ -133,6 +151,13 @@ public class Application extends JFrame {
 	 */
 	JButton getExecuteQueryButton() {
 		return executeQueryButton;
+	}
+	
+	/** 
+	 * Package level method accessed by test class.
+	 */
+	JButton getShowHibernateConfigButton() {
+		return showHibernateConfigButton;
 	}
 
 	public void stop() {
