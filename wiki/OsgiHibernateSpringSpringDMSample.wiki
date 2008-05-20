@@ -27,7 +27,7 @@ The implementation demonstrates how Hibernate can be used in OSGi.  Starting Hib
 
 With an OSGi application you can dynamically add, start, stop and remove bundles from the system.  If these bundles contain entity classes which Hibernate should be able to persist, then the Hibernate !SessionFactory should dynamically be updated as these classes are added to, or removed from the system.
 
-This example demonstrates how OSGi bundles can dynamically add new classes to a Hibernate configuration.  We start with a bundle that provides a Hibernate !SessionFactory - other bundles can grab and use the !SessionFactory to access a database.  However, if a new bundle is installed and it defines new entity classes that was not in the !SessionFactory configuration when it was created, then the !SessionFactory must be recreated to update the configuration with the new classes.
+This example demonstrates how OSGi bundles can dynamically add new classes to a Hibernate configuration.  We start with a bundle that provides a Hibernate !SessionFactory - other bundles can grab and use the !SessionFactory to access a database.  However, if a new bundle is installed and it defines new entity classes that are not yet in the !SessionFactory configuration, then the !SessionFactory must be recreated to update the configuration with the new classes.
 
 To make this pattern work, the Hibernate !SessionFactory should not be accessed directly.  Instead, it should be accessed via a proxy which ensures that a !SessionFactory with the most up to date configuration is always used.  Using Spring Framework, this implies a simple configuration change to reference a _dynamic_ session factory, instead of the default Hibernate !SessionFactory.
 
