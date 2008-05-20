@@ -7,6 +7,14 @@ osgi-samples/hibernate demonstrates how to use Hibernate in OSGi with Spring Fra
 The solution is roughly based on this [http://www.osgi.org/blog/labels/osgi%20hibernate%20felix%20equinox%20eclipse%20knopflerfish%20sql.html  OSGi and Hibernate blog entry] by Peter Kriens.
 Peter's design uses an entry in the manifest file to declaratively add classes to the Hibernate session using an _extender model_.  In our implementation however, we currently do not use the extender model but instead explicitly add new classes to the Hibernate session through a bundle activator.
 
+== Run the code ==
+
+Run "mvn install" in the new osgi-hibernate-sample folder and see all projects build successfully.
+
+The 2nd last project that builds is "integration-tests", which uses Spring DM to run an integration test suite in an OSGi container.
+
+The very last project that builds is "deployment".  This projects assembles all bundles in deployment/target/classes/.  It also adds a Equinox configuration file (configuration/config.ini) and a batch file (equinox.cmd) that will start equinox and all the bundles required and created by this project.
+
 == Get the code ==
 
 To get the source code for the hibernate sample, use SVN:
