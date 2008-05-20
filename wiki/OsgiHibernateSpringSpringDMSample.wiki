@@ -17,7 +17,7 @@ svn checkout http://voluble.googlecode.com/svn/trunk/osgi-samples/hibernate/ osg
 
 Run "mvn install" in the new osgi-hibernate-sample folder and see all projects build successfully.
 
-The 2nd last project that builds is "integration-tests", which uses Spring DM to run an integration test suite in an OSGi container.
+The 2nd last project that builds is "integration-tests", which uses Spring DM to run an integration test suite in an OSGi container.  The integration tests are run against an in-process HSQLDB server.
 
 The very last project that builds is "deployment".  This projects assembles all our project bundles and dependencies in the deployment/target/classes/ folder.  It also adds a Equinox configuration file (configuration/config.ini) and a batch file (equinox.cmd) that allows you to run equinox and automatically load the full set of bundles from this project in a standalone environment.
 
