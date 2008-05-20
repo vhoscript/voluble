@@ -27,15 +27,13 @@ public class TestApplication extends AbstractTransactionalDataSourceSpringContex
 				"/test-context.xml"};
 	}
 	
-	public void testApp() throws SystemException, InterruptedException {
+	public void testHql() throws SystemException, InterruptedException {
 		
 		String result;
 		
 		application.run();
 		application.getHqlTextArea().setText("from Z1");
 		application.getExecuteQueryButton().doClick();
-		
-		Thread.sleep(100);
 		
 		result = application.getResultTextArea().getText();
 		Assert.assertTrue(result.startsWith("Rows returned: 0"));
@@ -49,14 +47,27 @@ public class TestApplication extends AbstractTransactionalDataSourceSpringContex
 		
 		application.getExecuteQueryButton().doClick();
 		
-		Thread.sleep(100);
-		
 		result = application.getResultTextArea().getText();
 		Assert.assertTrue(result.startsWith("Rows returned: 1"));
 		
 		application.stop();
-
 	}
+
+	public void testShowHibernateConfig() throws SystemException, InterruptedException {
+		String result;
+		
+		application.run();
+		application.getShowHibernateConfigButton().doClick();
+		
+		result = application.getResultTextArea().getText();
+		System.out.println(result);
+		Assert.assertTrue(result.startsWith("com.notehive.osgi.hibernate_samples.model.z.Z1 "));
+	}
+	
+//	public void testManually() throws SystemException, InterruptedException {
+//		application.run();
+//		Thread.sleep(Integer.MAX_VALUE);
+//	}
 
 }
 
