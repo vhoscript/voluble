@@ -18,24 +18,28 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 
 public class Application extends JFrame {
 	
-	private SessionFactory sessionFactory;
+	/**
+	 * Session factory set through spring, but Application object created
+	 * by bundle activator... 
+	 */
+	private static SessionFactory sessionFactory;
 	private JTextArea resultTextArea;
 	private JTextArea hqlTextArea;
 	private JButton executeQueryButton;
 	private JButton showHibernateConfigButton;
 	
-	// input box to type hslq
-	// output box to show results
-	// button to show  hibernateSessoin.getAllClassMetadata()
+	private static Logger logger = Logger.getLogger(Application.class);
 	
 	public void setSessionFactory(SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
+		logger.info("Set sessionfactory: " + sessionFactory);
+		Application.sessionFactory = sessionFactory;
 	}
 
 	public Application() {
@@ -98,8 +102,18 @@ public class Application extends JFrame {
 			}
 			resultTextArea.setText(sw.getBuffer().toString());
 		} catch (Exception e) {
-			resultTextArea.setText(e.toString());
+			showStackTrace(e);
 		}
+	}
+	
+	private void showStackTrace(Exception e) {
+		StringWriter sw = new StringWriter();
+		PrintWriter pw = new PrintWriter(sw);
+		pw.println(e.toString());
+		for (StackTraceElement s : e.getStackTrace()) {
+			pw.println(s.toString());
+		}
+		resultTextArea.setText(sw.getBuffer().toString());
 	}
 
 	protected void executeQuery() {
@@ -124,7 +138,7 @@ public class Application extends JFrame {
 				resultTextArea.setText(sw.getBuffer().toString());
 			}
 		} catch (Exception e) {
-			resultTextArea.setText(e.toString());
+			showStackTrace(e);
 		}
 	}
 

@@ -35,6 +35,21 @@
 			<!-- BEGIN: Spring OSGi Framework -->
 			<dependency>
 				<groupId>org.springframework.osgi</groupId>
+				<artifactId>spring-osgi-core</artifactId>
+				<version>${spring.dm.version}</version>
+			</dependency>	
+			<dependency>
+				<groupId>org.springframework.osgi</groupId>
+				<artifactId>spring-osgi-extender</artifactId>
+				<version>${spring.dm.version}</version>
+			</dependency>	
+			<dependency>
+				<groupId>org.springframework.osgi</groupId>
+				<artifactId>spring-osgi-io</artifactId>
+				<version>${spring.dm.version}</version>
+			</dependency>	
+			<dependency>
+				<groupId>org.springframework.osgi</groupId>
 				<artifactId>spring-osgi-mock</artifactId>
 				<version>${spring.dm.version}</version>
 			</dependency>	

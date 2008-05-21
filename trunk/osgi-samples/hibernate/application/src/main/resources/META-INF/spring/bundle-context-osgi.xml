@@ -10,9 +10,4 @@
 		<osgi:listener ref="dynamicConfigurationListener" bind-method="onBind" unbind-method="onUnbind"></osgi:listener>
 	</osgi:reference>
 
-	<osgi:service ref="a1Dao"
-		interface="com.notehive.osgi.hibernate_samples.dao.a.A1Dao">
-	</osgi:service>
-	
-
 </beans>
