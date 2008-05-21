@@ -5,6 +5,7 @@ import javax.transaction.SystemException;
 
 import junit.framework.Assert;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.test.AbstractTransactionalDataSourceSpringContextTests;
