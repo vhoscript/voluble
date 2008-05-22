@@ -11,6 +11,10 @@
 	<logger name="org">
 		<level value="error" />
 	</logger>
+	<logger name="org.hibernate.tool">
+		<level value="info" />
+		<appender-ref ref="console" />
+	</logger>
 	<logger name="org.springframework.orm">
 		<level value="info" />
 		<appender-ref ref="console" />

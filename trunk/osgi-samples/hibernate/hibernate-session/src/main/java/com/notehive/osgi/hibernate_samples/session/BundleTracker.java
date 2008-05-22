@@ -3,6 +3,7 @@ package com.notehive.osgi.hibernate_samples.session;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.BundleEvent;
@@ -14,29 +15,35 @@ import com.notehive.osgi.hibernate_samples.db.DatabaseLauncher;
 
 public class BundleTracker implements BundleListener, BundleActivator {
 	
+	enum UpdateAction { ADD, REMOVE };
+	
 	private String HIBERNATE_CONTRIBUTION = "Hibernate-Contribution";
 	
 	private static DynamicConfiguration dynamicConfiguration;
 	
-	private Logger logger = LoggerFactory.getLogger(BundleTracker.class);
+	private static Logger logger = LoggerFactory.getLogger(BundleTracker.class);
 	
+	private BundleContext bundleContext;
+
+	private static BundleTracker instance;
+
 	public void start(BundleContext context) {
-		context.addBundleListener(this);
+		instance = this;
+		bundleContext = context;
+		startTrackingBundles();
 	}
 	 
 	public void stop(BundleContext context) {
-		 DatabaseLauncher.stopDatabase();
+		DatabaseLauncher.stopDatabase();
 	}
 
 	public void bundleChanged(BundleEvent bundleEvent) {
 		try {
-			if (bundleEvent.getType() == BundleEvent.STARTED || bundleEvent.getType() == BundleEvent.STOPPED) {
-				logger.info("BundleTracker received bundle event for " + bundleEvent.getBundle().getSymbolicName());
-				Object hibernateContribution = bundleEvent.getBundle().getHeaders().get(HIBERNATE_CONTRIBUTION);
-				if (hibernateContribution != null) {
-					logger.info("Processing Hibernate-Contribution: " + hibernateContribution);
-					updateClasses(bundleEvent, (String) hibernateContribution);
-				}
+			logger.info("Bundle event received for bundle: " + bundleEvent.getBundle().getSymbolicName());
+			if (bundleEvent.getType() == BundleEvent.STARTED) {
+				updateBundleClasses(bundleEvent.getBundle(), UpdateAction.ADD);
+			} else if (bundleEvent.getType() == BundleEvent.STOPPED) {
+				updateBundleClasses(bundleEvent.getBundle(), UpdateAction.REMOVE);
 			}
 		} catch(RuntimeException re) {
 			logger.error("Error processing bundle event", re);
@@ -44,14 +51,22 @@ public class BundleTracker implements BundleListener, BundleActivator {
 		}
 	}
 
-	private void updateClasses(BundleEvent bundleEvent, String hibernateContribution) {
-		String[] classes = parseHibernateClasses(hibernateContribution);
-		if (bundleEvent.getType() == BundleEvent.STARTED) {
-			logger.info("Adding classes from hibernate configuration: " + writeArray(classes));
-			dynamicConfiguration.addAnnotatedClasses(bundleEvent.getBundle(), classes);
-		} else if (bundleEvent.getType() == BundleEvent.STOPPED) {
-			logger.info("Removing classes from hibernate configuration: " + writeArray(classes));
-			dynamicConfiguration.removeAnnotatedClasses(bundleEvent.getBundle(), classes);
+	private void updateBundleClasses(Bundle bundle, UpdateAction updateAction) {
+		Object hibernateContribution = bundle.getHeaders().get(HIBERNATE_CONTRIBUTION);
+		if (hibernateContribution != null) {
+			String[] classes = parseHibernateClasses((String) hibernateContribution);
+			switch (updateAction) {
+				case ADD:
+					logger.info("Adding classes from hibernate configuration: " + writeArray(classes));
+					dynamicConfiguration.addAnnotatedClasses(bundle, classes);
+					break;
+				case REMOVE:
+					logger.info("Removing classes from hibernate configuration: " + writeArray(classes));
+					dynamicConfiguration.removeAnnotatedClasses(bundle, classes);
+					break;
+				default:
+					throw new IllegalArgumentException("" + updateAction);
+			}
 		}
 	}
 
@@ -88,6 +103,31 @@ public class BundleTracker implements BundleListener, BundleActivator {
 	public static void setDynamicConfiguration(
 			DynamicConfiguration dynamicConfiguration) {
     	BundleTracker.dynamicConfiguration = dynamicConfiguration;
+    	startTrackingBundles();
+	}
+
+	/**
+	 * Start tracking bundles after dynamic configuration has been 
+	 * initialized
+	 */
+	private static void startTrackingBundles() {
+		logger.info("Have dynamic configuration: " + (dynamicConfiguration != null));
+		logger.info("Have instance: " + (instance != null));
+		if (dynamicConfiguration != null && instance != null) {
+			// now start tracking bundles
+			logger.info("Starting to track bundle events");
+			instance.bundleContext.addBundleListener(instance);
+			instance.processBundles();
+		}
+	}
+
+	/**
+	 * process bundles started before I started listening for bundles
+	 */
+	private void processBundles() {
+		for (Bundle b : instance.bundleContext.getBundles()) {
+			updateBundleClasses(b, UpdateAction.ADD);
+		}
 	}
      
 }

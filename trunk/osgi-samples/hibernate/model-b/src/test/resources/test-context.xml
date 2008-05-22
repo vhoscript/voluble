@@ -48,6 +48,8 @@
 				</prop>
 				<prop key="hibernate.hbm2ddl.auto">update</prop>
 				<prop key="connection.autocommit">false</prop>
+				<prop key="hibernate.connection.driver_class">${driver.classname}</prop>
+				<prop key="hibernate.connection.url">${database.url}</prop>
 			</props>
 		</property>
 	</bean>

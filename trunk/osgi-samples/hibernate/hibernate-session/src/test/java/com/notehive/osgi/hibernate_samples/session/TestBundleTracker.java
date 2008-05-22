@@ -55,7 +55,7 @@ public class TestBundleTracker extends TestCase {
 		}
 		
 		BundleTracker bundleTracker = new BundleTracker();
-		BundleTracker.setDynamicConfiguration(dynamicConfiguration);
+		bundleTracker.setDynamicConfiguration(dynamicConfiguration);
 		MockBundle bundle = new MockBundle();
 		bundle.getHeaders().put(
 				"Hibernate-Contribution", "db-connection; classes=\"com.notehive.osgi.hibernate_samples.model.z.Z2\"");
@@ -67,6 +67,21 @@ public class TestBundleTracker extends TestCase {
 		
 		performZ1Operations();
 		performZ2Operations();
+		
+		// now remove a bundle
+		bundle = new MockBundle();
+		bundle.getHeaders().put(
+				"Hibernate-Contribution", "db-connection; classes=\"com.notehive.osgi.hibernate_samples.model.z.Z1\"");
+		bundleEvent = new BundleEvent(BundleEvent.STOPPED, bundle);
+		bundleTracker.bundleChanged(bundleEvent);
+		
+		try {
+			performZ1Operations();
+			fail("Expected exception");
+		} catch (HibernateSystemException hse) {
+			// Z2 should not be in the configuration
+			assertEquals(MappingException.class, hse.getCause().getClass());
+		}
 	}
 
 	private void performZ1Operations() throws SystemException {
