@@ -1,1 +1,1 @@
-java -jar osgi-3.3.0-v20070530.jar -console
+java -jar org.eclipse.osgi-3.2.2.jar -console

@@ -13,6 +13,19 @@ Import-Package: \
 	javax.naming.event, \
 	org.apache.commons.dbcp, \
 	org.hsqldb, \
+	org.springframework.osgi.service.importer.support, \
+	org.springframework.beans.propertyeditors, \
+	javax.persistence, \
+	org.apache.log4j, \
+	org.hsqldb.persist, \
+	org.osgi.framework, \
+	org.slf4j, \
+	org.springframework.beans.factory, \
+	org.springframework.orm.*, \
+	org.springframework.transaction.annotation, \
+	net.sf.cglib.reflect;version="2.1.3", \
+	org.springframework.dao.support, \
+	org.springframework.osgi.service.importer, \
 	*
 
 Export-Package: \
