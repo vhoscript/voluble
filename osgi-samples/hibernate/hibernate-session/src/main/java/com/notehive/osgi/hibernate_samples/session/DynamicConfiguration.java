@@ -11,6 +11,8 @@ import java.util.Properties;
 import javax.sql.DataSource;
 
 import org.hibernate.SessionFactory;
+import org.hibernate.cfg.AnnotationConfiguration;
+import org.hibernate.cfg.Configuration;
 import org.osgi.framework.Bundle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,21 +67,32 @@ public class DynamicConfiguration implements InitializingBean {
 	private SessionFactory sessionFactory;
 
 	private void createNewSessionFactory() {
+		
+		logger.info("Creating new session factory...");
+		
 		if (hibernateProperties == null) {
 			throw new IllegalStateException(
 					"Hibernate properties have not been set yet");
 		}
-		AnnotationSessionFactoryBean asfb = new AnnotationSessionFactoryBean();
-		asfb.setDataSource(dataSource);
-		asfb.setHibernateProperties(hibernateProperties);
-		asfb.setAnnotatedClasses(annotatedClasses
-				.toArray(new Class[annotatedClasses.size()]));
-		try {
-			asfb.afterPropertiesSet();
-		} catch (Exception e) {
-			throw new RuntimeException(e);
+
+		AnnotationConfiguration cfg = new AnnotationConfiguration();
+		cfg.setProperties(hibernateProperties);
+		for (Class c : annotatedClasses) {
+			cfg.addAnnotatedClass(c);
 		}
-		sessionFactory = (SessionFactory) asfb.getObject();
+		sessionFactory = cfg.buildSessionFactory();
+		
+//		AnnotationSessionFactoryBean asfb = new AnnotationSessionFactoryBean();
+//		asfb.setDataSource(dataSource);
+//		asfb.setHibernateProperties(hibernateProperties);
+//		asfb.setAnnotatedClasses(annotatedClasses
+//				.toArray(new Class[annotatedClasses.size()]));
+//		try {
+//			asfb.afterPropertiesSet();
+//		} catch (Exception e) {
+//			throw new RuntimeException(e);
+//		}
+//		sessionFactory = (SessionFactory) asfb.getObject();
 		proxiedSessionFactory = (SessionFactory) Proxy.newProxyInstance(
 				SessionFactory.class.getClassLoader(),
 				new Class[] { SessionFactory.class }, new InvocationHandler() {
@@ -91,8 +104,6 @@ public class DynamicConfiguration implements InitializingBean {
 					}
 				});
 		
-//		logger.info("Created new session factory: " + proxiedSessionFactory + " which will delegate to "
-//				+ sessionFactory);
 		logger.info("Created new session factory: " + sessionFactory);
 		logger.info("Known classes are");
 		for(Class c : annotatedClasses) {
@@ -108,10 +119,11 @@ public class DynamicConfiguration implements InitializingBean {
 	public void addAnnotatedClasses(Bundle sourceBundle, String[] classes) {
 		for(String s : classes) {
 			try {
+				logger.error("Adding class: " + s);
 				annotatedClasses.add(
 						sourceBundle.loadClass(s));
 			} catch (ClassNotFoundException e) {
-				logger.error("Could not load annotaded class: " + s, e);
+				logger.error("Error adding annotaded class: " + s, e);
 				throw new RuntimeException(e);
 			}
 		}
@@ -120,12 +132,12 @@ public class DynamicConfiguration implements InitializingBean {
 	
 	public void removeAnnotatedClasses(Bundle sourceBundle, String[] classes) {
 		for(String s : classes) {
-			try {
-				annotatedClasses.remove(
-						sourceBundle.loadClass(s));
-			} catch (ClassNotFoundException e) {
-				logger.error("Could not load annotaded class: " + s, e);
-				throw new RuntimeException(e);
+			for (Class c : annotatedClasses) {
+				if (c.getName().equals(s)) {
+					logger.error("Removing class: " + s);
+					annotatedClasses.remove(c);
+					break;
+				}
 			}
 		}
 		createNewSessionFactory();

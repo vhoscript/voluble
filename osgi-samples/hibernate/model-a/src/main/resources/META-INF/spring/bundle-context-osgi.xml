@@ -7,7 +7,7 @@
 
 	<osgi:reference id="dynamicConfiguration"
 		interface="com.notehive.osgi.hibernate_samples.session.DynamicConfiguration">
-		<osgi:listener ref="dynamicConfigurationListener" bind-method="onBind" unbind-method="onUnbind"></osgi:listener>
+		<!-- osgi:listener ref="dynamicConfigurationListener" bind-method="onBind" unbind-method="onUnbind"></osgi:listener -->
 	</osgi:reference>
 
 	<osgi:service ref="a1Dao"

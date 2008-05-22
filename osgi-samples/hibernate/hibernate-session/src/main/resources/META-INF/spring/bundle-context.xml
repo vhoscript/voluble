@@ -55,6 +55,8 @@
 				</prop>
 				<prop key="hibernate.hbm2ddl.auto">update</prop>
 				<prop key="connection.autocommit">false</prop>
+				<prop key="hibernate.connection.driver_class">${driver.classname}</prop>
+				<prop key="hibernate.connection.url">${database.url}</prop>
 			</props>
 		</property>
 	</bean>
@@ -69,21 +71,14 @@
 		<property name="sessionFactory" ref="dynamicSessionFactory" />
 	</bean>
 
-	<bean id="dataSource"
-		class="org.apache.commons.dbcp.BasicDataSource"
-		destroy-method="close" depends-on="databaseLauncher">
-		<property name="driverClassName" value="${driver.classname}" />
-		<property name="url" value="${database.url}" />
-	</bean>
-
 	<bean id="dynamicConfiguration"
-		class="com.notehive.osgi.hibernate_samples.session.DynamicConfiguration">
+		class="com.notehive.osgi.hibernate_samples.session.DynamicConfiguration"
+		depends-on="databaseLauncher">
 		<!-- 
 			Need to create a proxy because of, I guess, some mysterious circular
 			dependency which requires this bean to exist before it can be initialized. 
 		-->
 		<aop:scoped-proxy/>
-		<property name="dataSource" ref="dataSource" />
 		<property name="annotatedClasses">
 			<list>
 				<value>

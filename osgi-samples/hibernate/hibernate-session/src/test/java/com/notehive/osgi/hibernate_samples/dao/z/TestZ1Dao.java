@@ -2,23 +2,16 @@ package com.notehive.osgi.hibernate_samples.dao.z;
 
 import javax.annotation.Resource;
 import javax.transaction.SystemException;
-import javax.transaction.TransactionManager;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.test.AbstractTransactionalDataSourceSpringContextTests;
+import org.springframework.test.AbstractTransactionalSpringContextTests;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import com.notehive.osgi.hibernate_samples.db.DatabaseLauncher;
 import com.notehive.osgi.hibernate_samples.model.z.Z1;
 
-import junit.framework.TestCase;
-
 @Transactional
 public class TestZ1Dao extends
-		AbstractTransactionalDataSourceSpringContextTests {
+		AbstractTransactionalSpringContextTests {
 
 	@Resource
 	private Z1Dao z1Dao;

@@ -15,8 +15,13 @@ Import-Package: \
 	org.hsqldb, \
 	com.notehive.osgi.hibernate_samples.session, \
 	org.osgi.framework, \
+	org.springframework.osgi.service.importer, \
 	org.springframework.osgi.service.importer.support, \
 	org.springframework.beans.propertyeditors, \
+	net.sf.cglib.reflect;version="2.1.3", \
+	javax.persistence, \
+	org.springframework.orm.hibernate3, \
+	org.springframework.orm.hibernate3.support, \
 	*
 
 Export-Package: \
@@ -26,10 +31,7 @@ Export-Package: \
 Private-Package: com.notehive.osgi.hibernate_samples.config, \ 
 	!*
 	
-Eclipse-BuddyPolicy: registered 
+Eclipse-RegisterBuddy: com.notehive.osgi.hibernate-samples.hibernate-session
 
-# Not using this scheme at present:
-
-# Hibernate-Contribution: default; \
-#	classes="com.notehive.osgi.hibernate_samples.model.A1"
-
+Hibernate-Contribution: default; \
+	classes="com.notehive.osgi.hibernate_samples.model.a.A1"
