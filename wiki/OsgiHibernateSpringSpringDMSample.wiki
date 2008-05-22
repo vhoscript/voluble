@@ -1,5 +1,7 @@
 #summary osgi-samples/hibernate explained
 
+Not there yet.  As I juts discovered, when the Spring DM integration tests pass, it's not proof positive that the whole scheme will work in a standalone deployment.  So the rest of what's written here should be considered with some suspicion until the problems I'm seeing in a standalone Equinox container can be resolved.  Ugh. 
+
 = Introduction =
 
 osgi-samples/hibernate demonstrates how to use Hibernate in OSGi with Spring Framework and Spring-DM.
