@@ -57,6 +57,8 @@
 				<prop key="connection.autocommit">false</prop>
 				<prop key="hibernate.connection.driver_class">${driver.classname}</prop>
 				<prop key="hibernate.connection.url">${database.url}</prop>
+				<prop key="hibernate.connection.username">${database.username}</prop>
+				<prop key="hibernate.connection.password">${database.password}</prop>
 			</props>
 		</property>
 	</bean>
