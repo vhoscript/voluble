@@ -126,7 +126,9 @@ public class BundleTracker implements BundleListener, BundleActivator {
 	 */
 	private void processBundles() {
 		for (Bundle b : instance.bundleContext.getBundles()) {
-			updateBundleClasses(b, UpdateAction.ADD);
+			if (b.getState() == Bundle.ACTIVE) {
+				updateBundleClasses(b, UpdateAction.ADD);
+			}
 		}
 	}
      

@@ -36,11 +36,6 @@
                   <artifactId>osgi</artifactId>
                   <version>3.3.0-v20070530</version>
                 </artifactItem>		  
-				<artifactItem>
-					<groupId>org.eclipse.equinox</groupId>
-					<artifactId>org.eclipse.osgi</artifactId>
-					<version>3.2.2</version>
-				</artifactItem>
 				<!-- BEGIN Springframework -->
                 <artifactItem>
                   <groupId>org.springframework</groupId>

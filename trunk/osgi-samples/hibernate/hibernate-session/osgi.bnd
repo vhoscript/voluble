@@ -4,6 +4,7 @@ Import-Package: \
 	org.hibernate.proxy, \
 	org.hibernate.exception, \
 	org.hibernate, \
+	org.hibernate.dialect, \
 	javax.transaction.*;version="1.0.1", \
 	javax.naming, \
 	javax.naming.spi, \
@@ -35,7 +36,9 @@ Export-Package: \
 
 Private-Package: com.notehive.osgi.hibernate_samples.db.*, !*
 
-Eclipse-BuddyPolicy: registered 
+Eclipse-BuddyPolicy: registered
+
+Eclipse-RegisterBuddy: com.notehive.osgi.hibernate-samples.hibernate-classes
 
 Bundle-Activator: com.notehive.osgi.hibernate_samples.session.BundleTracker
 

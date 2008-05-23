@@ -33,6 +33,11 @@
 	
     <dependencyManagement>	
 		<dependencies>
+			<dependency>
+				<groupId>org.eclipse</groupId>
+				<artifactId>osgi</artifactId>
+				<version>3.3.0-v20070530</version>	
+			</dependency>
 			<!-- BEGIN: Spring OSGi Framework -->
 			<dependency>
 				<groupId>org.springframework.osgi</groupId>

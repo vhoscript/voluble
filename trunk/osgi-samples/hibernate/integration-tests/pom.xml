@@ -21,6 +21,16 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>org.eclipse</groupId>
+			<artifactId>osgi</artifactId>
+		</dependency>
+		<!-- dependency>
+			<groupId>org.eclipse.equinox</groupId>
+			<artifactId>org.eclipse.osgi</artifactId>
+			<version>3.2.2</version>
+			<scope>test</scope>
+		</dependency -->
+		<!-- dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-annotations</artifactId>
 			<version>3.3.0.ga</version>
@@ -60,18 +70,12 @@
 					<artifactId>asm</artifactId>
 				</exclusion>
 			</exclusions>		
-	    </dependency>
+	    </dependency -->
 		<dependency>
 			<groupId>javax.persistence</groupId>
 			<artifactId>persistence-api</artifactId>
 			<version>1.0</version>
 		</dependency>				
-		<dependency>
-			<groupId>org.eclipse.equinox</groupId>
-			<artifactId>org.eclipse.osgi</artifactId>
-			<version>3.2.2</version>
-			<scope>test</scope>
-		</dependency>
 		<dependency>
 			<groupId>org.springframework.osgi</groupId>
 			<artifactId>spring-osgi-core</artifactId>
@@ -143,6 +147,7 @@
 			<version>${slf4j.version}</version>
 		</dependency>
 		<!--  START: Repackaged 3rd party bundles -->
+		<!-- 
 		<dependency>
 			<groupId>com.notehive.osgi.hibernate-samples</groupId>
 			<artifactId>hibernate-classes</artifactId>
@@ -152,14 +157,14 @@
 			<groupId>com.notehive.osgi.hibernate-samples</groupId>
 			<artifactId>jta</artifactId>
 			<version>1.0.1</version>
-		</dependency>
+		</dependency -->
 		<!--  END: Repackaged 3rd party bundles -->
 		<!--  START: Our source code bundles -->
-		<dependency>
+		<!-- dependency>
 			<groupId>com.notehive.osgi.hibernate-samples</groupId>
 			<artifactId>hibernate-session</artifactId>
 			<version>1.0.0.SNAPSHOT</version>
-		</dependency>
+		</dependency -->
 		<dependency>
 			<groupId>com.notehive.osgi.hibernate-samples</groupId>
 			<artifactId>model-a</artifactId>
@@ -234,6 +239,45 @@
 						<exclude>org.ops4j.pax**</exclude>
 					</excludes>
 				</configuration>
+			</plugin>
+			<plugin>
+			<!--  
+				This is a nasty hack:
+				
+				Equinox *must* be at the start of the classpath (in front of 
+				spring osgi) to avoid this error:
+				
+				Caused by: java.lang.NoClassDefFoundError:
+					org.osgi.vendor.frameworkproperty not set
+				See: http://groups.google.com/group/spring-osgi/browse_thread/thread/8d205e0b52afd357 
+				
+				I don't know how to force the depenancy to the top of the classpath,
+				but by placing the jar contents directly in the classes directory,
+				we can ensure that it will always be at the start of the classpath
+			 -->
+			 
+		        <groupId>org.apache.maven.plugins</groupId>
+		         <artifactId>maven-dependency-plugin</artifactId>
+		         <executions>
+		           <execution>
+		             <id>unpack</id>
+		             <phase>compile</phase>
+		             <goals>
+		               <goal>unpack</goal>
+		             </goals>
+		             <configuration>
+		               <artifactItems>
+		                 <artifactItem>
+							<groupId>org.eclipse</groupId>
+							<artifactId>osgi</artifactId>
+		                    <overWrite>false</overWrite>
+		                    <outputDirectory>${project.build.directory}/classes</outputDirectory>
+		                    <includes>**/*</includes>
+		                 </artifactItem>
+		               </artifactItems>
+		             </configuration>
+		           </execution>
+		         </executions>			 
 			</plugin>
 		</plugins>
 	</build>
