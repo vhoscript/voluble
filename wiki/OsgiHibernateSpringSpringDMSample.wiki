@@ -4,10 +4,10 @@
 
 osgi-samples/hibernate demonstrates how to use Hibernate in OSGi with Spring Framework and Spring-DM.
 
-The solution is roughly based on this [http://www.osgi.org/blog/labels/osgi%20hibernate%20felix%20equinox%20eclipse%20knopflerfish%20sql.html  OSGi and Hibernate blog entry] by Peter Kriens.
+The solution is based on this [http://www.osgi.org/blog/labels/osgi%20hibernate%20felix%20equinox%20eclipse%20knopflerfish%20sql.html  OSGi and Hibernate blog entry] by Peter Kriens.
 Peter's design uses an entry in the manifest file to declaratively add classes to the Hibernate session using an _extender model_.  Our implementation is now using the extender model to add new classes to the Hibernate session.
 
-I can't claim that this implementation is "right" or "works great".  It seems to work, but there are still some issues that need to be resolved when bundles with persistent classes are stopped and restarted.  Over time these issues might be resolved, but at this point it may make more sense to explore a different persistence layer, such as !EclipseLink, in hope of finding better support for OSGi there.
+This implementation contains a small Swing UI which displays the classes in the Hibernate session.  This allows you to see which classes the Hibernate configuration is aware of at a point in time.  You can dynamically add and remove entity classes to the configuration (by stopping and starting bundles)
 
 == Get the code ==
 
