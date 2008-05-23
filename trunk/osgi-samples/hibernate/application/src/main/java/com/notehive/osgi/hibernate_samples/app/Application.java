@@ -34,7 +34,8 @@ public class Application extends JFrame {
 	private static SessionFactory sessionFactory;
 	private JTextArea resultTextArea;
 	private JTextArea hqlTextArea;
-	private JButton executeQueryButton;
+	private JButton executeHQLButton;
+	private JButton executeSQLButton;
 	private JButton showHibernateConfigButton;
 	
 	private static Logger logger = Logger.getLogger(Application.class);
@@ -64,13 +65,21 @@ public class Application extends JFrame {
 		this.getContentPane().add(Box.createVerticalStrut(6));
 
 		box = Box.createHorizontalBox();
-		executeQueryButton = new JButton("Execute Query");
-		executeQueryButton.setMnemonic(KeyEvent.VK_E);
-		executeQueryButton.addActionListener(new ActionListener() {
+		executeSQLButton = new JButton("Execute SQL");
+		executeSQLButton.setMnemonic(KeyEvent.VK_E);
+		executeSQLButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				executeSqlQuery();
+			}});
+		box.add(executeSQLButton);
+		box.add(Box.createHorizontalStrut(14));
+		executeHQLButton = new JButton("Execute HQL");
+		executeHQLButton.setMnemonic(KeyEvent.VK_H);
+		executeHQLButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				executeQuery();
 			}});
-		box.add(executeQueryButton);
+		box.add(executeHQLButton);
 		box.add(Box.createHorizontalStrut(14));
 		showHibernateConfigButton = new JButton("Show Hibernate Config");
 		showHibernateConfigButton.setMnemonic(KeyEvent.VK_S);
@@ -145,6 +154,43 @@ public class Application extends JFrame {
 			showStackTrace(e);
 		}
 	}
+	
+	protected void executeSqlQuery() {
+		String text = hqlTextArea.getText();
+		try {
+			Session session = sessionFactory.openSession();
+			Query query = session.createSQLQuery(text);
+			if (text.toLowerCase().contains("update")) {
+				int count = query.executeUpdate();
+				resultTextArea.setText("Rows updated: " + count);
+			} else if (text.toLowerCase().contains("delete")) {
+				int count = query.executeUpdate();
+				resultTextArea.setText("Rows deleted: " + count);
+			} else if (text.toLowerCase().contains("insert ")) {
+				int count = query.executeUpdate();
+				resultTextArea.setText("Rows inserted: " + count);
+			} else {
+				StringWriter sw = new StringWriter();
+				PrintWriter pw = new PrintWriter(sw);
+				List results = query.list();
+				pw.println("Rows returned: " + results.size());
+				for(Object o : results) {
+					if (o instanceof Object[]) {
+						for(Object p : (Object[]) o) {
+							pw.print(p.toString());
+							pw.print(", ");
+						}
+						pw.println();
+					} else {
+						pw.println(o.toString());
+					}
+				}
+				resultTextArea.setText(sw.getBuffer().toString());
+			}
+		} catch (Exception e) {
+			showStackTrace(e);
+		}
+	}
 
 	public void run() {
 		this.setVisible(true);
@@ -167,8 +213,8 @@ public class Application extends JFrame {
 	/** 
 	 * Package level method accessed by test class.
 	 */
-	JButton getExecuteQueryButton() {
-		return executeQueryButton;
+	JButton getExecuteHQLButton() {
+		return executeHQLButton;
 	}
 	
 	/** 
@@ -176,6 +222,13 @@ public class Application extends JFrame {
 	 */
 	JButton getShowHibernateConfigButton() {
 		return showHibernateConfigButton;
+	}
+	
+	/** 
+	 * Package level method accessed by test class.
+	 */
+	JButton getExecuteSQLButton() {
+		return executeSQLButton;
 	}
 
 	public void stop() {
