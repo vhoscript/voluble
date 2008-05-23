@@ -33,20 +33,52 @@ public class TestApplication extends AbstractTransactionalDataSourceSpringContex
 		String result;
 		
 		application.run();
+		
+		Session session = dynamicSessionFactory.openSession();
+		session.createQuery("delete from Z1").executeUpdate();
+		
 		application.getHqlTextArea().setText("from Z1");
-		application.getExecuteQueryButton().doClick();
+		application.getExecuteHQLButton().doClick();
 		
 		result = application.getResultTextArea().getText();
 		Assert.assertTrue(result.startsWith("Rows returned: 0"));
-		
-		Session session = dynamicSessionFactory.openSession();
+
 		Z1 z1 = new Z1();
 		z1.setString1("string 1");
 		z1.setString2("string 2");
 		session.save(z1);
 		session.close();
 		
-		application.getExecuteQueryButton().doClick();
+		application.getExecuteHQLButton().doClick();
+		
+		result = application.getResultTextArea().getText();
+		Assert.assertTrue(result.startsWith("Rows returned: 1"));
+		
+		application.stop();
+	}
+	
+	public void testSql() throws SystemException, InterruptedException {
+		
+		String result;
+		
+		application.run();
+		
+		Session session = dynamicSessionFactory.openSession();
+		session.createQuery("delete from Z1").executeUpdate();
+		
+		application.getHqlTextArea().setText("select * from Z1");
+		application.getExecuteSQLButton().doClick();
+		
+		result = application.getResultTextArea().getText();
+		Assert.assertTrue(result.startsWith("Rows returned: 0"));
+		
+		Z1 z1 = new Z1();
+		z1.setString1("string 1");
+		z1.setString2("string 2");
+		session.save(z1);
+		session.close();
+		
+		application.getExecuteSQLButton().doClick();
 		
 		result = application.getResultTextArea().getText();
 		Assert.assertTrue(result.startsWith("Rows returned: 1"));

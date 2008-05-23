@@ -18,6 +18,9 @@
 	<logger name="org">
 		<level value="error" />
 	</logger>
+	<logger name="org.hibernate.tool.hbm2ddl">
+		<level value="error" />
+	</logger>
 	<logger name="com.notehive.osgi.hibernate_samples">
 		<level value="debug" />
 		<appender-ref ref="console" />
