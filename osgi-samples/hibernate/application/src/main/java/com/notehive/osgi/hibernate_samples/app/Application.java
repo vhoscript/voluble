@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.net.URL;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 
+import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Query;
@@ -44,6 +46,7 @@ public class Application extends JFrame {
 
 	public Application() {
 		super("Hibernate in OSGi - HQL command line interface");
+		
 		Box content = Box.createVerticalBox();
 		this.setContentPane(content);
 		
@@ -89,8 +92,9 @@ public class Application extends JFrame {
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 		this.setLocation(d.width / 2 - 200, d.height / 2 - 250);
 		this.setSize(500,400);
+		
 	}
-	
+
 	protected void showHibernateConfig() {
 		try {
 			StringWriter sw = new StringWriter();

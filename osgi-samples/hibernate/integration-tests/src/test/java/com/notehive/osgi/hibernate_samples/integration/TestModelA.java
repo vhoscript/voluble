@@ -7,7 +7,7 @@ public class TestModelA extends BundleCreatorTest {
 
 	public void testA1DaoCrud() throws InterruptedException {
 		
-		Thread.sleep(1000);
+		//Thread.sleep(1000);
 		
 		A1Dao a1Dao = (A1Dao) applicationContext.getBean("a1Dao");
 		

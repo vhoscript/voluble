@@ -31,7 +31,8 @@ Export-Package: \
 Private-Package: com.notehive.osgi.hibernate_samples.config, \ 
 	!*
 	
-Eclipse-RegisterBuddy: com.notehive.osgi.hibernate-samples.hibernate-session
+Eclipse-RegisterBuddy: com.notehive.osgi.hibernate-samples.hibernate-session, \
+	com.notehive.osgi.hibernate-samples.hibernate-classes
 
 Hibernate-Contribution: default; \
 	classes="com.notehive.osgi.hibernate_samples.model.b.B1"

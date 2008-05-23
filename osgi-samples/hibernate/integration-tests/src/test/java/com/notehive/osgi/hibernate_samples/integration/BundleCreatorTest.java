@@ -58,6 +58,12 @@ public class BundleCreatorTest extends AbstractConfigurableBundleCreatorTests {
 				// allows this bundle to see what the exception is.
 				
 				// for example: "net.sf.cglib.proxy;version=\"2.1.3\""
+					"com.notehive.osgi.hibernate_samples.dao.z",
+					"com.notehive.osgi.hibernate_samples.dao.a",
+					"com.notehive.osgi.hibernate_samples.dao.b",
+					"com.notehive.osgi.hibernate_samples.model.z",
+					"com.notehive.osgi.hibernate_samples.model.a",
+					"com.notehive.osgi.hibernate_samples.model.b",
 				};
 
 		for (String requiredPackage : requiredPackages) {

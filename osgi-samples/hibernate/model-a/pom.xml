@@ -20,12 +20,6 @@
 	</properties>
 
 	<dependencies>
-		<dependency>
-			<groupId>org.eclipse.equinox</groupId>
-			<artifactId>org.eclipse.osgi</artifactId>
-			<version>3.2.2</version>
-			<scope>test</scope>
-		</dependency>
 		<!-- BEGIN: Spring OSGi Framework -->
 		<dependency>
 			<groupId>org.springframework.osgi</groupId>
