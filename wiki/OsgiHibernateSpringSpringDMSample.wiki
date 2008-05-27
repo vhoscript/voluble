@@ -62,6 +62,5 @@ Here is a list of maven projects and modules to implement the solution:
 
 = Todo =
 
- * Add "Execute SQL" button to the UI.
  * Clean up bundle manifests. (After considerable trial and error to get things working, I've ended up with bundle manifest which are messier than they need to be)
- * Write docs for the "More..." links above
+ * Write more documentation (for the "More..." links above, and others).
