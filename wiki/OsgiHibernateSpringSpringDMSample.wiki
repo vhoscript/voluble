@@ -31,7 +31,9 @@ Type "ss" in the Equinox command window.  You'll see that bundles 28 and 29 are 
 
 You can also view the data typing the HQL "`from A1`" and clicking "Execute Query" (note that "`from A1`" is roughly the HQL equivalent of the SQL statement "`select * from A1`").  You should see "`Rows returned: 0`".  
 
-To add data to the database, connect to the Database URL "jdbc:hsqldb:hsql://localhost/osgi-hibernate-sample" (using a tool like !DbVisualizer).  The username should be "sa" and the password should be empty.  In your DB tool, run the SQL command "`insert into A1 values (1, 'value A','value B')`" (_I need to add a button to the Swing UI to let you execute SQL!_).  Then switch back to the Swing UI and run "from A1" again to see your data being retrieved using Hibernate.
+To add data to the database, enter the SQL statement "`insert into A1 values (1, 'value A','value B')`" and press the "Execute SQL" button.  Then run the HQL query "from A1" again to see your data being retrieved using Hibernate.
+
+You can also connect to the Database from a different tool (like !DbVisualizer) using using the URL "jdbc:hsqldb:hsql://localhost/osgi-hibernate-sample".  The username should be "sa" and the password should be empty.  
 
 == Understanding the code ==
 
