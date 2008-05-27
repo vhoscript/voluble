@@ -4,12 +4,10 @@
 
 osgi-samples/hibernate demonstrates how to use Hibernate in OSGi with Spring Framework and Spring-DM.
 
+Starting Hibernate in OSGi with the normal Hibernate !SessionFactory would allow you to use Hibernate in OSGi - but that would not address the dynamic behavior that an OSGi system is capable of.  This sample demonstrates how a Hibernate SessionFactory can be updated dynamically in an OSGi environment.  You can dynamically add and remove entity classes to the Hibernate configuration by stopping and starting bundles that contribute clasess to the Hibernate configuration.  This implementation contains a small Swing UI which allows you to see which entity classes are present in the Hibernate configuration.  
+
 The solution is based on this [http://www.osgi.org/blog/labels/osgi%20hibernate%20felix%20equinox%20eclipse%20knopflerfish%20sql.html  OSGi and Hibernate blog entry] by Peter Kriens.
 The design uses an entry in the manifest file to declaratively add classes to a Hibernate session using an _extender model_.  
-
-Starting Hibernate in OSGi with the normal Hibernate !SessionFactory would allow you to use Hibernate in OSGi - but that would not address the dynamic behavior that an OSGi system is capable of.
-
-This sample demonstrates how a Hibernate SessionFactory can be updated dynamically in an OSGi environment.  You can dynamically add and remove entity classes to the Hibernate configuration by stopping and starting bundles that contribute clasess to the Hibernate configuration.  This implementation contains a small Swing UI which allows you to see which entity classes are present in the Hibernate configuration.  
 
 The Swing UI also allows you to issue rudimentary HQL queries.
 
