@@ -57,7 +57,7 @@ Here is a list of maven projects and modules to implement the solution:
 || *model-a* || This bundle contributes an additional class (called "A1") to the Hibernate configuration.  It also provides a DAO service (called "!A1Dao") for this class.  ||
 || *model-b* || This bundle contributes an additional class (called "B1") to the Hibernate configuration.  It also provides a DAO service (called "!B1Dao") for this class.  ||
 || *integration-tests* || The only way that we currently know if anything is actually happening!  This bundle tests if a dynamically updated Hibernate Session can be used to create, read, update and delete objects of classes A1 and B1 in the database.  ||
-|| *deployment* || This project assembles all dependent bundles along with a (Windows) batch file (called equinox.cmd) and a config.ini file so you can very easily start all the bundles in Equinox. [More...] ||
+|| *deployment* || This project assembles all dependent bundles along with Windows and Unix batch files (equinox.cmd and equinox.sh) and a config.ini file so you can very easily start all the bundles in Equinox. [More...] ||
 || *application* || This bundle launches a Swing UI which allows you to execute HQL (Hibernate Query Language) commands and view the entities that the Hibernate session is currently aware of. ||
 
 = Todo =
