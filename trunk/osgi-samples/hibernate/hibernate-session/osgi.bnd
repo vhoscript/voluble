@@ -38,5 +38,7 @@ Private-Package: com.notehive.osgi.hibernate_samples.db.*, !*
 
 Eclipse-BuddyPolicy: registered
 
+Eclipse-RegisterBuddy: com.notehive.osgi.hibernate-samples.hibernate-classes
+
 Bundle-Activator: com.notehive.osgi.hibernate_samples.session.BundleTracker
 
