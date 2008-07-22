@@ -20,6 +20,10 @@ Embed-Dependency: !javax.sql*, \
 
 Embed-Transitive: true
 
+Eclipse-BuddyPolicy: registered 
+
 #Private-Package: \
 #	!org.apache.commons.logging, \
 #	*;-split-package:=merge-last
+
+Eclipse-BuddyPolicy: registered
