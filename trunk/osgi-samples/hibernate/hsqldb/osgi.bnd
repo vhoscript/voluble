@@ -9,4 +9,3 @@ Embed-Transitive: true
 
 Private-Package: *;-split-package:=merge-last
 
-Eclipse-BuddyPolicy: registered
