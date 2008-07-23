@@ -154,6 +154,15 @@
     </build>
 
 	<repositories>
+		<!--
+		<repository>
+			<id>maven.org</id>
+			<name>Maven repository</name>
+			<url>
+				http://repo1.maven.org/maven2/
+			</url>
+		</repository>
+		-->
 		<repository>
 			<id>apache.m2.incubator</id>
 			<name>Apache M2 Incubator Repository</name>
