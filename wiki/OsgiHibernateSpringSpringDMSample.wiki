@@ -31,7 +31,7 @@ When you start the standalone OSGi server (by running either felix.cmd, equinox.
 
 *In Equinox*: Type "ss" in the Equinox command window.  You'll see that bundles 28 and 29 are "resolved" but not active.  Start one or either by executing "start 28" and/or "start 29".  
 
-*In Felix*: Type "ps" in the Felix commadn window.   You'll see that bundles 1 and 2 are "resolved" but not active.  Start one or either by executing "start 1" and/or "start 2".  
+*In Felix*: Type "ps" in the Felix command window.   You'll see that bundles 1 and 2 are "resolved" but not active.  Start one or either by executing "start 1" and/or "start 2".  
 
 Now go back to the Swing UI and click on "Show Hibernate Config" again to see which classes are present in the Hibernate configuration.
 
