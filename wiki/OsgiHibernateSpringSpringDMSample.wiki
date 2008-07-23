@@ -1,5 +1,9 @@
 #summary osgi-samples/hibernate explained
 
+= Update =
+
+On 7/23/2008 I updated this sample to work with either Apache Felix or Eclipse Equinox (I did this as a result of the comments posted at the bottom of this page).  The updated code does not rely on the Eclipse-!BuddyPolicy, but instead uses !DynamicImport-Package.  The original code is in SVN under http://voluble.googlecode.com/svn/trunk/osgi-samples/hibernate-equinox/ 
+
 = Introduction =
 
 osgi-samples/hibernate demonstrates how to use Hibernate in OSGi with Spring Framework and Spring-DM.
