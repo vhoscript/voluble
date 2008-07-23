@@ -25,11 +25,15 @@ Run "mvn install" in the new osgi-hibernate-sample folder and see all projects b
 
 The 2nd last project that builds is "integration-tests", which uses Spring DM to run an integration test suite in an OSGi container.  The integration tests are run against an in-process HSQLDB server.
 
-The very last project that builds is "deployment".  This projects assembles all our project bundles and dependencies in the deployment/target/classes/ folder.  It also adds a Equinox configuration file (configuration/config.ini) and Unix and Windows batch files, which allow you to run equinox and automatically load the full set of bundles from this project in a standalone environment.
+The very last project that builds is "deployment".  This projects assembles all our project bundles and dependencies in the deployment/target/classes/ folder.  It also adds a Equinox and Felix configuration files (configuration/config.ini and felix-config/config.properties respectively) and Unix and Windows batch files to launch either framework.  The batch files lets you to run either Equinox or Felix and automatically load the full set of bundles from this project in a standalone environment.
 
-When you start the standalone Equinox server (by running either equinox.cmd or equinox.sh in the osgi-samples/hibernate/deployment/target/classes folder), a Swing UI is displayed.  Click on the "Show Hibernate Config" button to see the classes in the configuration.
+When you start the standalone OSGi server (by running either felix.cmd, equinox.cmd, felix.sh or equinox.sh in the osgi-samples/hibernate/deployment/target/classes folder), a Swing UI is displayed.  Click on the "Show Hibernate Config" button to see the classes in the configuration.
 
-Type "ss" in the Equinox command window.  You'll see that bundles 28 and 29 are "resolved" but not active.  Start one or either by executing "start 28" and/or "start 29".  Now go back to the Swing UI and click on "Show Hibernate Config" again to see which classes are present in the Hibernate configuration.
+*In Equinox*: Type "ss" in the Equinox command window.  You'll see that bundles 28 and 29 are "resolved" but not active.  Start one or either by executing "start 28" and/or "start 29".  
+
+*In Felix*: Type "ps" in the Felix commadn window.   You'll see that bundles 1 and 2 are "resolved" but not active.  Start one or either by executing "start 1" and/or "start 2".  
+
+Now go back to the Swing UI and click on "Show Hibernate Config" again to see which classes are present in the Hibernate configuration.
 
 You can also view data by typing the HQL "`from A1`" and clicking "Execute HQL" (note that "`from A1`" is roughly the HQL equivalent of the SQL statement "`select * from A1`").  You should see "`Rows returned: 0`".  
 
