@@ -41,7 +41,7 @@ To add data to the database, enter the SQL statement "`insert into A1 values (1,
 
 == Understanding the code ==
 
-With an OSGi application you can dynamically add, start, stop and remove bundles from the system.  If these bundles contain entity classes which Hibernate should be able to persist, then the Hibernate configuration should be updated dynamically as the classes are added to or removed from the system.
+With an OSGi application you can dynamically add, start, stop and remove bundles from the system.  If these bundles contain entity classes which Hibernate should be able to persist, then the Hibernate configuration should be updated dynamically when the classes are added to or removed from the system.
 
 Hibernate itself does not allow classes to be added to or removed from a !SessionFactory instance (it needs to know about all entity classes when it is instantiated).  Consequently we need to create a new !SessionFactory whenever the list of entity classes changes in the Hibernate configuration.
 
