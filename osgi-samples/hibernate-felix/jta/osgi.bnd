@@ -1,0 +1,11 @@
+
+Import-Package: !*
+
+Export-Package: javax.transaction.*;version="1.0.1"
+
+Embed-Dependency: *
+
+Embed-Transitive: true
+
+Private-Package: *;-split-package:=merge-last
+

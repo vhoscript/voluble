@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:osgi="http://www.springframework.org/schema/osgi"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                      http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd">
+
+	<osgi:reference id="dynamicConfiguration"
+		interface="com.notehive.osgi.hibernate_samples.session.DynamicConfiguration">
+		<!-- osgi:listener ref="dynamicConfigurationListener" bind-method="onBind" unbind-method="onUnbind"></osgi:listener -->
+	</osgi:reference>
+
+	<osgi:service ref="b1Dao"
+		interface="com.notehive.osgi.hibernate_samples.dao.b.B1Dao">
+	</osgi:service>
+
+</beans>

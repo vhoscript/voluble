@@ -1,0 +1,36 @@
+
+Import-Package: \
+	!javax.resource*, \
+	org.hibernate.proxy, \
+	org.hibernate.exception, \
+	org.hibernate, \
+	javax.transaction.*;version="[1.0.1,1.0.1]", \
+	javax.naming, \
+	javax.naming.spi, \
+	net.sf.cglib.proxy;version="2.1.3", \
+	javax.sql, \
+	org.xml.sax, \
+	javax.naming.event, \
+	org.apache.commons.dbcp, \
+	org.hsqldb, \
+	com.notehive.osgi.hibernate_samples.session, \
+	org.osgi.framework, \
+	org.springframework.osgi.service.importer, \
+	org.springframework.osgi.service.importer.support, \
+	org.springframework.beans.propertyeditors, \
+	net.sf.cglib.reflect;version="2.1.3", \
+	javax.persistence, \
+	org.springframework.orm.hibernate3, \
+	org.springframework.orm.hibernate3.support, \
+	*
+
+Export-Package: \
+	com.notehive.osgi.hibernate_samples.dao.a.*;version=${project.version}, \
+	com.notehive.osgi.hibernate_samples.model.a.*;version=${project.version}
+
+Private-Package: com.notehive.osgi.hibernate_samples.config, \ 
+	!*
+	
+Hibernate-Contribution: default; \
+	classes="com.notehive.osgi.hibernate_samples.model.a.A1"
+

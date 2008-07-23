@@ -1,0 +1,285 @@
+<?xml version="1.0"?>
+<project>
+	<parent>
+		<relativePath>..</relativePath>
+		<groupId>com.notehive.osgi</groupId>
+		<artifactId>hibernate-samples</artifactId>
+		<version>1.0.0.SNAPSHOT</version>
+	</parent>
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.notehive.osgi.hibernate-samples</groupId>
+	<artifactId>integration-tests</artifactId>
+	<packaging>bundle</packaging>
+	<name>Integration Tests</name>
+	<version>1.0.0.SNAPSHOT</version>
+
+	<properties>
+		<slf4j.version>1.4.3</slf4j.version>
+		<ignore.spring.version>2.5.4</ignore.spring.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.eclipse</groupId>
+			<artifactId>osgi</artifactId>
+		</dependency>
+		<!-- dependency>
+			<groupId>org.eclipse.equinox</groupId>
+			<artifactId>org.eclipse.osgi</artifactId>
+			<version>3.2.2</version>
+			<scope>test</scope>
+		</dependency -->
+		<!-- dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-annotations</artifactId>
+			<version>3.3.0.ga</version>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+			</exclusions>		
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-commons-annotations</artifactId>
+			<version>3.3.0.ga</version>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+			</exclusions>		
+        </dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate</artifactId>
+			<version>3.2.6.ga</version>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>asm</groupId>
+					<artifactId>asm-attrs</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>asm</groupId>
+					<artifactId>asm</artifactId>
+				</exclusion>
+			</exclusions>		
+	    </dependency -->
+		<dependency>
+			<groupId>javax.persistence</groupId>
+			<artifactId>persistence-api</artifactId>
+			<version>1.0</version>
+		</dependency>				
+		<dependency>
+			<groupId>org.springframework.osgi</groupId>
+			<artifactId>spring-osgi-core</artifactId>
+			<version>${spring.dm.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.osgi</groupId>
+			<artifactId>aopalliance.osgi</artifactId>
+			<version>1.0-SNAPSHOT</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.osgi</groupId>
+			<artifactId>spring-osgi-annotation</artifactId>
+			<version>${spring.dm.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.osgi</groupId>
+			<artifactId>junit.osgi</artifactId>
+			<version>3.8.2-SNAPSHOT</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.2</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.osgi</groupId>
+			<artifactId>spring-osgi-test</artifactId>
+			<version>${spring.dm.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.osgi</groupId>
+			<artifactId>log4j.osgi</artifactId>
+			<version>1.2.15-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl104-over-slf4j</artifactId>
+			<version>${slf4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${slf4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>${slf4j.version}</version>
+		</dependency>
+		<!--  START: Repackaged 3rd party bundles -->
+		<!-- 
+		<dependency>
+			<groupId>com.notehive.osgi.hibernate-samples</groupId>
+			<artifactId>hibernate-classes</artifactId>
+			<version>3.2.6.ga</version>
+		</dependency>
+		<dependency>
+			<groupId>com.notehive.osgi.hibernate-samples</groupId>
+			<artifactId>jta</artifactId>
+			<version>1.0.1</version>
+		</dependency -->
+		<!--  END: Repackaged 3rd party bundles -->
+		<!--  START: Our source code bundles -->
+		<!-- dependency>
+			<groupId>com.notehive.osgi.hibernate-samples</groupId>
+			<artifactId>hibernate-session</artifactId>
+			<version>1.0.0.SNAPSHOT</version>
+		</dependency -->
+		<dependency>
+			<groupId>com.notehive.osgi.hibernate-samples</groupId>
+			<artifactId>model-a</artifactId>
+			<version>1.0.0.SNAPSHOT</version>
+			<exclusions>
+				<exclusion>
+					<groupId>asm</groupId>
+					<artifactId>asm</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>asm</groupId>
+					<artifactId>asm-attrs</artifactId>
+				</exclusion>
+			</exclusions>		
+		</dependency>
+		<dependency>
+			<groupId>com.notehive.osgi.hibernate-samples</groupId>
+			<artifactId>model-b</artifactId>
+			<version>1.0.0.SNAPSHOT</version>
+			<exclusions>
+				<exclusion>
+					<groupId>asm</groupId>
+					<artifactId>asm</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>asm</groupId>
+					<artifactId>asm-attrs</artifactId>
+				</exclusion>
+			</exclusions>		
+		</dependency>
+		<!--  END: Our source code bundles -->
+		<dependency>
+			<groupId>cglib</groupId>
+			<artifactId>cglib</artifactId>
+			<version>2.1_3</version>
+			<exclusions>
+				<exclusion>
+					<groupId>asm</groupId>
+					<artifactId>asm</artifactId>
+				</exclusion>
+			</exclusions>		
+		</dependency>
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.5</source>
+					<target>1.5</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<extensions>true</extensions>
+				<version>1.4.0</version>
+				<configuration>
+					<instructions>
+						<_include>-osgi.bnd</_include>
+					</instructions>
+				</configuration>
+			</plugin>		
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<forkMode>pertest</forkMode>
+					<argLine>-enableassertions</argLine>
+					<excludes>
+						<exclude>org.ops4j.pax**</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+			<plugin>
+			<!--  
+				This is a nasty hack:
+				
+				Equinox *must* be at the start of the classpath (in front of 
+				spring osgi) to avoid this error:
+				
+				Caused by: java.lang.NoClassDefFoundError:
+					org.osgi.vendor.frameworkproperty not set
+				See: http://groups.google.com/group/spring-osgi/browse_thread/thread/8d205e0b52afd357 
+				
+				I don't know how to force the depenancy to the top of the classpath,
+				but by placing the jar contents directly in the classes directory,
+				we can ensure that it will always be at the start of the classpath
+			 -->
+			 
+		        <groupId>org.apache.maven.plugins</groupId>
+		         <artifactId>maven-dependency-plugin</artifactId>
+		         <executions>
+		           <execution>
+		             <id>unpack</id>
+		             <phase>validate</phase>
+		             <goals>
+		               <goal>unpack</goal>
+		             </goals>
+		             <configuration>
+		               <artifactItems>
+		                 <artifactItem>
+							<groupId>org.eclipse</groupId>
+							<artifactId>osgi</artifactId>
+		                    <overWrite>false</overWrite>
+		                    <outputDirectory>${project.build.directory}/classes</outputDirectory>
+		                    <includes>**/*</includes>
+		                 </artifactItem>
+		               </artifactItems>
+		             </configuration>
+		           </execution>
+		         </executions>			 
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
