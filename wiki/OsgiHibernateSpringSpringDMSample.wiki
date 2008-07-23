@@ -2,7 +2,7 @@
 
 *Update*: On 7/23/2008 I updated this sample to work with either Apache Felix or Eclipse Equinox (I did this as a result of the comments posted at the bottom of this page).  The updated code does not rely on the Eclipse-!BuddyPolicy, but instead uses !DynamicImport-Package.  The original code is in SVN under http://voluble.googlecode.com/svn/trunk/osgi-samples/hibernate-equinox/ 
 
-This overview is [http://notehive.com/wp/?p=53 cross-posted here].
+This article is [http://notehive.com/wp/?p=53 cross-posted here].
 
 = Introduction =
 
@@ -72,3 +72,7 @@ Here is a list of maven projects and modules to implement the solution:
 
  * Clean up bundle manifests. (After considerable trial and error to get things working, I've ended up with bundle manifest which are messier than they need to be)
  * Write more documentation (for the "More..." links above, and others).
+
+= Comments =
+
+For faster response to your comments, please post them [http://notehive.com/wp/?p=53 on my blog].  Thanks!
