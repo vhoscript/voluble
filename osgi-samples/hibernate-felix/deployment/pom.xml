@@ -24,18 +24,58 @@
         <artifactId>maven-dependency-plugin</artifactId>
         <executions>
           <execution>
-            <id>copy</id>
+            <id>copy-frameworks</id>
             <phase>validate</phase>
             <goals>
               <goal>copy</goal>
             </goals>
             <configuration>
               <artifactItems>
+				<artifactItem>
+					<groupId>org.apache.felix</groupId>
+					<artifactId>org.apache.felix.main</artifactId>
+					<version>1.0.4</version>
+				</artifactItem>
                 <artifactItem>
 			      <groupId>org.eclipse</groupId>
                   <artifactId>osgi</artifactId>
                   <version>3.3.0-v20070530</version>
                 </artifactItem>		  
+              </artifactItems>
+			  <outputDirectory>target/classes</outputDirectory>
+              <overWriteSnapshots>true</overWriteSnapshots>
+            </configuration>
+          </execution>
+          <execution>
+            <id>copy-bundles</id>
+            <phase>validate</phase>
+            <goals>
+              <goal>copy</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+				<!-- START Felix dependencies  -->
+                <artifactItem>
+				    <groupId>org.apache.felix</groupId>
+					<artifactId>org.apache.felix.bundlerepository</artifactId>
+					<version>1.0.3</version>
+				</artifactItem>
+                <artifactItem>
+					<groupId>org.apache.felix</groupId>
+					<artifactId>org.apache.felix.framework</artifactId>
+					<version>1.0.4</version>
+				</artifactItem>
+                <artifactItem>
+				    <groupId>org.apache.felix</groupId>
+					<artifactId>org.apache.felix.shell</artifactId>
+					<version>1.0.1</version>
+				</artifactItem>
+                <artifactItem>
+				    <groupId>org.apache.felix</groupId>
+				    <artifactId>org.apache.felix.shell.tui</artifactId>
+				    <version>1.0.1</version>
+				</artifactItem>
+				<!-- END Felix dependencies  -->
 				<!-- BEGIN Springframework -->
                 <artifactItem>
                   <groupId>org.springframework</groupId>
@@ -182,7 +222,7 @@
                 </artifactItem>
 				<!--  END: Our source code bundles -->
               </artifactItems>
-			  <outputDirectory>target/classes</outputDirectory>
+			  <outputDirectory>target/classes/bundles</outputDirectory>
               <overWriteSnapshots>true</overWriteSnapshots>
             </configuration>
           </execution>
