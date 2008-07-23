@@ -1,0 +1,42 @@
+
+Import-Package: \
+	!javax.resource*, \
+	org.hibernate.proxy, \
+	org.hibernate.exception, \
+	org.hibernate, \
+	org.hibernate.dialect, \
+	javax.transaction.*;version="1.0.1", \
+	javax.naming, \
+	javax.naming.spi, \
+	net.sf.cglib.proxy;version="2.1.3", \
+	javax.sql, \
+	org.xml.sax, \
+	javax.naming.event, \
+	org.apache.commons.dbcp, \
+	org.hsqldb, \
+	org.springframework.osgi.service.importer.support, \
+	org.springframework.beans.propertyeditors, \
+	javax.persistence, \
+	org.apache.log4j, \
+	org.hsqldb.persist, \
+	org.osgi.framework, \
+	org.slf4j, \
+	org.springframework.beans.factory, \
+	org.springframework.orm.*, \
+	org.springframework.transaction.annotation, \
+	net.sf.cglib.reflect;version="2.1.3", \
+	org.springframework.dao.support, \
+	org.springframework.osgi.service.importer, \
+	*
+
+Export-Package: \
+	com.notehive.osgi.hibernate_samples.dao.z.*;version=${project.version}, \
+	com.notehive.osgi.hibernate_samples.model.z.*;version=${project.version}, \
+	com.notehive.osgi.hibernate_samples.session.*;version=${project.version}, \
+
+Private-Package: com.notehive.osgi.hibernate_samples.db.*, !*
+
+DynamicImport-Package: com.notehive.osgi.hibernate_samples.model.*
+
+Bundle-Activator: com.notehive.osgi.hibernate_samples.session.BundleTracker
+
