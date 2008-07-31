@@ -2,7 +2,7 @@
 
 *Update*: On 7/23/2008 I updated this sample to work with either Apache Felix or Eclipse Equinox (I did this as a result of the comments posted at the bottom of this page).  The updated code does not rely on the Eclipse-!BuddyPolicy, but instead uses !DynamicImport-Package.  The original code is in SVN under http://voluble.googlecode.com/svn/trunk/osgi-samples/hibernate-equinox/ 
 
-This article is [http://notehive.com/wp/2008/07/23/osgi-hibernate-spring-dm-sample/ cross-posted here].
+This article is [http://notehive.com/wp/2008/07/23/osgi-hibernate-spring-dm-sample/ cross-posted here].  I don't check this page very often and google does not send me an email when a comment is posted.  For a faster response to comments and questions, please post your comments [http://notehive.com/wp/2008/07/23/osgi-hibernate-spring-dm-sample/ here].
 
 = Introduction =
 
