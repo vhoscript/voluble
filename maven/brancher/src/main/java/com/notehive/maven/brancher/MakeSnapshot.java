@@ -2,9 +2,12 @@ package com.notehive.maven.brancher;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.StringReader;
+import java.text.MessageFormat;
 
 import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
@@ -36,8 +39,11 @@ public class MakeSnapshot {
 	public void switchVersion() {
 		
 		try {
-			StringBuffer updateVersionTransform = FileUtil.readResource("update-version.xsl");
-
+			StringBuffer sb = FileUtil.readResource("update-version.xsl");
+			
+			String updateVersionTransform = MessageFormat.format(sb.toString(),
+					new Object[]{fromVersion, toVersion});
+			
 			TransformerFactory tFactory = TransformerFactory.newInstance();
 			
 			transformer = tFactory.newTransformer(new StreamSource(
@@ -71,7 +77,17 @@ public class MakeSnapshot {
 		transformer.transform(new StreamSource(pomFile), new StreamResult(
 				new FileOutputStream(outputFile)));
 
-		System.out.println("-------------------------------------------------");
+		StringBuffer newFile = FileUtil.readFile(outputFile.getAbsolutePath());
+		System.out.println(newFile);
+	}
+	
+	public void learn() throws Exception {
+		TransformerFactory tFactory = TransformerFactory.newInstance();
+		transformer = tFactory.newTransformer(new StreamSource(
+				MakeSnapshot.class.getClassLoader().getResourceAsStream("learn.xsl")));
+		transformer.transform(
+				new StreamSource(MakeSnapshot.class.getClassLoader().getResourceAsStream("learn.xml")), 
+				new StreamResult(System.out));
 	}
 
 }
