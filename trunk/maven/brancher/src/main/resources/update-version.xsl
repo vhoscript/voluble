@@ -10,6 +10,8 @@
     <!--  want no new-lines in this next section, because they would show up in the output file! -->
     <!--  also, double quotes are reduced to single quotes because we use message format to insert versions -->
     <xsl:template match="/*[local-name()=''project'']/*[local-name()=''version'']/text()[contains(.,''{0}'')]">{1}</xsl:template>
+    
+    <xsl:template match="/*[local-name()=''project'']/*[local-name()=''parent'']//*[local-name()=''version'']/text()[contains(.,''{0}'')]">{1}</xsl:template>
  
 </xsl:stylesheet>
 

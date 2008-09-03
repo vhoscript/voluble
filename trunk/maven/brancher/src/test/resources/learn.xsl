@@ -9,9 +9,6 @@
 		</xsl:copy>
 	</xsl:template>
 
-	<xsl:template match="*[local-name()='version']/text()[contains(.,'3')]">
-       aoeuaoeuoaeuoaeuoeau
-	</xsl:template>
- 
+	<xsl:template match="*[local-name()='version']/text()[contains(.,'3')]">NEW VERSION!</xsl:template>
  
 </xsl:stylesheet>
