@@ -1,8 +1,10 @@
 package com.notehive.maven.util;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -33,5 +35,21 @@ public class FileUtil {
 		in.close();
 		return sb;
 	}
+	
+	public static void copyFile(String from, String to)
+		throws FileNotFoundException, IOException {
+		BufferedInputStream inputStream = new BufferedInputStream(
+				new FileInputStream(from));
+		BufferedOutputStream outputStream = new BufferedOutputStream(
+				new FileOutputStream(to));
+		int i;
+		while ((i = inputStream.read()) != -1) {
+			outputStream.write((char) i);
+		}
+		inputStream.close();
+		outputStream.flush();
+		outputStream.close();
+	}
+	
 
 }

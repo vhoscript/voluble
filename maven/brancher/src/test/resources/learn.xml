@@ -11,5 +11,10 @@
     <artifactId>tva-common-installer-test-harness</artifactId>
     <version>4.4.0</version>
   </parent>  
+  <scm>
+   	<connection>scm:svn:http://svn.tva.tvworks.com/svn/tvworks/tags/releases/3.3.0/core/common</connection>
+   	<developerConnection>scm:svn:http://svn.tva.tvworks.com/svn/tvworks/tags/releases/3.3.0/core/common</developerConnection>
+   	<url>http://svn.tva.tvworks.com/viewvc/tvworks/tags/releases/3.3.0/core/common</url>
+  </scm>
 
 </project>
