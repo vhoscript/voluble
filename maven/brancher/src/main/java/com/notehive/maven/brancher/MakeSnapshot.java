@@ -26,6 +26,10 @@ public class MakeSnapshot {
 
 	private Transformer transformer;
 
+	private String scmTo;
+
+	private String scmFrom;
+
 	public void setRootFolder(String rootFolder) {
 		this.rootFolder = new File(rootFolder);
 	}
@@ -38,13 +42,24 @@ public class MakeSnapshot {
 		this.toVersion = toVersion;
 	}
 
+	public void setScmTo(String scmTo) {
+		this.scmTo = scmTo;
+	}
+
+	public void setScmFrom(String scmFrom) {
+		this.scmFrom = scmFrom;
+	}
+
 	public void switchVersion() {
 		
 		try {
 			StringBuffer sb = FileUtil.readResource("update-version.xsl");
 			
 			String updateVersionTransform = MessageFormat.format(sb.toString(),
-					new Object[]{fromVersion, toVersion});
+					new Object[]{fromVersion, toVersion, scmFrom, scmTo});
+			
+			System.setProperty("javax.xml.transform.TransformerFactory",
+				"net.sf.saxon.TransformerFactoryImpl");
 			
 			TransformerFactory tFactory = TransformerFactory.newInstance();
 			
@@ -64,11 +79,14 @@ public class MakeSnapshot {
 							pomBackup.getAbsolutePath());
 					
 					// then overwrite the original file
+//					transformer.transform(new StreamSource(pomBackup), new StreamResult(
+//					new FileOutputStream(pomFile)));
 					transformer.transform(new StreamSource(pomBackup), new StreamResult(
-							new FileOutputStream(pomFile)));
+							System.out));
 				}
 					
 				});
+			
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
