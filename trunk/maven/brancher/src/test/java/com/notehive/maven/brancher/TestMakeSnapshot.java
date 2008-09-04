@@ -13,12 +13,14 @@ public class TestMakeSnapshot {
 		// makeSnapshot.setRootFolder("/home/loedolff/dev/core-3.3.1/common");
 		makeSnapshot.setFromVersion("3.3.0");
 		makeSnapshot.setToVersion("3.3.1-SNAPSHOT");
+		makeSnapshot.setScmFrom("tags/releases/3.3.0");
+		makeSnapshot.setScmTo("branches/3.3.1");
 		makeSnapshot.switchVersion();
 
-		makeSnapshot.searchAndReplace(
-				//"http://(.*)/(tags)/releases/3.3.0/core/common",
-				"http:(.*)/releases/3.3.0/core/common",
-				"http:{0}/branches/3.3.1/core/common");
+//		makeSnapshot.searchAndReplace(
+//				//"http://(.*)/(tags)/releases/3.3.0/core/common",
+//				"http:(.*)/releases/3.3.0/core/common",
+//				"http:{0}/branches/3.3.1/core/common");
 		
 //		makeSnapshot.learn();
 	}
