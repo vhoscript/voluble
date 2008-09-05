@@ -79,10 +79,12 @@ public class MakeSnapshot {
 							pomBackup.getAbsolutePath());
 					
 					// then overwrite the original file
-//					transformer.transform(new StreamSource(pomBackup), new StreamResult(
-//					new FileOutputStream(pomFile)));
 					transformer.transform(new StreamSource(pomBackup), new StreamResult(
-							System.out));
+							new FileOutputStream(pomFile)));
+					
+// to only print the transform and not do it:					
+//					transformer.transform(new StreamSource(pomBackup), new StreamResult(
+//							System.out));
 				}
 					
 				});

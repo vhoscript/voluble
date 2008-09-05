@@ -9,7 +9,7 @@ public class TestMakeSnapshot {
 	public void testMakeSnapshot() throws Exception {
 		MakeSnapshot makeSnapshot = new MakeSnapshot();
 		
-		makeSnapshot.setRootFolder("/home/loedolff/dev/core-3.3.1/common/util");
+		makeSnapshot.setRootFolder("/home/loedolff/dev/core-3.3.1/common/");
 		// makeSnapshot.setRootFolder("/home/loedolff/dev/core-3.3.1/common");
 		makeSnapshot.setFromVersion("3.3.0");
 		makeSnapshot.setToVersion("3.3.1-SNAPSHOT");
