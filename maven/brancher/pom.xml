@@ -37,6 +37,29 @@
           			</archive>
         		</configuration>
 	    	</plugin>	
-		</plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+	        	<executions>
+          			<execution>
+            			<id>copy</id>
+            			<phase>package</phase>
+            			<goals>
+              				<goal>copy</goal>
+            			</goals>
+	            		<configuration>
+              				<artifactItems>
+                    			<artifactItem>
+				    				<groupId>net.sf.saxon</groupId>
+				    				<artifactId>saxon</artifactId>
+                    	    	</artifactItem>
+              				</artifactItems>
+            	        	<outputDirectory>target/</outputDirectory>
+        	      			<overWriteSnapshots>true</overWriteSnapshots>
+		            	</configuration>
+              		</execution>
+              	</executions>
+            </plugin>
+    	</plugins>
 	</build>
 </project>
