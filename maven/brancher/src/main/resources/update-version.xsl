@@ -16,6 +16,7 @@
     <xsl:template match="*[local-name()=''scm'']/*/text()">
         <xsl:analyze-string select="." regex="http(.*){2}(.*)">
             <xsl:matching-substring>http<xsl:value-of select="regex-group(1)"/>{3}<xsl:value-of select="regex-group(2)"/></xsl:matching-substring>
+ 			<xsl:non-matching-substring><xsl:value-of select="."/></xsl:non-matching-substring>            
         </xsl:analyze-string>
 	</xsl:template>
  
