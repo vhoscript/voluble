@@ -24,11 +24,14 @@ public class MakeSnapshot {
 
 	private String toVersion;
 
-	private Transformer transformer;
+	/** prefix for scm/connection and scm/developerConnection */ 
+	private String scmConnection;
 
-	private String scmTo;
+	private String scmUrl;
 
-	private String scmFrom;
+	private StringBuffer rawUpdateVersionXml;
+
+	private TransformerFactory factory;
 
 	public void setRootFolder(String rootFolder) {
 		this.rootFolder = new File(rootFolder);
@@ -42,35 +45,32 @@ public class MakeSnapshot {
 		this.toVersion = toVersion;
 	}
 
-	public void setScmTo(String scmTo) {
-		this.scmTo = scmTo;
+	public void setScmConnection(String scmConnection) {
+		this.scmConnection = scmConnection;
 	}
 
-	public void setScmFrom(String scmFrom) {
-		this.scmFrom = scmFrom;
+	public void setScmUrl(String scmUrl) {
+		this.scmUrl = scmUrl;
 	}
 
 	public void switchVersion() {
 		
 		try {
-			StringBuffer sb = FileUtil.readResource("update-version.xsl");
-			
-			String updateVersionTransform = MessageFormat.format(sb.toString(),
-					new Object[]{fromVersion, toVersion, scmFrom, scmTo});
+			rawUpdateVersionXml = FileUtil.readResource("update-version.xsl");
 			
 			System.setProperty("javax.xml.transform.TransformerFactory",
 				"net.sf.saxon.TransformerFactoryImpl");
 			
-			TransformerFactory tFactory = TransformerFactory.newInstance();
-			
-			transformer = tFactory.newTransformer(new StreamSource(
-					new StringReader(updateVersionTransform.toString())));
+			factory = TransformerFactory.newInstance();
 
 			// find all the poms
 			findPoms(rootFolder, new PomTransformer() {
 				
 				public void transform(File pomFile) throws Exception {
 					System.out.println("Processing: " + pomFile.getAbsolutePath());
+					
+					String scmUrlPathToAppend = pomFile.getParentFile().getAbsolutePath().
+							substring(rootFolder.getAbsolutePath().length());
 					
 					File pomBackup = new File(pomFile.getAbsolutePath() + ".backup");
 					
@@ -79,6 +79,14 @@ public class MakeSnapshot {
 							pomBackup.getAbsolutePath());
 					
 					// then overwrite the original file
+					String updateVersionTransform = MessageFormat.format(rawUpdateVersionXml.toString(),
+							new Object[]{fromVersion, toVersion, 
+										 scmConnection + scmUrlPathToAppend, 
+										 scmUrl + scmUrlPathToAppend});
+					
+					Transformer transformer = factory.newTransformer(new StreamSource(
+							new StringReader(updateVersionTransform.toString())));
+
 					transformer.transform(new StreamSource(pomBackup), new StreamResult(
 							new FileOutputStream(pomFile)));
 					
@@ -110,7 +118,7 @@ public class MakeSnapshot {
 	
 	public void learn() throws Exception {
 		TransformerFactory tFactory = TransformerFactory.newInstance();
-		transformer = tFactory.newTransformer(new StreamSource(
+		Transformer transformer = tFactory.newTransformer(new StreamSource(
 				MakeSnapshot.class.getClassLoader().getResourceAsStream("learn.xsl")));
 		transformer.transform(
 				new StreamSource(MakeSnapshot.class.getClassLoader().getResourceAsStream("learn.xml")), 
