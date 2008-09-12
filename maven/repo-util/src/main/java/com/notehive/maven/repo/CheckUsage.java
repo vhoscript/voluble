@@ -88,6 +88,22 @@ public class CheckUsage {
 					printAllFiles(folder2);
 				}
 			}
+			System.out.println("-------------------------------------------------------");
+			FileInfo latestTimestampJar1 = folder1.getLatestTimestampJar();
+			FileInfo latestTimestampJar2 = folder2.getLatestTimestampJar();
+			if (latestTimestampJar1 == null) {
+				System.out.println("----- Could not find latest timestamp jar in repo1");
+			} else {
+				System.out.println("----- Latest timestamp jar in repo1 is: " + latestTimestampJar1.getName()
+						+", size: " + latestTimestampJar1.getSize());
+			}
+			if (latestTimestampJar2 == null) {
+				System.out.println("----- Could not find latest timestamp jar in repo2");
+			} else {
+				System.out.println("----- Latest timestamp jar in repo2 is: " + latestTimestampJar2.getName()
+						+", size: " + latestTimestampJar2.getSize());
+			}
+			System.out.println("-------------------------------------------------------");
 		} else if (folder1 == null && folder2 != null) {
 			System.out.println("----- Artifact only in repo1");
 		} else if (folder2 == null && folder1 != null) {
