@@ -96,9 +96,9 @@ public class CheckUsage {
 							+", size: " + latestTimestampJar2.getSize()).append("\n");
 				}
 			} else if (latestTimestampJar1 == null && latestTimestampJar2 != null) {
-				sb.append("----- Could not find latest timestamp jar in repo1 (but it is in repo 1)").append("\n");
+				sb.append("----- Could not find latest timestamp jar in repo1 (but it is in repo 2)").append("\n");
 			} else if (latestTimestampJar2 == null && latestTimestampJar1 != null) {
-				sb.append("----- Could not find latest timestamp jar in repo2 (but it is in repo 2)").append("\n");
+				sb.append("----- Could not find latest timestamp jar in repo2 (but it is in repo 1)").append("\n");
 			} 
 			FileInfo snapshotJar1 = folder1.getSnapshotJar();
 			FileInfo snapshotJar2 = folder2.getSnapshotJar();
