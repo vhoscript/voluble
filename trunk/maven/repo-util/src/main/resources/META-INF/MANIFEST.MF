@@ -1,0 +1,2 @@
+Main-Class: com.notehive.maven.brancher.Main
+Class-Path: saxon-8.7.jar
