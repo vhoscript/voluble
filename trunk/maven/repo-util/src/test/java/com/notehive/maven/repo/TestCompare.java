@@ -14,7 +14,7 @@ public class TestCompare {
 		compare.process();
 		
 		CheckUsage checkUsage = new CheckUsage();
-		checkUsage.checkUsage(compare.getDifferentFolders(), "target/test-classes/pom-output");
+		checkUsage.checkUsage(compare, "target/test-classes/pom-output");
 		
 	}
 }
