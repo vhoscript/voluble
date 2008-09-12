@@ -70,5 +70,13 @@ public class FolderInfo {
 		}
 		return null;
 	}
+	public FileInfo getLatestTimestampJar() {
+		for (FileInfo fileInfo : fileInfoList) {
+			if (fileInfo.getName().endsWith("-SNAPSHOT.jar")) {
+				return fileInfo;
+			}
+		}
+		return null;
+	}
 
 }
