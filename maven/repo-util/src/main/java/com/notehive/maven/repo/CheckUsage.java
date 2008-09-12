@@ -55,10 +55,14 @@ public class CheckUsage {
 						// first character after suspect is not a dot
 						// AND 2nd character is not a number
 						if (c1 != '.' && (c2 < 48 || c2 > 58)) {
-							System.out.println("Suspect: " + suspect);
-							System.out.println("Folder: " + folderInfo.getName());
-							
-							checkFolderContent(compare, folderInfo);
+							String s = suspiciousDifference(compare, folderInfo);
+							if (s.length() > 0) {
+								System.out.println("Suspect: " + suspect);
+								System.out.println("Folder: " + folderInfo.getName());
+								System.out.println(s);
+								System.out.println("---------------------------------------------------------------------");
+							}
+									
 						}
 					}
 				}
@@ -72,48 +76,59 @@ public class CheckUsage {
 	 * same size.  could also check if the largest -number.jar timestamp
 	 * snapshots have the same versions 
 	 */
-	private void checkFolderContent(Compare compare, FolderInfo folderInfo) {
+	private String suspiciousDifference(Compare compare, FolderInfo folderInfo) {
+		StringBuffer sb = new StringBuffer();
 		FolderInfo folder1 = compare.findMatchingFolder(compare.getRepo1Folders(), folderInfo);
 		FolderInfo folder2 = compare.findMatchingFolder(compare.getRepo2Folders(), folderInfo);
 		if (folder1 != null && folder2 != null) {
+			FileInfo latestTimestampJar1 = folder1.getLatestTimestampJar();
+			FileInfo latestTimestampJar2 = folder2.getLatestTimestampJar();
+			if (latestTimestampJar1 != null && latestTimestampJar2 != null) { 
+				if (latestTimestampJar1.getName().equals(latestTimestampJar2.getName()) 
+						&& latestTimestampJar1.getSize()==latestTimestampJar2.getSize()) {
+//					System.out.println("Latest timestamp jar in repos match: " + latestTimestampJar1.getName()
+//							+", size: " + latestTimestampJar1.getSize());
+				} else {
+					sb.append("----- Latest timestamp versions in repos do not match!").append("\n");
+					sb.append("From repo 1: " + latestTimestampJar1.getName()
+							+", size: " + latestTimestampJar1.getSize()).append("\n");
+					sb.append("From repo 2: " + latestTimestampJar2.getName()
+							+", size: " + latestTimestampJar2.getSize()).append("\n");
+				}
+			} else if (latestTimestampJar1 == null && latestTimestampJar2 != null) {
+				sb.append("----- Could not find latest timestamp jar in repo1 (but it is in repo 1)").append("\n");
+			} else if (latestTimestampJar2 == null && latestTimestampJar1 != null) {
+				sb.append("----- Could not find latest timestamp jar in repo2 (but it is in repo 2)").append("\n");
+			} 
 			FileInfo snapshotJar1 = folder1.getSnapshotJar();
 			FileInfo snapshotJar2 = folder2.getSnapshotJar();
 			if (snapshotJar1 != null && snapshotJar2 != null) {
-				System.out.println("Snapshot jar from repo1, size: " + snapshotJar1.getSize());
-				System.out.println("Snapshot jar from repo2, size: " + snapshotJar2.getSize());
 				if (snapshotJar1.getSize() != snapshotJar2.getSize()) {
-					System.out.println("----- Files in repo 1");
-					printAllFiles(folder1);
-					System.out.println("----- Files in repo 2");
-					printAllFiles(folder2);
+					sb.append("----- Snapshot jar sizes differ");
+					sb.append("Snapshot jar from repo1, size: " + snapshotJar1.getSize()).append("\n");;
+					sb.append("Snapshot jar from repo2, size: " + snapshotJar2.getSize()).append("\n");;
 				}
 			}
-			System.out.println("-------------------------------------------------------");
-			FileInfo latestTimestampJar1 = folder1.getLatestTimestampJar();
-			FileInfo latestTimestampJar2 = folder2.getLatestTimestampJar();
-			if (latestTimestampJar1 == null) {
-				System.out.println("----- Could not find latest timestamp jar in repo1");
-			} else {
-				System.out.println("----- Latest timestamp jar in repo1 is: " + latestTimestampJar1.getName()
-						+", size: " + latestTimestampJar1.getSize());
+			
+			if (sb.length() > 0) {
+				sb.append("----- Files in repo 1").append("\n");;
+				printAllFiles(sb, folder1);
+				sb.append("----- Files in repo 2").append("\n");;
+				printAllFiles(sb, folder2);
 			}
-			if (latestTimestampJar2 == null) {
-				System.out.println("----- Could not find latest timestamp jar in repo2");
-			} else {
-				System.out.println("----- Latest timestamp jar in repo2 is: " + latestTimestampJar2.getName()
-						+", size: " + latestTimestampJar2.getSize());
-			}
-			System.out.println("-------------------------------------------------------");
+			
 		} else if (folder1 == null && folder2 != null) {
-			System.out.println("----- Artifact only in repo1");
+			sb.append("----- Artifact only in repo2").append("\n");;
 		} else if (folder2 == null && folder1 != null) {
-			System.out.println("----- Artifact only in repo2");
+			sb.append("----- Artifact only in repo1").append("\n");;
 		}
+		
+		return sb.toString();
 	}
 
-	private void printAllFiles(FolderInfo folder) {
+	private void printAllFiles(StringBuffer sb, FolderInfo folder) {
 		for (FileInfo fileInfo : folder.getFileInfoList()) {
-			System.out.println("  " + fileInfo.getName() + " : " + fileInfo.getSize());
+			sb.append("  " + fileInfo.getName() + " : " + fileInfo.getSize()).append("\n");
 		}
 	}
 
