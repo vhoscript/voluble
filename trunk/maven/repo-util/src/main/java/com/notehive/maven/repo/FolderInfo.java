@@ -71,12 +71,17 @@ public class FolderInfo {
 		return null;
 	}
 	public FileInfo getLatestTimestampJar() {
+		int latestVersion = -1;
+		FileInfo candidate = null;
 		for (FileInfo fileInfo : fileInfoList) {
-			if (fileInfo.getName().endsWith("-SNAPSHOT.jar")) {
-				return fileInfo;
+			if (fileInfo.getHasVersion()) {
+				if (latestVersion < fileInfo.getLatestVersion()) {
+					candidate = fileInfo;
+					latestVersion = fileInfo.getLatestVersion();
+				}
 			}
 		}
-		return null;
+		return candidate;
 	}
 
 }
