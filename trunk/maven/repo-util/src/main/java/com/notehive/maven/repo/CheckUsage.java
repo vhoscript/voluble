@@ -30,16 +30,24 @@ public class CheckUsage {
 
 		StringBuffer sb = FileUtil.readFile(pomOutputFile);
 		
-		for (FolderInfo folderInfo : compare.getDifferentFolders()) {
+		System.out.println("++ Different folders:");
+		for (Difference difference : compare.getDifferences()) {
+			System.out.println(difference.getName());
+		}
+		System.out.println("======================================");
+		System.out.println("++ Now reporting differences on artifacts found in build output file:");
+		
+		for (Difference difference : compare.getDifferences()) {
 			
 			// build a suspected artifact name from the folder info, like so:
 			// folder "./javax/servlet/servlet-api/2.4:" becomes
 			// artifact "javax.servlet:servlet-api:jar:2.4"
 			
 			// only process folders that end in a version number (or -SNAPSHOT)
-			if (folderInfo.hasVersion()) {
-				String[] suspects = folderInfo.getQualifyingNames();
+			if (difference.hasVersion()) {
 				
+				String[] suspects = difference.getQualifyingNames();
+		
 				for (String suspect : suspects) {
 					// if suspect is found
 					int i = sb.indexOf(suspect); 
@@ -55,14 +63,7 @@ public class CheckUsage {
 						// first character after suspect is not a dot
 						// AND 2nd character is not a number
 						if (c1 != '.' && (c2 < 48 || c2 > 58)) {
-							String s = suspiciousDifference(compare, folderInfo);
-							if (s.length() > 0) {
-								System.out.println("Suspect: " + suspect);
-								System.out.println("Folder: " + folderInfo.getName());
-								System.out.println(s);
-								System.out.println("---------------------------------------------------------------------");
-							}
-									
+							showSuspect(difference, suspect);
 						}
 					}
 				}
@@ -71,65 +72,11 @@ public class CheckUsage {
 		}
 	}
 
-	/** 
-	 * if this is a -SNAPSHOT version, check if the -SNAPSHOT.jars have the
-	 * same size.  could also check if the largest -number.jar timestamp
-	 * snapshots have the same versions 
-	 */
-	private String suspiciousDifference(Compare compare, FolderInfo folderInfo) {
-		StringBuffer sb = new StringBuffer();
-		FolderInfo folder1 = compare.findMatchingFolder(compare.getRepo1Folders(), folderInfo);
-		FolderInfo folder2 = compare.findMatchingFolder(compare.getRepo2Folders(), folderInfo);
-		if (folder1 != null && folder2 != null) {
-			FileInfo latestTimestampJar1 = folder1.getLatestTimestampJar();
-			FileInfo latestTimestampJar2 = folder2.getLatestTimestampJar();
-			if (latestTimestampJar1 != null && latestTimestampJar2 != null) { 
-				if (latestTimestampJar1.getName().equals(latestTimestampJar2.getName()) 
-						&& latestTimestampJar1.getSize()==latestTimestampJar2.getSize()) {
-//					System.out.println("Latest timestamp jar in repos match: " + latestTimestampJar1.getName()
-//							+", size: " + latestTimestampJar1.getSize());
-				} else {
-					sb.append("----- Latest timestamp versions in repos do not match!").append("\n");
-					sb.append("From repo 1: " + latestTimestampJar1.getName()
-							+", size: " + latestTimestampJar1.getSize()).append("\n");
-					sb.append("From repo 2: " + latestTimestampJar2.getName()
-							+", size: " + latestTimestampJar2.getSize()).append("\n");
-				}
-			} else if (latestTimestampJar1 == null && latestTimestampJar2 != null) {
-				sb.append("----- Could not find latest timestamp jar in repo1 (but it is in repo 2)").append("\n");
-			} else if (latestTimestampJar2 == null && latestTimestampJar1 != null) {
-				sb.append("----- Could not find latest timestamp jar in repo2 (but it is in repo 1)").append("\n");
-			} 
-			FileInfo snapshotJar1 = folder1.getSnapshotJar();
-			FileInfo snapshotJar2 = folder2.getSnapshotJar();
-			if (snapshotJar1 != null && snapshotJar2 != null) {
-				if (snapshotJar1.getSize() != snapshotJar2.getSize()) {
-					sb.append("----- Snapshot jar sizes differ");
-					sb.append("Snapshot jar from repo1, size: " + snapshotJar1.getSize()).append("\n");;
-					sb.append("Snapshot jar from repo2, size: " + snapshotJar2.getSize()).append("\n");;
-				}
-			}
-			
-			if (sb.length() > 0) {
-				sb.append("----- Files in repo 1").append("\n");;
-				printAllFiles(sb, folder1);
-				sb.append("----- Files in repo 2").append("\n");;
-				printAllFiles(sb, folder2);
-			}
-			
-		} else if (folder1 == null && folder2 != null) {
-			sb.append("----- Artifact only in repo2").append("\n");;
-		} else if (folder2 == null && folder1 != null) {
-			sb.append("----- Artifact only in repo1").append("\n");;
-		}
-		
-		return sb.toString();
-	}
-
-	private void printAllFiles(StringBuffer sb, FolderInfo folder) {
-		for (FileInfo fileInfo : folder.getFileInfoList()) {
-			sb.append("  " + fileInfo.getName() + " : " + fileInfo.getSize()).append("\n");
-		}
+	private void showSuspect(Difference difference, String suspect) {
+		System.out.println("Suspect: " + suspect);
+		System.out.println("Folder: " + difference.getName());
+		System.out.println(difference.getDiscrepancy());
+		System.out.println("---------------------------------------------------------------------");
 	}
 
 

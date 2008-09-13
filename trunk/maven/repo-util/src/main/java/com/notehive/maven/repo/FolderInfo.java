@@ -62,22 +62,22 @@ public class FolderInfo {
 		return fileInfoList;
 	}
 	
-	public FileInfo getSnapshotJar() {
+	public FileInfo getSnapshot(String suffix) {
 		for (FileInfo fileInfo : fileInfoList) {
-			if (fileInfo.getName().endsWith("-SNAPSHOT.jar")) {
+			if (fileInfo.getName().endsWith("-SNAPSHOT." + suffix)) {
 				return fileInfo;
 			}
 		}
 		return null;
 	}
-	public FileInfo getLatestTimestampJar() {
+	public FileInfo getLatestTimestamp(String suffix) {
 		int latestVersion = -1;
 		FileInfo candidate = null;
 		for (FileInfo fileInfo : fileInfoList) {
-			if (fileInfo.getHasVersion()) {
-				if (latestVersion < fileInfo.getLatestVersion()) {
+			if (fileInfo.getHasVersion(suffix)) {
+				if (latestVersion < fileInfo.getLatestVersion(suffix)) {
 					candidate = fileInfo;
-					latestVersion = fileInfo.getLatestVersion();
+					latestVersion = fileInfo.getLatestVersion(suffix);
 				}
 			}
 		}

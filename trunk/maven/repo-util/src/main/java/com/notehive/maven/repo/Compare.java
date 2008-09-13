@@ -22,14 +22,14 @@ public class Compare {
 	private String lsFile2;
 	
 	/** folders that are different between two repositories */
-	private List<FolderInfo> differentFolders;
+	private List<Difference> differences;
 
 	private List<FolderInfo> repo1Folders;
 
 	private List<FolderInfo> repo2Folders;
 	
-	public List<FolderInfo> getDifferentFolders() {
-		return differentFolders;
+	public List<Difference> getDifferences() {
+		return differences;
 	}
 
 	public List<FolderInfo> getRepo1Folders() {
@@ -51,30 +51,29 @@ public class Compare {
 		repo1Folders = getFolderInfo(lsFile1);
 		repo2Folders = getFolderInfo(lsFile2);
 		
-		differentFolders = new ArrayList<FolderInfo>();
+		differences = new ArrayList<Difference>();
 
 		System.out.print(".");
-		checkContains(">", repo1Folders, repo2Folders);
+		checkContains();
 		System.out.print(".");
-		checkContains("<", repo2Folders, repo1Folders);
-		checkFileTotals(repo1Folders, repo2Folders);
+		checkFolderContents();
 		System.out.print(".");
 		
 		System.out.println();
 	}
 
 	/** check if both lists have the same totals for the files they have in common */
-	private void checkFileTotals(List<FolderInfo> list1, List<FolderInfo> list2) {
-		for (FolderInfo fi1 : list1) {
-			for (FolderInfo fi2 : list2) {
-				if (fi1.getName().equals(fi2.getName())) {
-					if (fi1.getTotal() != fi2.getTotal()) {
-//						System.out.println("* " + fi1.getName() + " [" +
-//								fi1.getTotal() + "] vs. [" + 
-//								fi2.getTotal() +"]");
-						differentFolders.add(fi1);
-					}
-					break;
+	private void checkFolderContents() {
+		for (FolderInfo fi1 : repo1Folders) {
+			FolderInfo fi2 = findMatchingFolder(repo2Folders, fi1);
+			if (fi2 != null) {
+				String s = suspiciousDifference(fi1, fi2);
+				if (s.length() > 0) {
+					Difference difference =  new Difference();
+					difference.setRepoFolder1(fi1);
+					difference.setRepoFolder2(fi2);
+					difference.setDiscrepancy(s);
+					differences.add(difference);
 				}
 			}
 		}
@@ -84,11 +83,23 @@ public class Compare {
 	 * find entries in list2 that are not in list 1.
 	 * the "direction" string is purely costmetic
 	 */
-	private void checkContains(String direction, List<FolderInfo> list1, List<FolderInfo> list2) {
-		for (FolderInfo fi1 : list1) {
-			if (null == findMatchingFolder(list2, fi1)) {
-//				System.out.println(direction + " " + fi1.getName());
-				differentFolders.add(fi1);
+	private void checkContains() {
+		for (FolderInfo fi : repo1Folders) {
+			if (null == findMatchingFolder(repo2Folders, fi)) {
+				Difference difference =  new Difference();
+				difference.setRepoFolder1(fi);
+				difference.setRepoFolder2(null);
+				difference.setDiscrepancy("----- Artifact only in repo 1");
+				differences.add(difference);
+			}
+		}
+		for (FolderInfo fi : repo2Folders) {
+			if (null == findMatchingFolder(repo1Folders, fi)) {
+				Difference difference =  new Difference();
+				difference.setRepoFolder1(null);
+				difference.setRepoFolder2(fi);
+				difference.setDiscrepancy("----- Artifact only in repo 2");
+				differences.add(difference);
 			}
 		}
 	}
@@ -147,7 +158,6 @@ public class Compare {
 		while (line != null && line.trim().length() > 0) {
 			lineNumber++;
 			line = line.trim();
-			int lastSpace = line.lastIndexOf(" ");
 			String[] lineWords = line.split("\\s+");
 			
 			// expect line to look like this:
@@ -172,4 +182,75 @@ public class Compare {
 		
 		return fileList;
 	}
+	
+	/** 
+	 * if this is a -SNAPSHOT version, check if the -SNAPSHOT.jars have the
+	 * same size.  could also check if the largest -number.jar timestamp
+	 * snapshots have the same versions 
+	 */
+	private String suspiciousDifference(FolderInfo folder1, FolderInfo folder2) {
+		StringBuffer sb = new StringBuffer();
+		
+		compareLatestTimestampFileSizes(folder1, folder2, "jar", sb);
+		compareSnapshotFileSizes(folder1, folder2, "jar", sb);
+		compareLatestTimestampFileSizes(folder1, folder2, "pom", sb);
+		compareSnapshotFileSizes(folder1, folder2, "pom", sb);
+		
+		if (sb.length() > 0) {
+			sb.append("----- Files in repo 1").append("\n");;
+			printAllFiles(sb, folder1);
+			sb.append("----- Files in repo 2").append("\n");;
+			printAllFiles(sb, folder2);
+		}
+		
+		return sb.toString();
+	}
+
+	private void compareSnapshotFileSizes(FolderInfo folder1,
+			FolderInfo folder2, String suffix, StringBuffer sb) {
+		FileInfo snapshot1 = folder1.getSnapshot(suffix);
+		FileInfo snapshot2 = folder2.getSnapshot(suffix);
+		if (snapshot1 != null && snapshot2 != null) {
+			if (snapshot1.getSize() != snapshot2.getSize()) {
+				sb.append("----- Snapshot [" + suffix + "] sizes differ:").append("\n");
+				sb.append(" Snapshot [" + suffix + "] from repo1, size: " + snapshot1.getSize()).append("\n");;
+				sb.append(" Snapshot [" + suffix + "] from repo2, size: " + snapshot2.getSize()).append("\n");;
+			}
+		} else if (snapshot1 == null && snapshot2 != null) {
+			sb.append("----- Could not find snapshot [" + suffix + "] in repo1 (but it is in repo 2)").append("\n");
+		} else if (snapshot1 != null && snapshot2 == null) {
+			sb.append("----- Could not find snapshot [" + suffix + "] in repo2 (but it is in repo 1)").append("\n");
+		}
+	}
+
+	private void compareLatestTimestampFileSizes(FolderInfo folder1,
+			FolderInfo folder2, String suffix, StringBuffer sb) {
+		FileInfo latestTimestamp1 = folder1.getLatestTimestamp(suffix);
+		FileInfo latestTimestamp2 = folder2.getLatestTimestamp(suffix);
+		if (latestTimestamp1 != null && latestTimestamp2 != null) { 
+			if (latestTimestamp1.getName().equals(latestTimestamp2.getName()) 
+					&& latestTimestamp1.getSize()==latestTimestamp2.getSize()) {
+//					System.out.println("Latest timestamp jar in repos match: " + latestTimestampJar1.getName()
+//							+", size: " + latestTimestampJar1.getSize());
+			} else {
+				sb.append("----- Latest [" + suffix + "] timestamp versions in repos do not match!").append("\n");
+				sb.append("From repo 1: " + latestTimestamp1.getName()
+						+", size: " + latestTimestamp1.getSize()).append("\n");
+				sb.append("From repo 2: " + latestTimestamp2.getName()
+						+", size: " + latestTimestamp2.getSize()).append("\n");
+			}
+		} else if (latestTimestamp1 == null && latestTimestamp2 != null) {
+			sb.append("----- Could not find latest timestamp [" + suffix + "] in repo1 (but it is in repo 2)").append("\n");
+		} else if (latestTimestamp2 == null && latestTimestamp1 != null) {
+			sb.append("----- Could not find latest timestamp [" + suffix + "] in repo2 (but it is in repo 1)").append("\n");
+		}
+	}
+
+	private void printAllFiles(StringBuffer sb, FolderInfo folder) {
+		for (FileInfo fileInfo : folder.getFileInfoList()) {
+			sb.append("  " + fileInfo.getName() + " : " + fileInfo.getSize()).append("\n");
+		}
+	}
+
+	
 }
