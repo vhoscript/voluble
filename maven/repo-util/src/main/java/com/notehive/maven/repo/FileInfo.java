@@ -4,9 +4,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class FileInfo {
-
-	String LATEST_VERSION_REGEX = ".*-(\\d*)\\.(?:jar|nar)";
 	
+	private String LATEST_VERSION_REGEX = ".*-(\\d*)\\.";
+
 	private String name;
 	private int size;
 	
@@ -23,17 +23,15 @@ public class FileInfo {
 		this.size = size;
 	}
 
-	public boolean getHasVersion() {
-		return name.matches(LATEST_VERSION_REGEX);
+	public boolean getHasVersion(String suffix) {
+		return name.matches(LATEST_VERSION_REGEX + suffix);
 	}
 
-	public int getLatestVersion() {
-		String REGEX = ".*-(\\d*)\\.(?:jar|nar)";
-
+	public int getLatestVersion(String suffix) {
 		// timestamp versions look like this:
 		// tva-common-plugin-3.4.0-20080716.202607-6.pom
 		
-		Pattern p = Pattern.compile(REGEX);
+		Pattern p = Pattern.compile(LATEST_VERSION_REGEX + suffix);
 		Matcher m = p.matcher(name);
 		if (m.matches()) {
 			String latestVersion = m.group(1); 
