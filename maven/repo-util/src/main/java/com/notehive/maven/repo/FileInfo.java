@@ -7,6 +7,8 @@ public class FileInfo {
 	
 	private String LATEST_VERSION_REGEX = ".*-(\\d*)\\.";
 
+	// folder that contains this file
+	private FolderInfo folderInfo;
 	private String name;
 	private int size;
 	
@@ -40,6 +42,12 @@ public class FileInfo {
 			throw new IllegalStateException("Could not get latest version in this name: " + name);
 		}
 
+	}
+	public void setFolderInfo(FolderInfo folderInfo) {
+		this.folderInfo = folderInfo;
+	}
+	public FolderInfo getFolderInfo() {
+		return folderInfo;
 	}
 
 	
