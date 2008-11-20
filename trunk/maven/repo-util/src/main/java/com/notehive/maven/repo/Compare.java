@@ -48,8 +48,10 @@ public class Compare {
 
 	public void process() throws Exception {
 
-		repo1Folders = getFolderInfo(lsFile1);
-		repo2Folders = getFolderInfo(lsFile2);
+		FolderParser folderInfoParser = new FolderParser();
+		
+		repo1Folders = folderInfoParser.getFolderInfo(lsFile1);
+		repo2Folders = folderInfoParser.getFolderInfo(lsFile2);
 		
 		differences = new ArrayList<Difference>();
 
@@ -113,75 +115,6 @@ public class Compare {
 		return null;
 	}
 
-	/**
-	 * look for directories (lines that start with a dot) the next line contains
-	 * the file count, for example: A line containing "./ant/ant" is followed 
-	 * by a line containing "total 32"
-	 */
-	private List<FolderInfo> getFolderInfo(String file) throws Exception {
-		BufferedReader br = new BufferedReader(new FileReader(file));
-		
-		List<FolderInfo> folderInfoList = new ArrayList<FolderInfo>();
-		
-		lineNumber = 0;
-		String line = null;
-		while ((line = br.readLine()) != null) {
-			lineNumber++;
-			if (line.startsWith(".")) {
-				FolderInfo fi = new FolderInfo();
-				fi.setName(line);
-				
-				line = br.readLine();
-				if (line == null || !line.startsWith("total ")) {
-					throw new RuntimeException("Expected another line after line number ["
-							+ lineNumber + "] to contain the string \"total n\" (where 'n' is a number)");
-				}
-				int total = Integer.parseInt(line.substring(6).trim());
-				fi.setTotal(total);
-
-				fi.setFileInfoList(getFileInfoList(br));
-
-				folderInfoList.add(fi);
-			}
-		}
-		br.close();
-		
-		return folderInfoList;
-	}
-
-	private List<FileInfo> getFileInfoList(BufferedReader br) throws IOException {
-		// get the list of files in the folder
-		
-		List<FileInfo> fileList = new ArrayList<FileInfo>();
-		
-		String line = br.readLine();
-		while (line != null && line.trim().length() > 0) {
-			lineNumber++;
-			line = line.trim();
-			String[] lineWords = line.split("\\s+");
-			
-			// expect line to look like this:
-			// -rw-rw-r--   1 hudson hudson 20655 Jan 30  2008 maven-repository-metadata-2.0.jar
-			if (lineWords.length != 9) {
-				throw new RuntimeException("Expected 9 \"words\" in line number ["
-						+ lineNumber + "].  I see [" + lineWords.length + "]");
-			}
-			// not interested in "." and ".." directory entries
-			if (lineWords[8].equals(".") || lineWords[8].equals("..")) {
-				line = br.readLine();
-				continue;
-			}
-			FileInfo fi = new FileInfo();
-			fi.setName(lineWords[8]);
-			fi.setSize(Integer.parseInt(lineWords[4]));
-			
-			fileList.add(fi);
-			
-			line = br.readLine();
-		}
-		
-		return fileList;
-	}
 	
 	/** 
 	 * if this is a -SNAPSHOT version, check if the -SNAPSHOT.jars have the
