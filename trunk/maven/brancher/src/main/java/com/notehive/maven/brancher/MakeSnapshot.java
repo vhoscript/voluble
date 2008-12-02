@@ -72,6 +72,11 @@ public class MakeSnapshot {
 					String scmUrlPathToAppend = pomFile.getParentFile().getAbsolutePath().
 							substring(rootFolder.getAbsolutePath().length());
 					
+					// use forward slashes, even on windows
+					// need so many backslashes because this is a regular expression,
+					// which needs two backslashes, but they both must be escaped
+					scmUrlPathToAppend = scmUrlPathToAppend.replaceAll("\\\\", "/");
+					
 					File pomBackup = new File(pomFile.getAbsolutePath() + ".backup");
 					
 					// first make a backup
