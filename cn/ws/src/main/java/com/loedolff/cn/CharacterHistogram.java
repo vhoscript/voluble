@@ -25,8 +25,14 @@ import com.meterware.httpunit.WebResponse;
 
 public class CharacterHistogram {
 	
+	// how many times does each character repeat
 	private Map<Character, Integer> occurance = new HashMap<Character, Integer>();
+	// list of characters, ordered by the number of times they repeat
 	private List<Entry<Character, Integer>> orderedByOccurance; 
+	// how many characters repeat 1 times, 2 times, etc.
+	private Map<Integer, Integer> occuranceHistogram;
+	// histogram ordered by number of times a character occurs
+	private List<Entry<Integer, Integer>> orederedOccuranceHistogram;
     
     private int totalCharacters = 0;
 	
@@ -89,32 +95,16 @@ public class CharacterHistogram {
 		orderedByOccurance = 
     		new ArrayList<Entry<Character, Integer>>(occurance.entrySet());
     	Collections.sort(orderedByOccurance, new Comparator<Entry<Character, Integer>>() {
-
-			@Override
-			public int compare(Entry<Character, Integer> a,
-					Entry<Character, Integer> b) {
-				return b.getValue() - a.getValue();
+			public int compare(Entry<Character, Integer> o1,
+					Entry<Character, Integer> o2) {
+				return o2.getValue() - o1.getValue();
 			}
-    		
     	});
-	}
-	
-	public void writeHistogram(String outputFilename) throws IOException {
-		// how many characters occur one's, twice, etc.
-    	Map<Integer, Integer> occuranceHistogram = 
-    		new HashMap<Integer, Integer>();
-		
-    	OutputStreamWriter out2 = new OutputStreamWriter(
-    			new FileOutputStream(outputFilename), Charset.forName("UTF-8"));
-    	PrintWriter pw = new PrintWriter(out2);
-    	List<Entry<Character, Integer>> l = getOrderedByOccurance();
+
+    	occuranceHistogram = new HashMap<Integer, Integer>();
     	
     	int sanityCheck = 0;
-    	for (Entry<Character, Integer> entry : l) {
-			out2.write(entry.getKey());
-			out2.write(" - ");
-			out2.write(entry.getValue().toString());
-			out2.write("\n");
+    	for (Entry<Character, Integer> entry : occurance.entrySet()) {
 			sanityCheck += entry.getValue();
 			
 			Integer count = occuranceHistogram.get(entry.getValue());
@@ -124,18 +114,33 @@ public class CharacterHistogram {
 				occuranceHistogram.put(entry.getValue(), count+1);
 			}
     	}
-
-    	List<Entry<Integer, Integer>> l2 = 
+    
+    	orederedOccuranceHistogram = 
     		new ArrayList<Entry<Integer, Integer>>(occuranceHistogram.entrySet());
-    	Collections.sort(l2, new Comparator<Entry<Integer, Integer>>() {
-
-			@Override
+    	Collections.sort(orederedOccuranceHistogram, new Comparator<Entry<Integer, Integer>>() {
 			public int compare(Entry<Integer, Integer> a,
 					Entry<Integer, Integer> b) {
 				return b.getKey() - a.getKey();
 			}
-    		
     	});
+        
+    	System.out.println("Sanity check... these values should match:" + sanityCheck + " = " + this.totalCharacters);
+	}
+	
+	public void writeHistogram(String outputFilename) throws IOException {
+		
+    	OutputStreamWriter out2 = new OutputStreamWriter(
+    			new FileOutputStream(outputFilename), Charset.forName("UTF-8"));
+    	PrintWriter pw = new PrintWriter(out2);
+    	
+    	for (Entry<Character, Integer> entry : getOrderedByOccurance()) {
+			out2.write(entry.getKey());
+			out2.write(" - ");
+			out2.write(entry.getValue().toString());
+			out2.write("\n");
+    	}
+
+    	List<Entry<Integer, Integer>> l2 = getOrderedOccuranceHistogram();
     	
     	int totalCharacters = 0;
     	pw.println();
@@ -144,15 +149,7 @@ public class CharacterHistogram {
     	
     	{
     		Entry<Integer, Integer> e = l2.get(2);
-    		int sum = (l2.get(1).getValue() + l2.get(0).getValue() + e.getValue());
-    		int product = (l2.get(1).getValue()*l2.get(1).getKey() +
-    				l2.get(0).getValue()*l2.get(0).getKey() + 
-    				e.getValue() * e.getKey());
-    		pw.println("(for example, " + e.getValue() + " characters " +
-    				"occur " + e.getKey() + " times and " +
-    				sum
-    				+ " characters occur " + e.getKey() + " or more times, " +
-    				"accounting for " + 100*product/this.totalCharacters + "% of the total text parsed");
+    		pw.println(getExplanationString(e));
     		pw.println();
     	}
     	
@@ -171,8 +168,72 @@ public class CharacterHistogram {
     	}
     	
     	out2.close();
+	}
+
+	public void writeHtmlHistogram(String outputFilename) throws IOException {
+		
+		+++write HTML+++
+		
+    	OutputStreamWriter out2 = new OutputStreamWriter(
+    			new FileOutputStream(outputFilename), Charset.forName("UTF-8"));
+    	PrintWriter pw = new PrintWriter(out2);
     	
-    	System.out.println("Sanity check... these values should match:" + sanityCheck + " = " + this.totalCharacters);
+    	for (Entry<Character, Integer> entry : getOrderedByOccurance()) {
+			out2.write(entry.getKey());
+			out2.write(" - ");
+			out2.write(entry.getValue().toString());
+			out2.write("\n");
+    	}
+
+    	List<Entry<Integer, Integer>> l2 = getOrderedOccuranceHistogram();
+    	
+    	int totalCharacters = 0;
+    	pw.println();
+    	pw.println("Occurance Histogram");
+    	pw.println("Occurs | Characters that occur that many times | Total so far | % of total text");
+    	
+    	{
+    		Entry<Integer, Integer> e = l2.get(2);
+    		pw.println(getExplanationString(e));
+    		pw.println();
+    	}
+    	
+    	int product = 0;
+    	for (Entry<Integer, Integer> e : l2) {
+    		totalCharacters += e.getValue();
+    		product += e.getValue() * e.getKey();
+    		pw.printf("%3d", e.getKey());
+    		pw.print(" | ");
+    		pw.printf("%3d", e.getValue());
+    		pw.print(" | ");
+    		pw.printf("%4d", totalCharacters);
+    		pw.print(" | ");
+    		pw.printf("%3d", 100*product/this.totalCharacters);
+    		pw.println();
+    	}
+    	
+    	out2.close();
+	}
+
+	private String getExplanationString(Entry<Integer, Integer> e) {
+		
+		int sum = (getOrderedOccuranceHistogram().get(1).getValue() + 
+				getOrderedOccuranceHistogram().get(0).getValue() + e.getValue());
+		int product = (getOrderedOccuranceHistogram().get(1).getValue() *
+				getOrderedOccuranceHistogram().get(1).getKey() +
+				getOrderedOccuranceHistogram().get(0).getValue() * 
+				getOrderedOccuranceHistogram().get(0).getKey() + 
+				e.getValue() * e.getKey());
+
+		return "(for example, " + e.getValue() + " characters " +
+				"occur " + e.getKey() + " times and " +
+				sum
+				+ " characters occur " + e.getKey() + " or more times, " +
+				"accounting for " + 100*product/this.totalCharacters + "% of the total text parsed";
+	}
+
+	private List<Entry<Integer, Integer>> getOrderedOccuranceHistogram() {
+		return orederedOccuranceHistogram;
 	}
 
 	public List<Entry<Character, Integer>> getOrderedByOccurance() {
