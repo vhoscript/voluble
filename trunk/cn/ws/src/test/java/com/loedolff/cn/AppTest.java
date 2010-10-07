@@ -18,14 +18,15 @@ public class AppTest
     	System.out.println("In wsj1.html");
     	System.out.println("------------");
     	CharacterHistogram wh1 = new CharacterHistogram();
-    	wh1.addWords(new URL("file:src/test/resources/wsj1.html"));
+    	wh1.addWords(new URL("http://cn.wsj.com"));
     	
-    	System.out.println();
-    	System.out.println("Combined");
-    	System.out.println("--------");
-    	wh1.addWords(new URL("file:src/test/resources/wsj2.html"));
+//    	System.out.println();
+//    	System.out.println("Combined");
+//    	System.out.println("--------");
+//    	wh1.addWords(new URL("file:src/test/resources/wsj2.html"));
     	
     	wh1.writeHistogram("target/histogram.txt");
+    	wh1.writeHtmlHistogram("target/histogram.txt");
     	
     	Recommendations r = new Recommendations();
     	r.recommend(wh1);
