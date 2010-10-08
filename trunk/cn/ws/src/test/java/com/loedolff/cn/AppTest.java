@@ -26,7 +26,7 @@ public class AppTest
 //    	wh1.addWords(new URL("file:src/test/resources/wsj2.html"));
     	
     	wh1.writeHistogram("target/histogram.txt");
-    	wh1.writeHtmlHistogram("target/histogram.txt");
+    	wh1.writeHtmlHistogram("target/histogram.html");
     	
     	Recommendations r = new Recommendations();
     	r.recommend(wh1);

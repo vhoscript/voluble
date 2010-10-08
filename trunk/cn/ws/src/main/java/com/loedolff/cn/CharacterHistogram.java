@@ -140,21 +140,16 @@ public class CharacterHistogram {
 			out2.write("\n");
     	}
 
-    	List<Entry<Integer, Integer>> l2 = getOrderedOccuranceHistogram();
-    	
     	int totalCharacters = 0;
     	pw.println();
     	pw.println("Occurance Histogram");
     	pw.println("Occurs | Characters that occur that many times | Total so far | % of total text");
     	
-    	{
-    		Entry<Integer, Integer> e = l2.get(2);
-    		pw.println(getExplanationString(e));
-    		pw.println();
-    	}
+		pw.println(getExplanationString());
+		pw.println();
     	
     	int product = 0;
-    	for (Entry<Integer, Integer> e : l2) {
+    	for (Entry<Integer, Integer> e : getOrderedOccuranceHistogram()) {
     		totalCharacters += e.getValue();
     		product += e.getValue() * e.getKey();
     		pw.printf("%3d", e.getKey());
@@ -172,63 +167,73 @@ public class CharacterHistogram {
 
 	public void writeHtmlHistogram(String outputFilename) throws IOException {
 		
-		+++write HTML+++
-		
     	OutputStreamWriter out2 = new OutputStreamWriter(
     			new FileOutputStream(outputFilename), Charset.forName("UTF-8"));
     	PrintWriter pw = new PrintWriter(out2);
     	
+    	pw.println("<html>");
+    	pw.println("<head>");
+    	pw.println("<meta http-equiv='Content-Type' content='text/html; charset=GB2312'>");
+    	pw.println("</head>");
+    	pw.println("<body>");
+    	
     	for (Entry<Character, Integer> entry : getOrderedByOccurance()) {
-			out2.write(entry.getKey());
+			out2.write("&#" + (int) entry.getKey());
+			out2.write(";");
 			out2.write(" - ");
 			out2.write(entry.getValue().toString());
-			out2.write("\n");
+			out2.write("<br/>\n");
     	}
 
-    	List<Entry<Integer, Integer>> l2 = getOrderedOccuranceHistogram();
-    	
     	int totalCharacters = 0;
-    	pw.println();
-    	pw.println("Occurance Histogram");
-    	pw.println("Occurs | Characters that occur that many times | Total so far | % of total text");
-    	
-    	{
-    		Entry<Integer, Integer> e = l2.get(2);
-    		pw.println(getExplanationString(e));
-    		pw.println();
-    	}
-    	
+    	pw.println("<br/>");
+    	pw.println("<b>Occurance Histogram<br/></br>");
+    	pw.println(getExplanationString());
+		pw.println("<br/><br/>");
+    	pw.println("<table>");
+    	pw.print("<tr><th>Occurs</th>");
+    	pw.print("<th>Characters that occur that many times</th>" +
+    			"<th>Total so far</th><th>% of total text</th></tr><br/>");
     	int product = 0;
-    	for (Entry<Integer, Integer> e : l2) {
+    	for (Entry<Integer, Integer> e : getOrderedOccuranceHistogram()) {
     		totalCharacters += e.getValue();
     		product += e.getValue() * e.getKey();
+    		pw.print("<tr>");
+    		pw.print("<td>");
     		pw.printf("%3d", e.getKey());
-    		pw.print(" | ");
+    		pw.print("</td>");
+    		pw.print("<td>");
     		pw.printf("%3d", e.getValue());
-    		pw.print(" | ");
+    		pw.print("</td>");
+    		pw.print("<td>");
     		pw.printf("%4d", totalCharacters);
-    		pw.print(" | ");
+    		pw.print("</td>");
+    		pw.print("<td>");
     		pw.printf("%3d", 100*product/this.totalCharacters);
-    		pw.println();
+    		pw.print("</td>");
+    		pw.println("</tr>");
     	}
-    	
+    	pw.println("</table>");
+    	pw.println("</body>");
     	out2.close();
 	}
 
-	private String getExplanationString(Entry<Integer, Integer> e) {
+	private String getExplanationString() {
 		
 		int sum = (getOrderedOccuranceHistogram().get(1).getValue() + 
-				getOrderedOccuranceHistogram().get(0).getValue() + e.getValue());
+				getOrderedOccuranceHistogram().get(0).getValue() + 
+				getOrderedOccuranceHistogram().get(2).getValue());
 		int product = (getOrderedOccuranceHistogram().get(1).getValue() *
 				getOrderedOccuranceHistogram().get(1).getKey() +
 				getOrderedOccuranceHistogram().get(0).getValue() * 
 				getOrderedOccuranceHistogram().get(0).getKey() + 
-				e.getValue() * e.getKey());
+				getOrderedOccuranceHistogram().get(2).getValue() * 
+				getOrderedOccuranceHistogram().get(2).getKey());
 
-		return "(for example, " + e.getValue() + " characters " +
-				"occur " + e.getKey() + " times and " +
+		return "(for example, " + getOrderedOccuranceHistogram().get(2).getValue() + " characters " +
+				"occur " + getOrderedOccuranceHistogram().get(2).getKey() + " times and " +
 				sum
-				+ " characters occur " + e.getKey() + " or more times, " +
+				+ " characters occur " + getOrderedOccuranceHistogram().get(2).getKey() + " or more times, " +
 				"accounting for " + 100*product/this.totalCharacters + "% of the total text parsed";
 	}
 
