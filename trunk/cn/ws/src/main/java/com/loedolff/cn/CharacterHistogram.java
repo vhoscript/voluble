@@ -2,10 +2,9 @@ package com.loedolff.cn;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.net.URL;
+import java.io.StringReader;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,12 +15,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.xml.sax.SAXException;
-
-import com.meterware.httpunit.GetMethodWebRequest;
-import com.meterware.httpunit.HttpUnitOptions;
-import com.meterware.httpunit.WebConversation;
-import com.meterware.httpunit.WebRequest;
-import com.meterware.httpunit.WebResponse;
 
 public class CharacterHistogram {
 	
@@ -39,21 +32,10 @@ public class CharacterHistogram {
     public CharacterHistogram() throws IOException, SAXException {
 	}
 	
-	public void addWords(URL url) throws IOException, SAXException {
-    	HttpUnitOptions.setScriptingEnabled(false);
-    	HttpUnitOptions.setDefaultCharacterSet("GB2312");
-    	WebConversation wc = new WebConversation();
-    	
-    	WebRequest req = new GetMethodWebRequest(url.toExternalForm());
-        WebResponse resp = wc.getResponse(req);
-        
-        Charset cs = Charset.forName("GB2312");
-        
-    	InputStreamReader fr = new InputStreamReader(resp.getInputStream(), cs);
-        
-    	OutputStreamWriter out = new OutputStreamWriter(
-    			new FileOutputStream("target/out"), Charset.forName("UTF-8"));
-        
+	public void addWords(SourceDocument sourceDocument) throws IOException, SAXException {
+
+		StringReader fr = new StringReader(sourceDocument.getSource().toString());
+		
         int i;
         while ((i = fr.read()) != -1) {
         	Character c = (char) i;
@@ -61,7 +43,6 @@ public class CharacterHistogram {
         		continue;
         	}
         	totalCharacters++;
-        	out.write(c.charValue());
 
         	if (i % 1000 == 0) {
         		System.out.print(".");
@@ -75,9 +56,6 @@ public class CharacterHistogram {
         	}
         }
 
-        out.flush();
-        out.close();
-        
         System.out.println();
         System.out.println("Total Chinese characters: " + totalCharacters);
         System.out.println("Total unique Chinese characters: " + occurance.size());
