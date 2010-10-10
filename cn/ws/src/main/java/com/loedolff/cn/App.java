@@ -18,7 +18,7 @@ public class App
     	System.out.println( new Date().toString() );
 
     	CharacterHistogram wh1 = new CharacterHistogram();
-    	wh1.addWords(new URL("http://cn.wsj.com"));
+    	wh1.addWords(new SourceDocument(new URL("http://cn.wsj.com")));
     	
 //    	System.out.println();
 //    	System.out.println("Combined");

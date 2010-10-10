@@ -2,21 +2,18 @@ package com.loedolff.cn;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.xml.sax.SAXException;
 
-import com.meterware.httpunit.GetMethodWebRequest;
-import com.meterware.httpunit.HttpUnitOptions;
-import com.meterware.httpunit.WebConversation;
-import com.meterware.httpunit.WebRequest;
-import com.meterware.httpunit.WebResponse;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.DomAttr;
+import com.gargoylesoftware.htmlunit.html.HtmlElement;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class SourceDocument {
 	
@@ -24,24 +21,37 @@ public class SourceDocument {
 	private URL url;
 	
 	public SourceDocument(URL url) throws IOException, SAXException {
-		HttpUnitOptions.setScriptingEnabled(true);
-		HttpUnitOptions.setExceptionsThrownOnScriptError(false);
-		HttpUnitOptions.setDefaultCharacterSet("GB2312");
-		WebConversation wc = new WebConversation();
+		final WebClient webClient = new WebClient();
+		webClient.setThrowExceptionOnScriptError(true); 
+		final HtmlPage page = (HtmlPage) webClient.getPage(url);
 
-		WebRequest req = new GetMethodWebRequest(url.toExternalForm());
-		WebResponse resp = wc.getResponse(req);
-		this.url = resp.getURL();
-
-		Charset cs = Charset.forName("GB2312");
-		InputStreamReader fr = new InputStreamReader(resp.getInputStream(), cs);
-
-		int i;
-		while ((i = fr.read()) != -1) {
-			source.append((char) i);
-		}
+//		HttpUnitOptions.setDefaultCharacterSet("GB2312");
+		this.url = page.getUrl();
 		
-		fr.close();
+		// get URL - may be different from parameter if we were redirected
+		// source.append(page.getWebResponse().getContentAsString());
+		source.append("<html>\n");
+		for (HtmlElement h : page.getDocumentElement().getChildElements()) {
+			appendSource(h);
+			source.append("\n");
+		}
+		source.append("</html>\n");
+	}
+	
+	void appendSource(HtmlElement e) {
+		source.append("<").append(e.getNodeName()).append(" ");
+		for (DomAttr a : e.getAttributesMap().values()) {
+			source.append(a.getName()).append("=").append("\"").append(a.getValue()).append("\"").append(" ");
+		}
+		source.append(">");
+		source.append("\n");
+		source.append(e.getTextContent());
+		for (HtmlElement h : e.getChildElements()) {
+			appendSource(h);
+			source.append("\n");
+		}
+		source.append("</"+e.getNodeName()+">");
+		source.append("\n");
 	}
 	
 	private boolean isChineseCharacter(Character c) {
@@ -73,15 +83,17 @@ public class SourceDocument {
 			if (m.group(1).toLowerCase().startsWith("http") ||
 					m.group(1).toLowerCase().startsWith("javascript")) {
 				String r = attribute + "=\""+m.group(1)+"\""+m.group(2);
-				System.out.println("Replacing: ["+m.group()+"] with "+"["+r+"]");
 				m.appendReplacement(output, r);
 			} else {
 				String r = attribute + "=\""+url.toExternalForm()+m.group(1)+"\"" + m.group(2);
-				System.out.println("Replacing: ["+m.group()+"] with "+"["+r+"]");
 				m.appendReplacement(output, r);
 			}
 		}
 		return output;
+	}
+
+	public StringBuffer getSource() {
+		return source;
 	}
 
 }
