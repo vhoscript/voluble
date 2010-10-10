@@ -21,14 +21,17 @@ import java.util.regex.Pattern;
 public class SourceDocument {
 	
 	private StringBuffer source = new StringBuffer();
+	private URL url;
 	
 	public SourceDocument(URL url) throws IOException, SAXException {
-		HttpUnitOptions.setScriptingEnabled(false);
+		HttpUnitOptions.setScriptingEnabled(true);
+		HttpUnitOptions.setExceptionsThrownOnScriptError(false);
 		HttpUnitOptions.setDefaultCharacterSet("GB2312");
 		WebConversation wc = new WebConversation();
 
 		WebRequest req = new GetMethodWebRequest(url.toExternalForm());
 		WebResponse resp = wc.getResponse(req);
+		this.url = resp.getURL();
 
 		Charset cs = Charset.forName("GB2312");
 		InputStreamReader fr = new InputStreamReader(resp.getInputStream(), cs);
@@ -49,39 +52,36 @@ public class SourceDocument {
 	 * @throws IOException */
 	public void write(String file) throws IOException {
 		
-		StringBuffer output = new StringBuffer();
-		
-		Pattern p = Pattern.compile("src=\"(.*)\"");
-		Matcher m = p.matcher(source);
-		while (m.find()) {
-			if (m.group(1).toLowerCase().startsWith("http")) {
-				m.appendReplacement(output, "src=\""+m.group(1)+"\"");
-				++can replace 2nd parte above with m.group()???
-			} else {
-				+++download the resource and store it locally, update reference?????+++
-				m.appendReplacement(output, "src=\"http://chinese.wsj.com/gb/"+m.group(1)+"\"");
-			}
-		}
-		p = Pattern.compile("href=\"(.*)\"");
-		m = p.matcher(output);
-		
-		StringBuffer output2 = new StringBuffer();
-
-		while (m.find()) {
-			if (m.group(1).toLowerCase().startsWith("http")) {
-				m.appendReplacement(output2, "src=\""+m.group(1)+"\"");
-			} else {
-				+++download the resource and store it locally, update reference?????+++
-				m.appendReplacement(output2, "href=\"http://chinese.wsj.com/gb/"+m.group(1)+"\"");
-			}
-		}
+		StringBuffer output;
+		output = replace("src", source);
+		output = replace("href", output);
 		
 		OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(file),
 				Charset.forName("GB2312"));
 			   
-		out.append(output2);
+		out.append(output);
 		
 		out.close();
+	}
+
+	private StringBuffer replace(String attribute, StringBuffer input) {
+		StringBuffer output = new StringBuffer();
+		
+		Pattern p = Pattern.compile(attribute + "=['\"]?(.*?)['\"]?([ >])");
+		Matcher m = p.matcher(input);
+		while (m.find()) {
+			if (m.group(1).toLowerCase().startsWith("http") ||
+					m.group(1).toLowerCase().startsWith("javascript")) {
+				String r = attribute + "=\""+m.group(1)+"\""+m.group(2);
+				System.out.println("Replacing: ["+m.group()+"] with "+"["+r+"]");
+				m.appendReplacement(output, r);
+			} else {
+				String r = attribute + "=\""+url.toExternalForm()+m.group(1)+"\"" + m.group(2);
+				System.out.println("Replacing: ["+m.group()+"] with "+"["+r+"]");
+				m.appendReplacement(output, r);
+			}
+		}
+		return output;
 	}
 
 }
