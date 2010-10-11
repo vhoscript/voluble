@@ -8,11 +8,12 @@ import java.nio.charset.Charset;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
 import com.gargoylesoftware.htmlunit.WebClient;
-import com.gargoylesoftware.htmlunit.html.DomAttr;
-import com.gargoylesoftware.htmlunit.html.HtmlElement;
+import com.gargoylesoftware.htmlunit.html.DomNode;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class SourceDocument {
@@ -22,7 +23,7 @@ public class SourceDocument {
 	
 	public SourceDocument(URL url) throws IOException, SAXException {
 		final WebClient webClient = new WebClient();
-		webClient.setThrowExceptionOnScriptError(true); 
+		webClient.setThrowExceptionOnScriptError(false); 
 		final HtmlPage page = (HtmlPage) webClient.getPage(url);
 
 //		HttpUnitOptions.setDefaultCharacterSet("GB2312");
@@ -30,28 +31,44 @@ public class SourceDocument {
 		
 		// get URL - may be different from parameter if we were redirected
 		// source.append(page.getWebResponse().getContentAsString());
-		source.append("<html>\n");
-		for (HtmlElement h : page.getDocumentElement().getChildElements()) {
+		source.append("<html>");
+//		source.append(page.getDocumentElement().asXml());
+		
+		for (DomNode h : page.getDocumentElement().getChildNodes()) {
 			appendSource(h);
-			source.append("\n");
+			source.append("");
 		}
-		source.append("</html>\n");
+		source.append("</html>");
 	}
 	
-	void appendSource(HtmlElement e) {
+	void appendSource(DomNode e) {
+		if (e.getNodeName().equals("#text")) {
+			source.append(e.asText());
+			return;
+		}
+		if (e.getNodeName().equals("#comment")) {
+			source.append("<!--");
+			source.append(e.asText());
+			source.append("-->");
+			return;
+		}
 		source.append("<").append(e.getNodeName()).append(" ");
-		for (DomAttr a : e.getAttributesMap().values()) {
-			source.append(a.getName()).append("=").append("\"").append(a.getValue()).append("\"").append(" ");
+		NamedNodeMap nnm = e.getAttributes();
+		for (int i=0; i<nnm.getLength(); i++) {
+			Node node = nnm.item(i);
+			source.append(node.getNodeName()).append("=").append("\"").append(node.getNodeValue()).append("\"").append(" ");
 		}
 		source.append(">");
-		source.append("\n");
-		source.append(e.getTextContent());
-		for (HtmlElement h : e.getChildElements()) {
+		source.append("");
+		if (e.getNodeName().equals("script")) {
+			source.append(e.getTextContent());
+		}
+		for (DomNode h : e.getChildNodes()) {
 			appendSource(h);
-			source.append("\n");
+			source.append("");
 		}
 		source.append("</"+e.getNodeName()+">");
-		source.append("\n");
+		source.append("");
 	}
 	
 	private boolean isChineseCharacter(Character c) {
