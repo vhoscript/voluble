@@ -45,9 +45,10 @@ public class SourceDocument {
 		source.append(">");
 		if (e.getNodeName().equals("script")) {
 			source.append(e.getTextContent());
-		}
-		for (DomNode h : e.getChildNodes()) {
-			appendSource(h);
+		} else {
+			for (DomNode h : e.getChildNodes()) {
+				appendSource(h);
+			}
 		}
 		source.append("</"+e.getNodeName()+">");
 	}
@@ -70,13 +71,64 @@ public class SourceDocument {
 		}
 	}
 
-	private StringBuffer source = new StringBuffer();
-	public StringBuffer asStringBuffer() {
+	private StringBuffer source;
+	public StringBuffer asStringBufferOriginal() {
+		source = new StringBuffer();
 		source.append("<html>");
 		for (DomNode h : page.getDocumentElement().getChildNodes()) {
 			appendSource(h);
 			source.append("");
 		}
+		source.append("</html>");
+		return source;
+	}
+
+	public StringBuffer asStringBuffer() {
+		final StringBuffer source = new StringBuffer();
+
+		SourceDocument.NodeVisitor myNodeVisitor = new SourceDocument.NodeVisitor() {
+			
+			private boolean inScript = false;
+			
+			@Override
+			public void nodeStart(DomNode e) {
+				if (e.getNodeName().equals("#text") && !inScript) {
+					source.append(escapeCharCodes(e.getNodeValue()));
+					return;
+				}
+				if (e.getNodeName().equals("#comment")) {
+					source.append("<!--");
+					source.append(e.getTextContent());
+					source.append("-->");
+					source.append("\n");
+					return;
+				}
+				source.append("<").append(e.getNodeName());
+				NamedNodeMap nnm = e.getAttributes();
+				for (int i=0; i<nnm.getLength(); i++) {
+					Node node = nnm.item(i);
+					source.append(" ").append(node.getNodeName()).append("=").append("\"").append(node.getNodeValue()).append("\"");
+				}
+				source.append(">");
+				if (e.getNodeName().equals("script")) {
+					source.append(e.getTextContent());
+					inScript = true;
+				}
+			}
+			
+			public void nodeEnd(DomNode e) {
+				if (e.getNodeName().equals("#text") || e.getNodeName().equals("#comment")) {
+					return;
+				}
+				source.append("</"+e.getNodeName()+">");
+				if (e.getNodeName().equals("script")) {
+					inScript = false;
+				}
+			}
+		};
+		
+		source.append("<html>");
+		visitAllNodes(myNodeVisitor);
 		source.append("</html>");
 		return source;
 	}
