@@ -5,6 +5,8 @@ import com.gargoylesoftware.htmlunit.html.DomNode;
 public class AugmentSource {
 	
 	private Known known;
+	
+	
 	/**
 	 * Place yellow background behind known characters
 	 * 
@@ -16,9 +18,15 @@ public class AugmentSource {
 		this.known = known;
 		
 		SourceDocument.NodeVisitor myNodeVisitor = new SourceDocument.NodeVisitor() {
+	
+			boolean inScript = false;
 			
 			@Override
 			public void nodeStart(DomNode e) {
+				if (inScript) return;
+				if (e.getNodeName().equals("#script")) {
+					inScript = true;
+				}
 				if (!e.getNodeName().equals("#text")) {
 					return;
 				}
@@ -36,6 +44,9 @@ public class AugmentSource {
 			}
 			
 			public void nodeEnd(DomNode e) {
+				if (e.getNodeName().equals("#script")) {
+					inScript = false;
+				}
 			}
 		};
 		
