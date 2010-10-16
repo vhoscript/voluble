@@ -14,21 +14,32 @@ public class App
 {
     public static void main( String[] args ) throws IOException, SAXException
     {
+    	if (args.length != 2) {
+    		System.out.println("Pass URL to source doc as first parameter");
+    		System.out.println("Pass utf-8 iKnow filename as second parameter");
+    		System.exit(1);
+    	}
+    	
         System.out.println( "Hello World!" );
     	System.out.println( new Date().toString() );
+    	
+    	SourceDocument sourceDoc = new SourceDocument(new URL(args[0]));
 
     	CharacterHistogram wh1 = new CharacterHistogram();
-    	wh1.addWords(new SourceDocument(new URL("http://cn.wsj.com")));
-    	
-//    	System.out.println();
-//    	System.out.println("Combined");
-//    	System.out.println("--------");
-//    	wh1.addWords(new URL("file:src/test/resources/wsj2.html"));
+    	wh1.addWords(sourceDoc);
     	
     	wh1.writeHistogram("target/histogram.txt");
     	wh1.writeHtmlHistogram("target/histogram.html");
     	
-    	Recommendations r = new Recommendations();
-    	r.recommend(wh1);
+    	Known known = new Known(args[1]);
+    	
+    	Recommendations r = new Recommendations(wh1, known);
+    	r.writeHtmlRecommendations("target/recommendations.html");
+    	
+    	AugmentSource augmentSource = new AugmentSource();
+    	augmentSource.highlightKnown(sourceDoc, known);
+    	
+    	RelocateHtml relocateHtml = new RelocateHtml();
+    	relocateHtml.write(sourceDoc, "target/wjs-highligted.html");
     }
 }

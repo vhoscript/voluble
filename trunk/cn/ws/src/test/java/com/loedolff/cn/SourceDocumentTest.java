@@ -11,6 +11,7 @@ public class SourceDocumentTest {
 	
 	@Test public void testRead() throws IOException, SAXException {
 		SourceDocument sd = new SourceDocument(new URL("http://cn.wsj.com"));
-		sd.write("target/wsj.html");
+		RelocateHtml rh = new RelocateHtml();
+		rh.write(sd, "target/wsj.html");
 	}
 }

@@ -13,26 +13,8 @@ public class AppTest
 {
     @Test
     public void test() throws IOException, SAXException {
-    	
-    	System.out.println();
-    	System.out.println("In wsj1.html");
-    	System.out.println("------------");
-    	CharacterHistogram wh1 = new CharacterHistogram();
-    	wh1.addWords(new SourceDocument(new URL("http://cn.wsj.com")));
-    	
-//    	System.out.println();
-//    	System.out.println("Combined");
-//    	System.out.println("--------");
-//    	wh1.addWords(new URL("file:src/test/resources/wsj2.html"));
-    	
-    	wh1.writeHistogram("target/histogram.txt");
-    	wh1.writeHtmlHistogram("target/histogram.html");
-    	
-    	Recommendations r = new Recommendations();
-    	r.recommend(wh1);
-    	
-    	//++++ based on what I know... how much of the text should I be
-    	// able to read?
+
+    	App.main(new String[] {"file:///temp/WSJ.com.htm", "src/main/resources/iknow.txt"});
     }
 }
 

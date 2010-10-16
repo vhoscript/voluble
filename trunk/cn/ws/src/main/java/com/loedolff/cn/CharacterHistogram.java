@@ -34,7 +34,7 @@ public class CharacterHistogram {
 	
 	public void addWords(SourceDocument sourceDocument) throws IOException, SAXException {
 
-		StringReader fr = new StringReader(sourceDocument.getSource().toString());
+		StringReader fr = new StringReader(sourceDocument.asStringBuffer().toString());
 		
         int i;
         while ((i = fr.read()) != -1) {
