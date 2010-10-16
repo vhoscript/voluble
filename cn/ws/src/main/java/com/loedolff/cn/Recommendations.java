@@ -1,6 +1,7 @@
 package com.loedolff.cn;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -14,32 +15,24 @@ import java.util.Set;
 
 public class Recommendations {
 
-	private final static String iKnowFile = "src/main/resources/iknow.txt";
+	private CharacterHistogram characterHistogram;
 	
-	public void recommend(CharacterHistogram ch) throws IOException { 
-	    Charset cs = Charset.forName("UTF-8");
-	    
-	    Set<Character> iKnowSet = new HashSet<Character>();
-	    
-	    // read characters from the file I aleardy know
-	    
-		InputStreamReader fr = new InputStreamReader(
-					new FileInputStream(iKnowFile), cs);
-
-        int i;
-        while ((i = fr.read()) != -1) {
-        	Character c = (char) i;
-    		iKnowSet.add(c);
-        }
-
+	private Known known;
+	
+	public Recommendations(CharacterHistogram characterHistogram, Known known) {
+		this.characterHistogram = characterHistogram;
+		this.known = known;
+	}
+	
+	public void recommend() throws IOException { 
+		    
 		OutputStreamWriter out = new OutputStreamWriter(
 				new FileOutputStream("target/recommended.txt"), Charset.forName("UTF-8"));
 		
     	PrintWriter pw = new PrintWriter(out);
-    	List<Entry<Character, Integer>> l = ch.getOrderedByOccurance();
     	
-    	for (Entry<Character, Integer> entry : l) {
-    		if (iKnowSet.contains(entry.getKey())) {
+    	for (Entry<Character, Integer> entry : characterHistogram.getOrderedByOccurance()) {
+    		if (known.contains(entry.getKey())) {
     			continue;
     		}
 			pw.print(entry.getKey());
@@ -51,5 +44,34 @@ public class Recommendations {
     	pw.close();
 	}
 
-	
+	public void writeHtmlRecommendations(String filename) throws FileNotFoundException {
+		OutputStreamWriter out = new OutputStreamWriter(
+				new FileOutputStream(filename), Charset.forName("UTF-8"));
+		
+    	PrintWriter pw = new PrintWriter(out);
+    	pw.println("<html>");
+    	pw.println("<head>");
+    	pw.println("<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>");
+    	pw.println("</head>");
+    	pw.println("<body>");
+    	pw.println("<table>");
+    	
+    	for (Entry<Character, Integer> entry : characterHistogram.getOrderedByOccurance()) {
+    		if (known.contains(entry.getKey())) {
+    			continue;
+    		}
+        	pw.println("<tr><td>");
+			pw.print(entry.getKey());
+			pw.print(" - ");
+			pw.print(entry.getValue().toString());
+			pw.println();
+			pw.println("</td></tr>");
+    	}
+    	pw.println("</table>");
+    	pw.println("</html>");
+
+    	pw.close();
+	}
+
+
 }
