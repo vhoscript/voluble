@@ -20,14 +20,22 @@ public class AugmentSource {
 		SourceDocument.NodeVisitor myNodeVisitor = new SourceDocument.NodeVisitor() {
 	
 			boolean inScript = false;
+			boolean inBody = false;
+			boolean inAnchor = false;
 			
 			@Override
 			public void nodeStart(DomNode e) {
-				if (inScript) return;
-				if (e.getNodeName().equals("#script")) {
+				if (e.getNodeName().equals("script")) {
 					inScript = true;
+					return;
 				}
-				if (!e.getNodeName().equals("#text")) {
+				if (!inBody && e.getNodeName().equals("body")) {
+					inBody = true;
+				}
+				if (e.getNodeName().equals("a")) {
+					inAnchor = true;
+				}
+				if (!e.getNodeName().equals("#text") || inScript || !inBody || inAnchor) {
 					return;
 				}
 				String input = e.getNodeValue();
@@ -35,7 +43,7 @@ public class AugmentSource {
 				for(int i = 0; i<input.length(); i++) {
 					char c = input.charAt(i);
 					if (AugmentSource.this.known.contains(c)) {
-						output.append("<span style='background:#00F0F0'>").append(c).append("</span>");
+						output.append("<span style='background:#00F0F0;'>").append(c).append("</span>");
 					} else {
 						output.append(c);
 					}
@@ -44,8 +52,11 @@ public class AugmentSource {
 			}
 			
 			public void nodeEnd(DomNode e) {
-				if (e.getNodeName().equals("#script")) {
+				if (e.getNodeName().equals("script")) {
 					inScript = false;
+				}
+				if (e.getNodeName().equals("a")) {
+					inAnchor = false;
 				}
 			}
 		};

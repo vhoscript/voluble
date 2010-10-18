@@ -9,13 +9,17 @@ import java.util.regex.Pattern;
 
 public class RelocateHtml {
 	
-	private String url;
+	private String urlBase;
 	
 	/** write source document to local file 
 	 * @throws IOException */
 	public void write(SourceDocument source, String file) throws IOException {
 		
-		this.url = source.getUrl();
+		this.urlBase = source.getUrl();
+		if (!urlBase.endsWith("/")) {
+			int i = urlBase.lastIndexOf("/");
+			urlBase = urlBase.substring(0, i+1);
+		}
 		
 		StringBuffer output;
 		output = replace("src", source.asStringBuffer());
@@ -40,7 +44,7 @@ public class RelocateHtml {
 				String r = attribute + "=\""+m.group(1)+"\""+m.group(2);
 				m.appendReplacement(output, r);
 			} else {
-				String r = attribute + "=\""+ url +m.group(1)+"\"" + m.group(2);
+				String r = attribute + "=\""+ urlBase +m.group(1)+"\"" + m.group(2);
 				m.appendReplacement(output, r);
 			}
 		}

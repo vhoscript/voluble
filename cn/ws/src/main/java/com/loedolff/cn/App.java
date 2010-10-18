@@ -35,11 +35,11 @@ public class App
     	
     	Recommendations r = new Recommendations(wh1, known);
     	r.writeHtmlRecommendations("target/recommendations.html");
-    	
+
     	AugmentSource augmentSource = new AugmentSource();
     	augmentSource.highlightKnown(sourceDoc, known);
     	
     	RelocateHtml relocateHtml = new RelocateHtml();
-    	relocateHtml.write(sourceDoc, "target/wjs-highligted.html");
+    	relocateHtml.write(sourceDoc, "target/wsj-highligted.html");
     }
 }
