@@ -7,8 +7,6 @@ import org.testng.annotations.Test;
 import org.xml.sax.SAXException;
 
 public class SourceDocumentTest {
-
-	
 	@Test public void testRead() throws IOException, SAXException {
 		SourceDocument sd = new SourceDocument(new URL("http://cn.wsj.com"));
 		RelocateHtml rh = new RelocateHtml();
